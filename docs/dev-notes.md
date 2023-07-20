@@ -20,6 +20,48 @@ how to put that websocket connection behind an LNPay?
 - log of payment/generations
 - web version with trial sats
 
+--------
+
+## Skinning the Automattic1111 WebUI
+
+- serived from 'save page as' on the live site
+   - many js fragments and css sheets end up in `Stable Diffusion files/` directory
+
+- need to copy /assets from `venv/.../site-packages/gradio/templates/frontend/` and put it as folder
+   - need to find/replace the on `href="127...PPPP"` in script tags tp relative paths within `index.html` that poonts to assets/ dir.
+
+- made early return js functions:
+   - extraNetworks.js.download:setupExtraNetworksForTab()
+   - imageviewer.js.download: gradioApp().appendChild(modal)
+   - ui.js.download: onAfterUiUpdate()
+
+- needed to change this a .js.download file to just a .js for certrain script tags:
+
+   - from this:
+
+     ``` <script type="module" crossorigin="" src="./Stable Diffusion_files/index-607392ea.js.download"></script> ```
+      
+   - to this (by just changing the filename, or pointing to assets):
+   
+      ``` <script type="module" crossorigin="" src="./assets/index-607392ea.js"></script> ```
+
+- needed to add `theme.css` to root (otherwise caused problem with js)
+
+- delete in the innerHTML of <gradioapp></gradioApp> but keep the outerHtml(or else two ui's on top of each other). The JS will write into that element
+
+- build some mock responses for the following routes:
+   - `/run/predict POST`
+   - `/internal/progress POST`
+   - `/info GET`
+   
+
+- other notes:
+   - do we need to get responses on info/ run/predict?
+      - IIRC, its not that it needs good data, just valid json to prevent bombing out js
+   -client/dist/js/index.js is viewable in devtools:source but it's not a file sent, its contructed out of .js fragment files
+   - one file, index-607...js is the most important fragment, since it appears to initiate the request for all other js fragments
+   - appears the frontend framework the gradio app uses is Svelte
+
 ---------
 
 ## Proof of Concept Recipe 
