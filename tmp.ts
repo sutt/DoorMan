@@ -6,7 +6,7 @@ const proxy = httpProxy.createProxyServer({
   ws: true,
 });
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(() => {
   // proxy.web(req, res, {target: `http://${wsHost}:${httpPort}`});
 });
 

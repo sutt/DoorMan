@@ -4,10 +4,12 @@ export {};
 import http from "http";
 import httpProxy from "http-proxy";
 import WebSocket from "ws";
+import dotenv from "dotenv";
+import yargs from "yargs";
 
-require("dotenv").config();
+dotenv.config();
 
-const argv = require("yargs/yargs")(process.argv.slice(2))
+const argv = yargs(process.argv.slice(2))
   .option("ws_host", { type: "string" })
   .option("ws_port", { type: "number" })
   .option("http_host", { type: "string" })
@@ -27,7 +29,7 @@ const wsPort = argv.ws_port || process.env.WS_PORT || 7861;
 const wsHost = argv.ws_host || process.env.WS_HOST || "127.0.0.1";
 
 const httpPort = argv.http_port || process.env.HTTP_PORT || 7861;
-const httpHost = argv.http_host || process.env.HTTP_HOST || "127.0.0.1";
+// const httpHost = argv.http_host || process.env.HTTP_HOST || "127.0.0.1";
 
 const proxyPort = argv.proxy_port || process.env.PROXY_PORT || 8080;
 const proxyHost = argv.proxy_host || process.env.PROXY_HOST || "127.0.0.1";
@@ -42,7 +44,7 @@ const simpleProxy = argv.simple_proxy || undefined || false;
 
 // log vars turn on console printing for various events
 // e.g. --log_vars logWs,logMsg
-let logVars = (argv.log_vars || process.env.LOG_VARS || "").split(",");
+const logVars = (argv.log_vars || process.env.LOG_VARS || "").split(",");
 
 const { logWs, logMsg, logHttp, logErr } = {
   logWs: logVars.includes("logWs"), // log ws events
@@ -128,7 +130,7 @@ server.on("upgrade", (req, socket, head) => {
       ws.on("message", (message: string) => {
         if (wsClient.readyState === WebSocket.OPEN) {
           const sMsg = Buffer.from(message).toString();
-          let oMsg = JSON.parse(sMsg);
+          const oMsg = JSON.parse(sMsg);
 
           if (hack && oMsg.data) {
             oMsg.data[17] = 128;

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "Will Sutton",
@@ -20,7 +21,10 @@
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
     "eslint": "^8.45.0",
+    "eslint-config-prettier": "^8.8.0",
+    "husky": "^8.0.3",
     "prettier": "3.0.0",
     "typescript": "^5.1.6"
-  }
+  },
+  "repository": "git@github.com:thebrandonlucas/DoorMan.git"
 }
