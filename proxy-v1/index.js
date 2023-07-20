@@ -35,6 +35,10 @@ const hackHeader    = argv.hack_header      || undefined            || false;
 const logHeader     = argv.log_header       || undefined            || false;
 const checkHeader   = argv.check_header     || undefined            || false;
 
+// run --mock_server 127.0.0.1:PPPP to proxy the three server calls made
+const mockServer    = argv.mock_server      || undefined            || false;
+
+
 // if true, proxies http + ws, but prevents interception of ws requests
 const simpleProxy   = argv.simple_proxy     || undefined            || false;
 
@@ -58,7 +62,21 @@ const server = http.createServer((req, res) => {
           
     if (logHttp) console.log("http req.url: ", req.url)
 
-    proxy.web(req, res, {target: `http://${wsHost}:${httpPort}`});
+    if ((mockServer)  &&
+        (
+            (req.url == '/info') ||                 // initial call to populate json of info
+            (req.url == '/run/predict') ||                 // initial call to populate models?
+            (req.url == '/internal/progress') ||    // called before /queue/join/
+            (req.url.includes(`/file=C:/`))                  // allows the image to be viewable
+        )
+        ) {
+        // TODO - we'll just mock this data and put into app
+        console.log(`...proxying ${req.url} to SD api server (instead of static file server)`)
+        proxy.web(req, res, {target: `http://${mockServer}`}); 
+        return
+    }
+    
+    proxy.web(req, res, {target: `http://${wsHost}:${httpPort}`});   //TODO - wsHost seems wrong here
 
 });
 
