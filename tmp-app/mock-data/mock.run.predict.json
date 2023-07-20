@@ -1,0 +1,1573 @@
+{
+    "data": [
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": "png",
+            "__type__": "update"
+        },
+        {
+            "visible": true,
+            "value": "",
+            "__type__": "update"
+        },
+        {
+            "visible": true,
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": "png",
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "visible": true,
+            "value": "",
+            "__type__": "update"
+        },
+        {
+            "minimum": -1,
+            "maximum": 16,
+            "step": 1,
+            "value": -1,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "minimum": 1,
+            "maximum": 100,
+            "step": 1,
+            "value": 80,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": 4.0,
+            "__type__": "update"
+        },
+        {
+            "value": 4000.0,
+            "__type__": "update"
+        },
+        {
+            "value": 200.0,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": "",
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "visible": true,
+            "value": "",
+            "__type__": "update"
+        },
+        {
+            "visible": true,
+            "value": "outputs/txt2img-images",
+            "__type__": "update"
+        },
+        {
+            "visible": true,
+            "value": "outputs/img2img-images",
+            "__type__": "update"
+        },
+        {
+            "visible": true,
+            "value": "outputs/extras-images",
+            "__type__": "update"
+        },
+        {
+            "visible": true,
+            "value": "",
+            "__type__": "update"
+        },
+        {
+            "visible": true,
+            "value": "outputs/txt2img-grids",
+            "__type__": "update"
+        },
+        {
+            "visible": true,
+            "value": "outputs/img2img-grids",
+            "__type__": "update"
+        },
+        {
+            "visible": true,
+            "value": "log/images",
+            "__type__": "update"
+        },
+        {
+            "visible": true,
+            "value": "outputs/init-images",
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "visible": true,
+            "value": "[date]",
+            "__type__": "update"
+        },
+        {
+            "minimum": 1,
+            "maximum": 20,
+            "step": 1,
+            "visible": true,
+            "value": 8,
+            "__type__": "update"
+        },
+        {
+            "minimum": 0,
+            "maximum": 512,
+            "step": 16,
+            "value": 192,
+            "__type__": "update"
+        },
+        {
+            "minimum": 0,
+            "maximum": 48,
+            "step": 1,
+            "value": 8,
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "R-ESRGAN General 4xV3",
+                "R-ESRGAN General WDN 4xV3",
+                "R-ESRGAN AnimeVideo",
+                "R-ESRGAN 4x+",
+                "R-ESRGAN 4x+ Anime6B",
+                "R-ESRGAN 2x+"
+            ],
+            "value": [
+                "R-ESRGAN 4x+",
+                "R-ESRGAN 4x+ Anime6B"
+            ],
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "None",
+                "Lanczos",
+                "Nearest",
+                "ESRGAN_4x",
+                "LDSR",
+                "R-ESRGAN 4x+",
+                "R-ESRGAN 4x+ Anime6B",
+                "ScuNET GAN",
+                "ScuNET PSNR",
+                "SwinIR 4x"
+            ],
+            "value": null,
+            "__type__": "update"
+        },
+        {
+            "minimum": 1,
+            "maximum": 200,
+            "step": 1,
+            "value": 100,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update",
+            "mode": "dynamic"
+        },
+        {
+            "minimum": 0,
+            "maximum": 512,
+            "step": 16,
+            "value": 256,
+            "__type__": "update"
+        },
+        {
+            "minimum": 0,
+            "maximum": 64,
+            "step": 1,
+            "value": 8,
+            "__type__": "update"
+        },
+        {
+            "minimum": 16,
+            "maximum": 512,
+            "step": 16,
+            "value": 192,
+            "__type__": "update"
+        },
+        {
+            "minimum": 0,
+            "maximum": 48,
+            "step": 1,
+            "value": 8,
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "CodeFormer",
+                "GFPGAN"
+            ],
+            "value": "CodeFormer",
+            "__type__": "update"
+        },
+        {
+            "minimum": 0,
+            "maximum": 1,
+            "step": 0.01,
+            "value": 0.5,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "minimum": 0,
+            "maximum": 40,
+            "step": 1,
+            "value": 8,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": "",
+            "__type__": "update"
+        },
+        {
+            "value": " ",
+            "__type__": "update"
+        },
+        {
+            "value": 1,
+            "__type__": "update"
+        },
+        {
+            "value": 500.0,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": 120.0,
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "v1-5-pruned-emaonly.safetensors [6ce0161689]"
+            ],
+            "value": "v1-5-pruned-emaonly.safetensors [6ce0161689]",
+            "__type__": "update"
+        },
+        {
+            "minimum": 0,
+            "maximum": 10,
+            "step": 1,
+            "value": 0,
+            "__type__": "update"
+        },
+        {
+            "minimum": 0,
+            "maximum": 10,
+            "step": 1,
+            "value": 0,
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "Automatic",
+                "None"
+            ],
+            "value": "Automatic",
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "Automatic",
+                "None"
+            ],
+            "value": "Automatic",
+            "__type__": "update"
+        },
+        {
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "step": 0.01,
+            "value": 1.0,
+            "__type__": "update"
+        },
+        {
+            "minimum": 0.5,
+            "maximum": 1.5,
+            "step": 0.01,
+            "value": 1.0,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": "#ffffff",
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "minimum": 0,
+            "maximum": 74,
+            "step": 1,
+            "value": 20,
+            "__type__": "update"
+        },
+        {
+            "minimum": 1,
+            "maximum": 12,
+            "step": 1,
+            "value": 1,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "GPU",
+                "CPU"
+            ],
+            "value": "GPU",
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "Automatic",
+                "InvokeAI",
+                "Doggettx",
+                "sdp-no-mem - scaled dot product without memory efficient attention",
+                "sdp - scaled dot product",
+                "sub-quadratic",
+                "V1 - original v1",
+                "None"
+            ],
+            "value": "Automatic",
+            "__type__": "update"
+        },
+        {
+            "minimum": 0.0,
+            "maximum": 4.0,
+            "step": 0.01,
+            "value": 0.0,
+            "__type__": "update"
+        },
+        {
+            "minimum": 0.0,
+            "maximum": 0.9,
+            "step": 0.1,
+            "value": 0.0,
+            "__type__": "update"
+        },
+        {
+            "minimum": 0.0,
+            "maximum": 0.9,
+            "step": 0.1,
+            "value": 0.0,
+            "__type__": "update"
+        },
+        {
+            "minimum": 0.0,
+            "maximum": 0.9,
+            "step": 0.1,
+            "value": 0.0,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "minimum": 1,
+            "maximum": 16,
+            "step": 1,
+            "value": 1,
+            "__type__": "update"
+        },
+        {
+            "minimum": 1,
+            "maximum": 128,
+            "step": 1,
+            "value": 24,
+            "__type__": "update"
+        },
+        {
+            "minimum": 1,
+            "maximum": 256,
+            "step": 1,
+            "value": 48,
+            "__type__": "update"
+        },
+        {
+            "value": 1500.0,
+            "__type__": "update"
+        },
+        {
+            "choices": [],
+            "value": [],
+            "__type__": "update"
+        },
+        {
+            "minimum": 0,
+            "maximum": 1,
+            "step": 0.01,
+            "value": 0.5,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": "",
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "Always",
+                "When searched",
+                "Never"
+            ],
+            "value": "When searched",
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "cards",
+                "thumbs"
+            ],
+            "value": "cards",
+            "__type__": "update"
+        },
+        {
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "step": 0.01,
+            "value": 1.0,
+            "__type__": "update"
+        },
+        {
+            "value": 0.0,
+            "__type__": "update"
+        },
+        {
+            "value": 0.0,
+            "__type__": "update"
+        },
+        {
+            "value": " ",
+            "__type__": "update"
+        },
+        {
+            "value": "",
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "None"
+            ],
+            "value": "None",
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "None"
+            ],
+            "value": "None",
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "Alias from file",
+                "Filename"
+            ],
+            "value": "Alias from file",
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "None"
+            ],
+            "value": "None",
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "Default",
+                "gradio/glass",
+                "gradio/monochrome",
+                "gradio/seafoam",
+                "gradio/soft",
+                "freddyaboulton/dracula_revamped",
+                "gradio/dracula_test",
+                "abidlabs/dracula_test",
+                "abidlabs/pakistan",
+                "dawood/microsoft_windows",
+                "ysharma/steampunk"
+            ],
+            "value": "Default",
+            "__type__": "update"
+        },
+        {
+            "minimum": 80,
+            "maximum": 1600,
+            "step": 1,
+            "value": 720,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": "",
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": 250.0,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "minimum": 0.01,
+            "maximum": 0.2,
+            "step": 0.001,
+            "value": 0.1,
+            "__type__": "update"
+        },
+        {
+            "minimum": 0.01,
+            "maximum": 0.2,
+            "step": 0.001,
+            "value": 0.05,
+            "__type__": "update"
+        },
+        {
+            "value": ".,\\/!?%^*;:{}=`~()",
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "samples_save",
+                "samples_format",
+                "samples_filename_pattern",
+                "save_images_add_number",
+                "grid_save",
+                "grid_format",
+                "grid_extended_filename",
+                "grid_only_if_multiple",
+                "grid_prevent_empty_spots",
+                "grid_zip_filename_pattern",
+                "n_rows",
+                "enable_pnginfo",
+                "save_txt",
+                "save_images_before_face_restoration",
+                "save_images_before_highres_fix",
+                "save_images_before_color_correction",
+                "save_mask",
+                "save_mask_composite",
+                "jpeg_quality",
+                "webp_lossless",
+                "export_for_4chan",
+                "img_downscale_threshold",
+                "target_side_length",
+                "img_max_size_mp",
+                "use_original_name_batch",
+                "use_upscaler_name_as_suffix",
+                "save_selected_only",
+                "save_init_img",
+                "temp_dir",
+                "clean_temp_dir_at_start",
+                "outdir_samples",
+                "outdir_txt2img_samples",
+                "outdir_img2img_samples",
+                "outdir_extras_samples",
+                "outdir_grids",
+                "outdir_txt2img_grids",
+                "outdir_img2img_grids",
+                "outdir_save",
+                "outdir_init_images",
+                "save_to_dirs",
+                "grid_save_to_dirs",
+                "use_save_to_dirs_for_ui",
+                "directories_filename_pattern",
+                "directories_max_prompt_words",
+                "ESRGAN_tile",
+                "ESRGAN_tile_overlap",
+                "realesrgan_enabled_models",
+                "upscaler_for_img2img",
+                "ldsr_steps",
+                "ldsr_cached",
+                "SCUNET_tile",
+                "SCUNET_tile_overlap",
+                "SWIN_tile",
+                "SWIN_tile_overlap",
+                "face_restoration_model",
+                "code_former_weight",
+                "face_restoration_unload",
+                "show_warnings",
+                "memmon_poll_rate",
+                "samples_log_stdout",
+                "multiple_tqdm",
+                "print_hypernet_extra",
+                "list_hidden_files",
+                "unload_models_when_training",
+                "pin_memory",
+                "save_optimizer_state",
+                "save_training_settings_to_txt",
+                "dataset_filename_word_regex",
+                "dataset_filename_join_string",
+                "training_image_repeats_per_epoch",
+                "training_write_csv_every",
+                "training_xattention_optimizations",
+                "training_enable_tensorboard",
+                "training_tensorboard_save_images",
+                "training_tensorboard_flush_every",
+                "sd_model_checkpoint",
+                "sd_checkpoint_cache",
+                "sd_vae_checkpoint_cache",
+                "sd_vae",
+                "sd_vae_as_default",
+                "sd_unet",
+                "inpainting_mask_weight",
+                "initial_noise_multiplier",
+                "img2img_color_correction",
+                "img2img_fix_steps",
+                "img2img_background_color",
+                "enable_quantization",
+                "enable_emphasis",
+                "enable_batch_seeds",
+                "comma_padding_backtrack",
+                "CLIP_stop_at_last_layers",
+                "upcast_attn",
+                "randn_source",
+                "cross_attention_optimization",
+                "s_min_uncond",
+                "token_merging_ratio",
+                "token_merging_ratio_img2img",
+                "token_merging_ratio_hr",
+                "pad_cond_uncond",
+                "experimental_persistent_cond_cache",
+                "use_old_emphasis_implementation",
+                "use_old_karras_scheduler_sigmas",
+                "no_dpmpp_sde_batch_determinism",
+                "use_old_hires_fix_width_height",
+                "dont_fix_second_order_samplers_schedule",
+                "hires_fix_use_firstpass_conds",
+                "lora_functional",
+                "interrogate_keep_models_in_memory",
+                "interrogate_return_ranks",
+                "interrogate_clip_num_beams",
+                "interrogate_clip_min_length",
+                "interrogate_clip_max_length",
+                "interrogate_clip_dict_limit",
+                "interrogate_clip_skip_categories",
+                "interrogate_deepbooru_score_threshold",
+                "deepbooru_sort_alpha",
+                "deepbooru_use_spaces",
+                "deepbooru_escape",
+                "deepbooru_filter_tags",
+                "extra_networks_show_hidden_directories",
+                "extra_networks_hidden_models",
+                "extra_networks_default_view",
+                "extra_networks_default_multiplier",
+                "extra_networks_card_width",
+                "extra_networks_card_height",
+                "extra_networks_add_text_separator",
+                "ui_extra_networks_tab_reorder",
+                "sd_hypernetwork",
+                "sd_lora",
+                "lora_preferred_name",
+                "lora_add_hashes_to_infotext",
+                "localization",
+                "gradio_theme",
+                "img2img_editor_height",
+                "return_grid",
+                "return_mask",
+                "return_mask_composite",
+                "do_not_show_images",
+                "send_seed",
+                "send_size",
+                "font",
+                "js_modal_lightbox",
+                "js_modal_lightbox_initially_zoomed",
+                "js_modal_lightbox_gamepad",
+                "js_modal_lightbox_gamepad_repeat",
+                "show_progress_in_title",
+                "samplers_in_dropdown",
+                "dimensions_and_batch_together",
+                "keyedit_precision_attention",
+                "keyedit_precision_extra",
+                "keyedit_delimiters",
+                "quicksettings_list",
+                "ui_tab_order",
+                "hidden_tabs",
+                "ui_reorder_list",
+                "hires_fix_show_sampler",
+                "hires_fix_show_prompts",
+                "disable_token_counters",
+                "extra_options",
+                "extra_options_accordion",
+                "add_model_hash_to_info",
+                "add_model_name_to_info",
+                "add_version_to_infotext",
+                "disable_weights_auto_swap",
+                "infotext_styles",
+                "show_progressbar",
+                "live_previews_enable",
+                "live_previews_image_format",
+                "show_progress_grid",
+                "show_progress_every_n_steps",
+                "show_progress_type",
+                "live_preview_content",
+                "live_preview_refresh_period",
+                "hide_samplers",
+                "eta_ddim",
+                "eta_ancestral",
+                "ddim_discretize",
+                "s_churn",
+                "s_tmin",
+                "s_noise",
+                "k_sched_type",
+                "sigma_min",
+                "sigma_max",
+                "rho",
+                "eta_noise_seed_delta",
+                "always_discard_next_to_last_sigma",
+                "uni_pc_variant",
+                "uni_pc_skip_type",
+                "uni_pc_order",
+                "uni_pc_lower_order_final",
+                "postprocessing_enable_in_main_ui",
+                "postprocessing_operation_order",
+                "upscaling_max_images_in_cache",
+                "disabled_extensions",
+                "disable_all_extensions",
+                "restore_config_state_file",
+                "sd_checkpoint_hash",
+                "canvas_hotkey_zoom",
+                "canvas_hotkey_adjust",
+                "canvas_hotkey_move",
+                "canvas_hotkey_fullscreen",
+                "canvas_hotkey_reset",
+                "canvas_hotkey_overlap",
+                "canvas_show_tooltip",
+                "canvas_disabled_functions"
+            ],
+            "value": [
+                "sd_model_checkpoint"
+            ],
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "txt2img",
+                "img2img",
+                "Extras",
+                "PNG Info",
+                "Checkpoint Merger",
+                "Train",
+                "Settings",
+                "Extensions"
+            ],
+            "value": [],
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "txt2img",
+                "img2img",
+                "Extras",
+                "PNG Info",
+                "Checkpoint Merger",
+                "Train",
+                "Settings",
+                "Extensions"
+            ],
+            "value": [],
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "inpaint",
+                "sampler",
+                "checkboxes",
+                "hires_fix",
+                "dimensions",
+                "cfg",
+                "seed",
+                "batch",
+                "override_settings",
+                "extra_options",
+                "scripts"
+            ],
+            "value": [],
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "samples_save",
+                "samples_format",
+                "samples_filename_pattern",
+                "save_images_add_number",
+                "grid_save",
+                "grid_format",
+                "grid_extended_filename",
+                "grid_only_if_multiple",
+                "grid_prevent_empty_spots",
+                "grid_zip_filename_pattern",
+                "n_rows",
+                "enable_pnginfo",
+                "save_txt",
+                "save_images_before_face_restoration",
+                "save_images_before_highres_fix",
+                "save_images_before_color_correction",
+                "save_mask",
+                "save_mask_composite",
+                "jpeg_quality",
+                "webp_lossless",
+                "export_for_4chan",
+                "img_downscale_threshold",
+                "target_side_length",
+                "img_max_size_mp",
+                "use_original_name_batch",
+                "use_upscaler_name_as_suffix",
+                "save_selected_only",
+                "save_init_img",
+                "temp_dir",
+                "clean_temp_dir_at_start",
+                "outdir_samples",
+                "outdir_txt2img_samples",
+                "outdir_img2img_samples",
+                "outdir_extras_samples",
+                "outdir_grids",
+                "outdir_txt2img_grids",
+                "outdir_img2img_grids",
+                "outdir_save",
+                "outdir_init_images",
+                "save_to_dirs",
+                "grid_save_to_dirs",
+                "use_save_to_dirs_for_ui",
+                "directories_filename_pattern",
+                "directories_max_prompt_words",
+                "ESRGAN_tile",
+                "ESRGAN_tile_overlap",
+                "realesrgan_enabled_models",
+                "upscaler_for_img2img",
+                "ldsr_steps",
+                "ldsr_cached",
+                "SCUNET_tile",
+                "SCUNET_tile_overlap",
+                "SWIN_tile",
+                "SWIN_tile_overlap",
+                "face_restoration_model",
+                "code_former_weight",
+                "face_restoration_unload",
+                "show_warnings",
+                "memmon_poll_rate",
+                "samples_log_stdout",
+                "multiple_tqdm",
+                "print_hypernet_extra",
+                "list_hidden_files",
+                "unload_models_when_training",
+                "pin_memory",
+                "save_optimizer_state",
+                "save_training_settings_to_txt",
+                "dataset_filename_word_regex",
+                "dataset_filename_join_string",
+                "training_image_repeats_per_epoch",
+                "training_write_csv_every",
+                "training_xattention_optimizations",
+                "training_enable_tensorboard",
+                "training_tensorboard_save_images",
+                "training_tensorboard_flush_every",
+                "sd_model_checkpoint",
+                "sd_checkpoint_cache",
+                "sd_vae_checkpoint_cache",
+                "sd_vae",
+                "sd_vae_as_default",
+                "sd_unet",
+                "inpainting_mask_weight",
+                "initial_noise_multiplier",
+                "img2img_color_correction",
+                "img2img_fix_steps",
+                "img2img_background_color",
+                "enable_quantization",
+                "enable_emphasis",
+                "enable_batch_seeds",
+                "comma_padding_backtrack",
+                "CLIP_stop_at_last_layers",
+                "upcast_attn",
+                "randn_source",
+                "cross_attention_optimization",
+                "s_min_uncond",
+                "token_merging_ratio",
+                "token_merging_ratio_img2img",
+                "token_merging_ratio_hr",
+                "pad_cond_uncond",
+                "experimental_persistent_cond_cache",
+                "use_old_emphasis_implementation",
+                "use_old_karras_scheduler_sigmas",
+                "no_dpmpp_sde_batch_determinism",
+                "use_old_hires_fix_width_height",
+                "dont_fix_second_order_samplers_schedule",
+                "hires_fix_use_firstpass_conds",
+                "lora_functional",
+                "interrogate_keep_models_in_memory",
+                "interrogate_return_ranks",
+                "interrogate_clip_num_beams",
+                "interrogate_clip_min_length",
+                "interrogate_clip_max_length",
+                "interrogate_clip_dict_limit",
+                "interrogate_clip_skip_categories",
+                "interrogate_deepbooru_score_threshold",
+                "deepbooru_sort_alpha",
+                "deepbooru_use_spaces",
+                "deepbooru_escape",
+                "deepbooru_filter_tags",
+                "extra_networks_show_hidden_directories",
+                "extra_networks_hidden_models",
+                "extra_networks_default_view",
+                "extra_networks_default_multiplier",
+                "extra_networks_card_width",
+                "extra_networks_card_height",
+                "extra_networks_add_text_separator",
+                "ui_extra_networks_tab_reorder",
+                "sd_hypernetwork",
+                "sd_lora",
+                "lora_preferred_name",
+                "lora_add_hashes_to_infotext",
+                "localization",
+                "gradio_theme",
+                "img2img_editor_height",
+                "return_grid",
+                "return_mask",
+                "return_mask_composite",
+                "do_not_show_images",
+                "send_seed",
+                "send_size",
+                "font",
+                "js_modal_lightbox",
+                "js_modal_lightbox_initially_zoomed",
+                "js_modal_lightbox_gamepad",
+                "js_modal_lightbox_gamepad_repeat",
+                "show_progress_in_title",
+                "samplers_in_dropdown",
+                "dimensions_and_batch_together",
+                "keyedit_precision_attention",
+                "keyedit_precision_extra",
+                "keyedit_delimiters",
+                "quicksettings_list",
+                "ui_tab_order",
+                "hidden_tabs",
+                "ui_reorder_list",
+                "hires_fix_show_sampler",
+                "hires_fix_show_prompts",
+                "disable_token_counters",
+                "extra_options",
+                "extra_options_accordion",
+                "add_model_hash_to_info",
+                "add_model_name_to_info",
+                "add_version_to_infotext",
+                "disable_weights_auto_swap",
+                "infotext_styles",
+                "show_progressbar",
+                "live_previews_enable",
+                "live_previews_image_format",
+                "show_progress_grid",
+                "show_progress_every_n_steps",
+                "show_progress_type",
+                "live_preview_content",
+                "live_preview_refresh_period",
+                "hide_samplers",
+                "eta_ddim",
+                "eta_ancestral",
+                "ddim_discretize",
+                "s_churn",
+                "s_tmin",
+                "s_noise",
+                "k_sched_type",
+                "sigma_min",
+                "sigma_max",
+                "rho",
+                "eta_noise_seed_delta",
+                "always_discard_next_to_last_sigma",
+                "uni_pc_variant",
+                "uni_pc_skip_type",
+                "uni_pc_order",
+                "uni_pc_lower_order_final",
+                "postprocessing_enable_in_main_ui",
+                "postprocessing_operation_order",
+                "upscaling_max_images_in_cache",
+                "disabled_extensions",
+                "disable_all_extensions",
+                "restore_config_state_file",
+                "sd_checkpoint_hash",
+                "canvas_hotkey_zoom",
+                "canvas_hotkey_adjust",
+                "canvas_hotkey_move",
+                "canvas_hotkey_fullscreen",
+                "canvas_hotkey_reset",
+                "canvas_hotkey_overlap",
+                "canvas_show_tooltip",
+                "canvas_disabled_functions"
+            ],
+            "value": [],
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "Ignore",
+                "Apply",
+                "Discard",
+                "Apply if any"
+            ],
+            "value": "Apply if any",
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "jpeg",
+                "png",
+                "webp"
+            ],
+            "value": "png",
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "minimum": -1,
+            "maximum": 32,
+            "step": 1,
+            "value": 10,
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "Full",
+                "Approx NN",
+                "Approx cheap",
+                "TAESD"
+            ],
+            "value": "Approx NN",
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "Combined",
+                "Prompt",
+                "Negative prompt"
+            ],
+            "value": "Prompt",
+            "__type__": "update"
+        },
+        {
+            "value": 1000.0,
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "Euler a",
+                "Euler",
+                "LMS",
+                "Heun",
+                "DPM2",
+                "DPM2 a",
+                "DPM++ 2S a",
+                "DPM++ 2M",
+                "DPM++ SDE",
+                "DPM++ 2M SDE",
+                "DPM fast",
+                "DPM adaptive",
+                "LMS Karras",
+                "DPM2 Karras",
+                "DPM2 a Karras",
+                "DPM++ 2S a Karras",
+                "DPM++ 2M Karras",
+                "DPM++ SDE Karras",
+                "DPM++ 2M SDE Karras",
+                "DDIM",
+                "PLMS",
+                "UniPC"
+            ],
+            "value": [],
+            "__type__": "update"
+        },
+        {
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "step": 0.01,
+            "value": 0.0,
+            "__type__": "update"
+        },
+        {
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "step": 0.01,
+            "value": 1.0,
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "uniform",
+                "quad"
+            ],
+            "value": "uniform",
+            "__type__": "update"
+        },
+        {
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "step": 0.01,
+            "value": 0.0,
+            "__type__": "update"
+        },
+        {
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "step": 0.01,
+            "value": 0.0,
+            "__type__": "update"
+        },
+        {
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "step": 0.01,
+            "value": 1.0,
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "Automatic",
+                "karras",
+                "exponential",
+                "polyexponential"
+            ],
+            "value": "Automatic",
+            "__type__": "update"
+        },
+        {
+            "value": 0.0,
+            "__type__": "update"
+        },
+        {
+            "value": 0.0,
+            "__type__": "update"
+        },
+        {
+            "value": 0.0,
+            "__type__": "update"
+        },
+        {
+            "value": 0,
+            "__type__": "update"
+        },
+        {
+            "value": false,
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "bh1",
+                "bh2",
+                "vary_coeff"
+            ],
+            "value": "bh1",
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "time_uniform",
+                "time_quadratic",
+                "logSNR"
+            ],
+            "value": "time_uniform",
+            "__type__": "update"
+        },
+        {
+            "minimum": 1,
+            "maximum": 50,
+            "step": 1,
+            "value": 3,
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "CodeFormer",
+                "GFPGAN",
+                "Upscale"
+            ],
+            "value": [],
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "CodeFormer",
+                "GFPGAN",
+                "Upscale"
+            ],
+            "value": [],
+            "__type__": "update"
+        },
+        {
+            "minimum": 0,
+            "maximum": 10,
+            "step": 1,
+            "value": 5,
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "Shift",
+                "Ctrl",
+                "Alt"
+            ],
+            "value": "Alt",
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "Shift",
+                "Ctrl",
+                "Alt"
+            ],
+            "value": "Ctrl",
+            "__type__": "update"
+        },
+        {
+            "value": "F",
+            "__type__": "update"
+        },
+        {
+            "value": "S",
+            "__type__": "update"
+        },
+        {
+            "value": "R",
+            "__type__": "update"
+        },
+        {
+            "value": "O",
+            "__type__": "update"
+        },
+        {
+            "value": true,
+            "__type__": "update"
+        },
+        {
+            "choices": [
+                "Zoom",
+                "Adjust brush size",
+                "Moving canvas",
+                "Fullscreen",
+                "Reset Zoom",
+                "Overlap"
+            ],
+            "value": [
+                "Overlap"
+            ],
+            "__type__": "update"
+        }
+    ],
+    "is_generating": false,
+    "duration": 0.013908624649047852,
+    "average_duration": 0.01605655930259011
+}

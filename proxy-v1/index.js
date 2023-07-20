@@ -15,6 +15,7 @@ const argv = require('yargs/yargs')(process.argv.slice(2))
     .option('hack_header',  {type: 'boolean',})
     .option('log_header',   {type: 'boolean',})
     .option('check_header', {type: 'boolean',})
+    .option('mock_server',    {type: 'string',})
     .option('simple_proxy', {type: 'boolean',})
     .option('log_level',    {type: 'string',})
     .help()
@@ -76,7 +77,7 @@ const server = http.createServer((req, res) => {
         return
     }
     
-    proxy.web(req, res, {target: `http://${wsHost}:${httpPort}`});   //TODO - wsHost seems wrong here
+    proxy.web(req, res, {target: `http://${httpHost}:${httpPort}`});   //TODO - wsHost seems wrong here
 
 });
 
