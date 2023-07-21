@@ -21,6 +21,7 @@ setTimeout(function() {
     
     var link = document.createElement("a")
     link.href = "/home"
+    // now add tool tip to this
     var label = document.createElement("label")
     var span = document.createElement("span")
     span.innerHTML = "Doorman"

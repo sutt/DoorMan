@@ -2,9 +2,31 @@
 <html>
 <head>
     <title>DoorMan | Admin</title>
+    <script>
+        
+        function fetchWorker(host, port) {
+        
+            console.log(`fetching with ${host}:${port}`);
+        
+            fetch('/worker', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    host: host,
+                    port: port,
+                })
+            }).then(res => res.json())
+        }
+
+    </script>
 </head>
 <body>
     <h1>Welcome to Admin Page</h1>
     <h3><a href="/home">< back</a></h3>
+    <button onClick="fetchWorker('35.208.27.122', 7862);">Cloud</button>
+    <button onClick="fetchWorker('127.0.0.1', 7861);">Local</button>
+
 </body>
 </html>
