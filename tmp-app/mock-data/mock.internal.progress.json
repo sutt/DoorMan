@@ -1,0 +1,10 @@
+{
+    "active": true,
+    "queued": false,
+    "completed": false,
+    "progress": 0,
+    "eta": null,
+    "live_preview": null,
+    "id_live_preview": -1,
+    "textinfo": null
+}
