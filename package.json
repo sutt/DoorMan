@@ -1,0 +1,33 @@
+{
+  "name": "proxy-v1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install",
+    "format": "prettier --write .",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
+  },
+  "keywords": [],
+  "author": "Will Sutton",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "http-proxy": "^1.18.1",
+    "ws": "^8.13.0",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.5",
+    "@typescript-eslint/eslint-plugin": "^6.1.0",
+    "@typescript-eslint/parser": "^6.1.0",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^8.8.0",
+    "husky": "^8.0.3",
+    "prettier": "3.0.0",
+    "typescript": "^5.1.6"
+  },
+  "repository": "git@github.com:thebrandonlucas/DoorMan.git"
+}
