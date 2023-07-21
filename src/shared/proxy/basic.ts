@@ -1,13 +1,6 @@
 import http from "http";
 import httpProxy from "http-proxy";
 
-export function counter() {
-  let count = 0;
-  return () => {
-    count++;
-    return count;
-  };
-}
 
 export function setupProxy() {
   
@@ -20,7 +13,6 @@ export function setupProxy() {
   
   const updateState = (key : string, value : any) => {
     state[key] = value;    
-    console.log("state: ", state);
   };
 
   const proxy = httpProxy.createProxyServer({
