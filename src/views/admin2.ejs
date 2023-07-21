@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .highlighted {
+      background-color: yellow;
+    }
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Host</th>
+        <th>Port</th>
+        <th>Fee</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% workers.forEach(function(worker, index) { %>
+        <tr id="row-<%= index %>">
+          <td><%= worker.name %></td>
+          <td><%= worker.host %></td>
+          <td><%= worker.port %></td>
+          <td><%= worker.fee %></td>
+          <td><button class="switch-worker" data-row="<%= index %>">Switch</button></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+  <script>
+    $(document).ready(function() {
+      $('.switch-worker').click(function() {
+        // Remove highlighting from all rows
+        $('tr').removeClass('highlighted');
+
+        // Highlight the selected row
+        var rowId = '#row-' + $(this).data('row');
+        $(rowId).addClass('highlighted');
+
+        // get the host and port number
+        var host = $(rowId).children('td').eq(1).text();
+        var port = parseInt($(rowId).children('td').eq(2).text());
+
+        console.log(`fetching with ${host}:${port}`);
+
+        fetch('/worker', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    host: host,
+                    port: port,
+                })
+            }).then(res => res.json())
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+    "workers":[
+        {
+            "name":"alice-worker",
+            "host":"88.88.88.88",
+            "port":7862,
+            "fee":10
+        },
+        {
+            "name":"bob-worker",
+            "host":"127.0.0.1",
+            "port":7861,
+            "fee":20
+        }
+    ]
+}
