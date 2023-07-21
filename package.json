@@ -1,5 +1,5 @@
 {
-  "name": "proxy-v1",
+  "name": "doorman-v1",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,7 +8,10 @@
     "prepare": "husky install",
     "format": "prettier --write .",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "lint:fix": "eslint --fix .",
+    "prestart": "npm run build && ls",
+    "start": "node dist/index.js",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "Will Sutton",
@@ -29,5 +32,5 @@
     "prettier": "3.0.0",
     "typescript": "^5.1.6"
   },
-  "repository": "git@github.com:thebrandonlucas/DoorMan.git"
+  "repository": "https://github.com/sutt/DoorMan"
 }
