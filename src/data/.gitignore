@@ -1,1 +1,2 @@
 workers.json
+dbs/*.sqlite

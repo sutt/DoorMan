@@ -3,3 +3,5 @@ yarn-error.log
 dist
 tsconfig.json
 package-lock.json
+nodemon.json
+.env

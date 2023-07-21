@@ -1,79 +1,23 @@
-import express from "express";
-import path from "path";
-import { setupProxy } from "./shared/proxy/basic";
+import dotenv from "dotenv";
+import yargs from "yargs";
+import { runDoormanServer } from "./doorman/app";
+import { runBossmanServer } from "./bossman/app";
 
-import mockRunPredict from "./data/mock-data/mock.run.predict.json";
-import mockInternalProgress from "./data/mock-data/mock.internal.progress.json";
-import mockInfo from "./data/mock-data/mock.info.json";
+dotenv.config();
+console.log(process.env.BOSSMAN)
+const argv = yargs(process.argv.slice(2))
+    .option("bossman", { type: "boolean" })
 
-import workerData from "./data/workers.json";
+const serverType = (argv.bossman || process.env.BOSSMAN === "1")
+                    ? "bossman" 
+                    : "doorman";
 
-const proxyPort = 8080;
-const proxyHost = "127.0.0.1";
+if (serverType === "doorman") {
+        
+    runDoormanServer({publicPort: 8080});
 
-const app = express();
+} else if (serverType === "bossman") {
 
-const state = {
-    currentWorkerHost: null,
-    currentWorkerPort: null,
+    runBossmanServer({publicPort: 8090});
+
 }
-
-app.set("view engine", "ejs");
-
-app.set('views', path.join(__dirname, "..", "src", "views"))
-
-app.use(express.json());
-
-// Serve static files of UI - 
-// TODO: change this url from root w/o it breaking the ui load
-app.use("/", express.static(path.join(__dirname, "../front-ui/v1")));
-
-// Mock responses to XHR calls made from UI onLoad
-app.get("/info", (req, res) => {
-    res.json(mockInfo)
-    // this mock data might not have to be accurate or complete,
-    // as long as client frontend just parses the json successfully
-    // it will prevent other things from breaking
-})
-
-app.post("/run/predict", (req, res) => {
-    res.json(mockRunPredict)
-    // can use this route for timing of when frontend is loaded
-    // and switch ws proxy to the right target
-})
-
-app.post("/internal/progress", (req, res) => {
-    res.json(mockInternalProgress)
-})
-
-// Define our app's routes here
-app.get("/home", (req, res) => {
-    res.render("home", {title: "Home"})
-})
-
-const {server: proxyServer, updateState: updateProxyServer} = setupProxy()
-
-
-app.get("/admin", (req, res) => {
-    // res.render("admin", {title: "Admin"})
-    res.render("admin2", {workers: workerData.workers})
-})
-
-app.post("/worker/", (req, res) => {
-    const {host, port} = req.body;
-    updateProxyServer("wsHost", host);
-    updateProxyServer("wsPort", port);
-    res.json({status: "ok"});
-})
-
-const port = process.env.PORT || 3000;
-
-app.listen(port, () => {
-    console.log(`Server is listening on port ${port}`)
-});
-
-
-proxyServer.listen(proxyPort, proxyHost, () => {
-    console.log(`Proxy is running on host ${proxyHost} port ${proxyPort}`);
-});
-
