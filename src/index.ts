@@ -11,8 +11,13 @@ const proxyHost = "127.0.0.1";
 
 const app = express();
 
+app.set("view engine", "ejs");
+
+app.set('views', path.join(__dirname, "..", "src", "views"))
+
 // Serve static files of UI
-app.use(express.static(path.join(__dirname, "../front-ui/v1")));
+app.use("/", express.static(path.join(__dirname, "../front-ui/v1")));
+app.use("/v1", express.static(path.join(__dirname, "../front-ui")));
 
 // Mock responses to XHR calls made from UI onLoad
 app.get("/info", (req, res) => {
@@ -33,8 +38,12 @@ app.post("/internal/progress", (req, res) => {
 })
 
 // Define our app's routes here
+app.get("/home", (req, res) => {
+    res.render("home", {title: "Home"})
+})
+
 app.get("/admin", (req, res) => {
-    res.json({"data":["admin", "panel"]})
+    res.render("admin", {title: "Admin"})
 })
 
 const port = process.env.PORT || 3000;
