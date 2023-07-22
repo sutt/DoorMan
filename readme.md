@@ -16,12 +16,28 @@ npm run build
 
 # do any typescript stuff you need
 
-# this will start doorman ui on localhost:8080
+# this will start DoorMan ui on localhost:8080 with ts-node
 npm run start
 
-# set env BOSSMAN=1 to start bossman on localhost:8090, or run
-node ./dist/index.js --bossman
+# or more explicilty
+tsc
+node ./dist/index.js
 ```
+
+#### Further Commands
+
+```bash
+# to start BossMan listening on localhost:7862
+# set env BOSSMAN=1 
+# or run with --bossman flag
+node ./dist/index.js --bossman
+
+# run webui on localhost:7861
+# no need to run it publicly since the bossman proxy 
+webui.bat --no-half --port 7861
+```
+
+To run a backend
 
 Coming soon: npm package...install as simple as `npm install -g doorman`.
 

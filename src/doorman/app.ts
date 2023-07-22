@@ -54,7 +54,12 @@ export function runDoormanServer({
         res.render("home", {title: "Home"})
     })
 
-    const {server: proxyServer, updateState: updateProxyServer} = setupProxy()
+    const {server: proxyServer, updateState: updateProxyServer} = setupProxy({
+        wsHost: "localhost",
+        wsPort: 7862,  // bossman proxy port
+        httpHost: "localhost",
+        httpPort: 3001,  //static frontui server
+      })
 
 
     app.get("/admin", (req, res) => {
