@@ -1,12 +1,28 @@
 import express from "express";
 import axios from "axios";
 import { Invoice } from "../shared/models/models";
-
+import { setupProxy } from "../shared/proxy/basic";
+import http from "http";
 
 export function runBossmanServer({
-    publicPort = 8090,
+    publicPort = 7862,
     publicHost = "127.0.0.1",
+    serverPort = 8090,
+    serverHost = "127.0.0.1",
 }) {
+
+    const {server: proxyServer, updateState: updateProxyServer} = setupProxy(
+        {
+            wsHost: "127.0.0.1",
+            wsPort: 7861,    // target port for locally running StablieDiffusion
+            httpHost: "127.0.0.1",
+            httpPort: 7861,  // this is the server
+            checkHeaderCallback: checkHeaderCallback,
+    })
+
+    proxyServer.listen(publicPort, publicHost, () => {
+        console.log(`Bossman Proxy server running on ${publicHost}:${publicPort}`)
+    });
 
     const app = express();
 
@@ -110,8 +126,8 @@ export function runBossmanServer({
         }
     });
 
-    app.listen(publicPort, publicHost, () => {
-        console.log(`BossMan server running on ${publicHost}:${publicPort}`)
+    app.listen(serverPort, serverHost, () => {
+        console.log(`BossMan server running on ${serverHost}:${serverPort}`)
     });
 }
 
@@ -162,4 +178,25 @@ export async function validateAndPay(r_hash : string, credits_requested: number)
         return false;
     }
 }
+
+async function checkHeaderCallback(req: http.IncomingMessage): Promise<boolean> {
+    try {
+        const headerName = "lightning_r_hash"
+        if (req.headers[headerName]) {
+            const r_hash = req.headers[headerName];
+
+            if (typeof r_hash === 'string') {
+                const isValid = await validateAndPay(r_hash, 10);
+                return isValid;
+            } else {
+                console.error(`Expected ${headerName} to be a string, but got ${typeof r_hash}`);
+                return false;
+            }
+        }
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+}
+
 
