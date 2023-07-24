@@ -16,6 +16,8 @@ export interface PaymentResponse {
 
 
 export async function createInvoicePayment(wltInvoiceKey: string, amt: number, hookId: string | null = null): Promise<PaymentResponse | undefined> {
+    
+    // TODO - this is for LNBits incoives, but there are other wallets
     const endpoint = `${LNBITS_BASE_URL}/api/v1/payments`;
 
     const headers = {
@@ -35,7 +37,10 @@ export async function createInvoicePayment(wltInvoiceKey: string, amt: number, h
 
     try {
         const response: AxiosResponse = await axios.post(endpoint, body, { headers: headers });
-        return response.data;
+        console.log(response.status)
+        if (response.status.toString().startsWith("2")) {
+            return response.data;
+        }
     } catch (error) {
         console.error(error);
     }
@@ -53,6 +58,7 @@ export async function checkInvoicePayment(wltInvoiceKey: string, checkingId: str
         const response: AxiosResponse = await axios.get(endpoint, { headers: headers });
         return response.data;
     } catch (error) {
+        // TODO - handle 404
         console.error(error);
     }
 }

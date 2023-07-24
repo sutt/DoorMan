@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import { setupProxy } from "../shared/proxy/basic";
+import apiRouter from "./routes/api";
 
 import mockRunPredict from "../data/mock-data/mock.run.predict.json";
 import mockInternalProgress from "../data/mock-data/mock.internal.progress.json";
@@ -27,9 +28,13 @@ export function runDoormanServer({
 
     app.use(express.json());
 
+    app.use('/api', apiRouter);
+
     // Serve static files of UI - 
     // TODO: change this url from root w/o it breaking the ui load
     app.use("/", express.static(path.join(__dirname, "./../../front-ui/v1")));
+
+
 
     // Mock responses to XHR calls made from UI onLoad
     app.get("/info", (req, res) => {

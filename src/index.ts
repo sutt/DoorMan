@@ -9,8 +9,6 @@ import { callCreateInvoicePayment } from "./doorman/services/funding";
 
 dotenv.config();
 
-const walletKet = process.env.INVOICE_KEY || "";
-
 const argv = yargs(process.argv.slice(2))
     .option("bossman", { type: "boolean" })
     .help()
@@ -30,7 +28,7 @@ if (serverType === "doorman") {
 
     // funding test client
     setTimeout( () => {
-        callCreateInvoicePayment(walletKet, 12, 'yourHookId')
+        callCreateInvoicePayment("workerAddr", 12, null)
             .then(data => console.log(data))
             .catch(err => console.error(err));
         }
