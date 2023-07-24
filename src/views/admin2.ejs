@@ -5,10 +5,97 @@
     .highlighted {
       background-color: yellow;
     }
+
+    #funding-response {
+      text-align: center;
+      margin-top: 2em;
+    }
+
+    #qr-code {
+      margin-bottom: 1em;
+    }
+
+    #payment-response {
+      text-align: left;
+      border: 1px solid #ccc;
+      padding: 1em;
+      overflow-x: auto;
+    }
+
+    #payment-response p {
+      margin-bottom: 1em;
+    }
+
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    function fundingFormSubit(e) {
+      
+      e.preventDefault();
+      
+      var amount = $('#amount').val();
+      var workerAddr = $('#workerAddr').val();
+      
+      fetch('/api/funding_request', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          amount: amount,
+          workerAddr: workerAddr,
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+
+        document.getElementById('qr-code').src = data.qrDataURL;
+        
+        // document.getElementById('funding-response-info').textContent = JSON.stringify(data.data, null, 2);
+        document.getElementById('payment-hash').textContent = 'Payment Hash: ' + data.data.payment_hash;
+        document.getElementById('payment-request').textContent = 'Payment Request: ' + data.data.payment_request;
+        document.getElementById('checking-id').textContent = 'Checking ID: ' + data.data.checking_id;
+        document.getElementById('lnurl-response').textContent = 'LNURL Response: ' + data.data.lnurl_response;
+
+        $('#funding-response').show();
+
+      })
+      .catch(error => {
+        console.error('An error occurred:', error);
+        document.getElementById('funding-response').textContent = `Error: ${error.message}`;
+      });  
+    }
+    
+  </script>
 </head>
 <body>
+  <div id="funding-wrapper">
+    <h2>Funding</h2>
+    <form action="/" method="post" onsubmit="fundingFormSubit(event)">
+      <label for="workerAddr">Worker Address:</label>
+      <input type="text" id="workerAddr" name="workerAddr" value="127.0.0.1">
+      <label for="amount">Amount</label>
+      <input type="text" id="amount" name="amount" value="10">
+      <input type="submit" value="Submit">
+    </form>
+    <div id="funding-data">
+      <div id="funding-response" style="display:none">
+        <img id="qr-code" src="" alt="QR Code">
+        <div id="funding-response-info">
+          <p id="payment-hash"></p>
+          <p id="payment-request"></p>
+          <p id="checking-id"></p>
+          <p id="lnurl-response"></p>
+        </div>
+      </div>
+      <div id="funding-status">
+
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+  <h2>Peers</h2>
   <table border="1">
     <thead>
       <tr>
@@ -48,6 +135,7 @@
 
         console.log(`fetching with ${host}:${port}`);
 
+        // what is this?
         fetch('/worker', {
                 method: 'POST',
                 headers: {
