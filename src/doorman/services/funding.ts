@@ -10,11 +10,11 @@ export interface PaymentResponse {
 export async function callCreateInvoicePayment(workerAddr: string, amt: number, hookId: string | null = null): Promise<PaymentResponse | undefined> {
     
     // TODO - use workerAddr to point
-    console.log(workerAddr)
+    // console.log(workerAddr)
 
     // TODO - get this base + endpoint from config vars
     // This is actually a call to remote server's api
-    const endpoint = `http://localhost:8090/funding/create_invoice_payment`; 
+    const endpoint = `http://${workerAddr}/funding/create_invoice_payment`; 
 
 
     const headers = {
@@ -31,5 +31,30 @@ export async function callCreateInvoicePayment(workerAddr: string, amt: number, 
         return response.data;
     } catch (error) {
         console.error(error);
+    }
+}
+
+export async function callCheckInvoicePayment(workerAddr: string, checkingId: string): Promise<boolean> {
+    
+    // TODO - use workerAddr to point
+    // console.log(workerAddr)
+
+    // TODO - get this base + endpoint from config vars
+    // This is actually a call to remote server's api
+    const endpoint = `http://${workerAddr}/funding/check_invoice_payment/${checkingId}`; 
+
+    const headers = {
+        "Content-Type": "application/json"
+    };
+
+    try {
+        const response: AxiosResponse = await axios.get(endpoint, { headers: headers });
+        if (response.data?.paid) {
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error(error.message);
+        return false;
     }
 }

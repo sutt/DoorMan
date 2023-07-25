@@ -29,6 +29,78 @@
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>
+
+    function buildFundingSummary () {
+      fetch('/api/funding_summary')
+      .then(response => response.json())
+      .then(data => {
+          const fundingSummaryElement = document.getElementById('funding-summary');
+          fundingSummaryElement.innerHTML = '';
+          data.forEach(item => {
+              // const paragraph = document.createElement('p');
+              // paragraph.textContent = `Worker Address: ${item.worker_addr}, Total Amount: ${item.total_amount}, Total Credits Used: ${item.total_credits_used}`;
+              // fundingSummaryElement.appendChild(paragraph);
+              // Get the table body element
+            const tbody = document.getElementById('funding-summary');
+
+            // Clear existing rows
+            tbody.innerHTML = '';
+
+            // Create new rows
+            data.forEach(item => {
+                // Create a new table row
+                const row = document.createElement('tr');
+
+                // Create cells for workerAddr, total_amount, and total_credits_used and append them to the row
+                ['worker_addr', 'total_amount', 'total_credits_used'].forEach(key => {
+                    const cell = document.createElement('td');
+                    cell.textContent = item[key];
+                    row.appendChild(cell);
+                });
+
+                // Append the row to the table body
+                tbody.appendChild(row);
+              });
+          });
+      })
+      .catch(error => console.error('An error occurred:', error));
+
+
+    }
+
+    function checkPayment(rHash, workerAddr) {
+      
+      const url = `/api/check_payment`
+  
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          checkingId: rHash,
+          workerAddr: workerAddr,
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+            
+            if (data.is_paid) {
+
+                document.getElementById('is-paid-value').innerText   = '✅'
+                document.getElementById('is-paid-key').style.color   = 'green'
+
+            }
+
+            if (data.error) {
+                console.log(`server-side error: ${data.error}`)
+            }
+      })
+      .catch(error => {
+          console.error('client-side error:', error);
+      });
+    }
+
     function fundingFormSubit(e) {
       
       e.preventDefault();
@@ -57,7 +129,10 @@
         document.getElementById('checking-id').textContent = 'Checking ID: ' + data.data.checking_id;
         document.getElementById('lnurl-response').textContent = 'LNURL Response: ' + data.data.lnurl_response;
 
-        $('#funding-response').show();
+        $('#funding-data').show();
+        
+        //  start polling for payment status
+        setInterval(() => checkPayment(data.data.payment_hash, workerAddr), 2000)
 
       })
       .catch(error => {
@@ -71,15 +146,18 @@
 <body>
   <div id="funding-wrapper">
     <h2>Funding</h2>
+    
+    <h4>Add Credits</h4>
     <form action="/" method="post" onsubmit="fundingFormSubit(event)">
       <label for="workerAddr">Worker Address:</label>
-      <input type="text" id="workerAddr" name="workerAddr" value="127.0.0.1">
+      <input type="text" id="workerAddr" name="workerAddr" value="127.0.0.1:8090">
       <label for="amount">Amount</label>
       <input type="text" id="amount" name="amount" value="10">
       <input type="submit" value="Submit">
     </form>
-    <div id="funding-data">
-      <div id="funding-response" style="display:none">
+    
+    <div id="funding-data" style="display:none">
+      <div id="funding-response">
         <img id="qr-code" src="" alt="QR Code">
         <div id="funding-response-info">
           <p id="payment-hash"></p>
@@ -89,9 +167,32 @@
         </div>
       </div>
       <div id="funding-status">
-
+        <h3 id="payment-title">
+          <div id="left-section">
+              <!-- <span id="prepay-title">Prepay: </span>
+              <span id="prepay-amount">10 sats </span> -->
+          </div>
+          <div id="right-section">
+            <span id="is-paid-key">is paid: </span> 
+            <span id="is-paid-value">🔲</span>
+          </div>
+      </h3>
       </div>
     </div>
+    <h4>Credits Available</h4>
+    <!-- <div id = "funding-summary"> -->
+      <table>
+        <thead>
+            <tr>
+                <th>Worker Address</th>
+                <th>Amount</th>
+                <th>Credits Used</th>
+            </tr>
+        </thead>
+        <tbody id="funding-summary">
+            <!-- The AJAX script will append rows here -->
+        </tbody>
+    </table>
   </div>
   <br>
   <br>
@@ -101,7 +202,8 @@
       <tr>
         <th>Name</th>
         <th>Host</th>
-        <th>Port</th>
+        <th>Comm Port</th>
+        <th>API Port</th>
         <th>Fee</th>
         <th>Action</th>
       </tr>
@@ -111,16 +213,23 @@
         <tr id="row-<%= index %>">
           <td><%= worker.name %></td>
           <td><%= worker.host %></td>
-          <td><%= worker.port %></td>
+          <td><%= worker.comm_port %></td>
+          <td><%= worker.api_port %></td>
           <td><%= worker.fee %></td>
           <td><button class="switch-worker" data-row="<%= index %>">Switch</button></td>
         </tr>
       <% }); %>
     </tbody>
   </table>
-
+  <br>
+  <br>
+  <h3>Image Gallery</h3>
+  <p> This will run on local file server</p>
+  <h3>Logs</h3>
+  <p> TODO </p>
   <script>
     $(document).ready(function() {
+      buildFundingSummary();
       $('.switch-worker').click(function() {
         // Remove highlighting from all rows
         $('tr').removeClass('highlighted');
@@ -131,11 +240,12 @@
 
         // get the host and port number
         var host = $(rowId).children('td').eq(1).text();
-        var port = parseInt($(rowId).children('td').eq(2).text());
+        var comm_port = parseInt($(rowId).children('td').eq(2).text());
+        var api_port = parseInt($(rowId).children('td').eq(3).text());
 
-        console.log(`fetching with ${host}:${port}`);
+        console.log(`fetching with ${host}:${comm_port}`);
 
-        // what is this?
+        // stub: check availability of particular worker
         fetch('/worker', {
                 method: 'POST',
                 headers: {
@@ -143,7 +253,8 @@
                 },
                 body: JSON.stringify({
                     host: host,
-                    port: port,
+                    comm_port: comm_port,
+                    api_port: api_port
                 })
             }).then(res => res.json())
       });

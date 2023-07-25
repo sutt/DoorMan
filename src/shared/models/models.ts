@@ -1,23 +1,42 @@
 import path from "path";
 import { Sequelize, DataTypes }  from "sequelize";
 import { Model } from "sequelize/types";
-// import sqlite3 from "sqlite3";
+
 
 export interface InvoiceInstance extends Model {
     r_hash: string;
     invoice_encoded: string;
     amount: number;
     is_paid: boolean;
-    credits_used: number | null;
+    credits_used: number;
   }
 
-export const sequelize = new Sequelize({
+
+export interface FundingInstance extends Model {
+    id: number;
+    workerAddr: string;
+    r_hash: string;
+    amount: number;
+    is_paid: boolean;
+    credits_used : number;
+  }
+
+
+export const sequelizeBoss = new Sequelize({
     dialect: "sqlite",
-    storage: path.join("../data/dbs/", "bossman.sqlite"),
+    storage: path.join("src/data/dbs/", "bossman.sqlite"),
     logging: false,
 });
 
-export const Invoice = sequelize.define<InvoiceInstance>("Invoice", {
+
+export const sequelizeDoor = new Sequelize({
+    dialect: "sqlite",
+    storage: path.join("src/data/dbs/", "doorman.sqlite"),
+    logging: false,
+});
+
+
+export const Invoice = sequelizeBoss.define<InvoiceInstance>("Invoice", {
     r_hash: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -38,7 +57,38 @@ export const Invoice = sequelize.define<InvoiceInstance>("Invoice", {
     },
     credits_used:{
         type: DataTypes.INTEGER,
-        allowNull: true,
-        defaultValue: null,
+        allowNull: false,
+        defaultValue: 0,
+    },
+});
+
+export const Funding = sequelizeDoor.define<FundingInstance>("Funding", {
+    id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    worker_addr: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    r_hash: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    amount: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    is_paid: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    },
+    credits_used: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
     },
 });
