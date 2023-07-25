@@ -1,6 +1,11 @@
 import http from "http";
 import axios from "axios";
 
+// TODO - remove these
+import dotenv from "dotenv";
+dotenv.config();
+const serverPort = process.env.BOSSMAN_SERVER_PORT || 8090;
+
 export async function checkHeaderCallback(req: http.IncomingMessage): Promise<boolean> {
     try {
         const headerName = "lightning_r_hash"
@@ -21,8 +26,8 @@ export async function checkHeaderCallback(req: http.IncomingMessage): Promise<bo
 
 export async function validateAndPay(r_hash : string, credits_requested: number) : Promise<boolean> {
     try {
-        
-        const response = await axios.post("http://localhost:8090/validate/validate_and_pay", {
+        // TODO - send this to serverPort
+        const response = await axios.post(`http://localhost:${serverPort}/validate/validate_and_pay`, {
             r_hash,
             credits_requested
         });

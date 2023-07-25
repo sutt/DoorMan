@@ -14,7 +14,7 @@ export async function callCreateInvoicePayment(workerAddr: string, amt: number, 
 
     // TODO - get this base + endpoint from config vars
     // This is actually a call to remote server's api
-    const endpoint = `http://localhost:8090/funding/create_invoice_payment`; 
+    const endpoint = `http://${workerAddr}/funding/create_invoice_payment`; 
 
 
     const headers = {
@@ -41,7 +41,7 @@ export async function callCheckInvoicePayment(workerAddr: string, checkingId: st
 
     // TODO - get this base + endpoint from config vars
     // This is actually a call to remote server's api
-    const endpoint = `http://localhost:8090/funding/check_invoice_payment/${checkingId}`; 
+    const endpoint = `http://${workerAddr}/funding/check_invoice_payment/${checkingId}`; 
 
     const headers = {
         "Content-Type": "application/json"

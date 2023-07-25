@@ -8,6 +8,7 @@ export function setupProxy(params?: {
   httpHost?: string, 
   httpPort?: number, 
   checkHeaderCallback?:  (req: http.IncomingMessage) => Promise<boolean>
+  addHeaderCallback?:  (workerHost : string, apiPort: number) => Promise<string | undefined>
 }) {
   
   const state = {
@@ -15,10 +16,13 @@ export function setupProxy(params?: {
     wsPort: params?.wsPort || 7861,
     httpHost: params?.httpHost || "localhost",
     httpPort: params?.httpPort || 3005,
+    remoteApiPort: params?.httpPort || 8090,
+    // isLoadingFront: true,
   };
   
   const updateState = (key : string, value : any) => {
     state[key] = value;    
+    console.log(`updateState: ${key} = ${value}`)
   };
 
   const proxy = httpProxy.createProxyServer({
@@ -39,6 +43,17 @@ export function setupProxy(params?: {
             // pass along the error code so client can help user debug
             socket.write('HTTP/1.1 403 Forbidden\r\n\r\n');
             socket.destroy();
+        }
+    } else if (params?.addHeaderCallback) {
+        console.log(state)
+        const r_hash = await params.addHeaderCallback(state.wsHost, state.remoteApiPort);
+        if (r_hash) {
+          req.headers["lightning_r_hash"] = r_hash;
+          proxy.ws(req, socket, head, { target: `ws://${state.wsHost}:${state.wsPort}` });
+        } else {
+          console.error(`failed to find a payment to attach to `)
+          socket.write('HTTP/1.1 403 Forbidden\r\n\r\n');
+          socket.destroy();
         }
     } else {
         proxy.ws(req, socket, head, { target: `ws://${state.wsHost}:${state.wsPort}` });

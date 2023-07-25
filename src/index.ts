@@ -24,7 +24,15 @@ if (serverType === "doorman") {
 
 } else if (serverType === "bossman") {
 
-    runBossmanServer({publicPort: 7862, serverPort: 8090});
+    const publicPort = parseInt(process.env.BOSSMAN_PUBLIC_PORT || "7800");
+    const serverPort = parseInt(process.env.BOSSMAN_SERVER_PORT || "8090");
+    const publicHost = process.env.BOSSMAN_PUBLIC_HOST || "127.0.0.1";
+    
+    runBossmanServer({
+        publicPort: publicPort, 
+        publicHost: publicHost,
+        serverPort: serverPort,
+    });
 
     // funding test client
     // setTimeout( () => {

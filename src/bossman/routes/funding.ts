@@ -37,8 +37,7 @@ router.post('/create_invoice_payment', async (req: Request, res: Response) => {
 router.get('/check_invoice_payment/:checkingId', async (req: Request, res: Response) => {
     const { wltInvoiceKey } = req.body;
     const { checkingId } = req.params;
-    
-    
+        
     try {
         const invoice = await Invoice.findOne({ where: { r_hash: checkingId } });
         if (invoice && invoice.is_paid) {
@@ -61,9 +60,7 @@ router.get('/check_invoice_payment/:checkingId', async (req: Request, res: Respo
     }
 });
 
-router.get('/', (req: Request, res: Response) => {
-    res.json({ message: 'Funding router' });
-});
+
 
 export default router;
 
