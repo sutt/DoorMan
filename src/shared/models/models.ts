@@ -38,7 +38,7 @@ export const Invoice = sequelize.define<InvoiceInstance>("Invoice", {
     },
     credits_used:{
         type: DataTypes.INTEGER,
-        allowNull: true,
-        defaultValue: null,
+        allowNull: false,
+        defaultValue: 0,
     },
 });

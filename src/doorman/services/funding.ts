@@ -54,7 +54,7 @@ export async function callCheckInvoicePayment(workerAddr: string, checkingId: st
         }
         return false;
     } catch (error) {
-        console.error(error);
+        console.error(error.message);
         return false;
     }
 }
