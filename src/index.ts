@@ -29,8 +29,8 @@ if (serverType === "doorman") {
     const publicHost = process.env.BOSSMAN_PUBLIC_HOST || "127.0.0.1";
     
     runBossmanServer({
-        publicPort: publicPort, 
-        publicHost: publicHost,
+        // publicPort: publicPort, 
+        // publicHost: publicHost,
         serverPort: serverPort,
     });
 
