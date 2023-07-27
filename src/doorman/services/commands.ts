@@ -7,10 +7,9 @@ export async function payAndGenerate(workerAddr: string, amt: number, reqObj: {h
     const r_hash = await findPaymentAndPay(workerAddr, amt);
     if (!r_hash) {
         console.error("No payment found");
-        // return;
-    }
-    reqObj.headers["lightning_r_hash"] = r_hash;
-    const bossmanGenImgResponse = callGenerateImage(workerAddr, reqObj);
+        return
+    } 
+    const bossmanGenImgResponse = callGenerateImage(workerAddr, r_hash, reqObj);
     // TODO - parse the response
     return bossmanGenImgResponse;
 }
@@ -28,16 +27,17 @@ async function findPaymentAndPay(workerAddr: string, amt: number): Promise<strin
     return;
 }
 
-export async function callGenerateImage(workerAddr: string, reqObj: {headers: object, body: object} ): Promise<any> {
+export async function callGenerateImage(workerAddr: string, r_hash: string, reqObj: {headers: object, body: object} ): Promise<any> {
     
     
     const endpoint = `http://${workerAddr}/command/generate/image`; 
 
-    // const headers = reqObj.headers;
-    // const body = reqObj.body;
+    
     const headers = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "lightning_r_hash": r_hash,
     };
+    
     const body = reqObj;
 
     try {
@@ -45,6 +45,6 @@ export async function callGenerateImage(workerAddr: string, reqObj: {headers: ob
         // TODO - this is where we handle L402
         return response.data;
     } catch (error) {
-        console.error(error);
+        console.error(error.message , error.response.data);
     }
 }

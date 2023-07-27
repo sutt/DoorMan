@@ -22,7 +22,13 @@ async function seedDatabase() {
         credits_used: 10, 
         invoice_encoded: exampleInvoiceEncoded 
     },
-    // { r_hash: exampleRHash, 
+    { r_hash: exampleRHash2, 
+      is_paid: true, 
+      amount: 20, 
+      credits_used: 10, 
+      invoice_encoded: exampleInvoiceEncoded 
+    },
+    // { r_hash: exampleRHash2, 
     //   is_paid: true, 
     //   amount: 1000, 
     //   credits_used: 10, 

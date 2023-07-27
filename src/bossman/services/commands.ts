@@ -10,7 +10,7 @@ export async function callGenerateImage(reqData: {headers: object, body: object}
     const endpoint = `http://${domain}/run/predict`;
     
     const { headers, body } = reqData;
-
+    
     try {
         const response: AxiosResponse = await axios.post(endpoint, body, { headers: headers });
         const responseData = response.data;
@@ -55,7 +55,7 @@ async function cvtFnToUri(imageUrl: string): Promise<string | undefined> {
         const dataUri = 'data:image/png;base64,' + base64;
         return  dataUri;
     } catch (error) {
-        console.error(`error in downloadImage: ${error}`);
+        console.error(`error in cvtFnToUri: ${error.message}`);
     }
 }
 
