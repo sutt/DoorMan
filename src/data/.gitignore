@@ -1,2 +1,4 @@
 workers.json
 dbs/*.sqlite
+images/*.png
+images/*.jpg

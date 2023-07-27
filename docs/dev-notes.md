@@ -22,6 +22,14 @@ how to put that websocket connection behind an LNPay?
 
 --------
 
+## New UI notes:
+
+new startup command allows us to drop websockets and only use http
+
+> webui.bat --skip-torch-cuda-test --no-half --port 7861 --no-gradio-queue
+
+--------
+
 ## Skinning the Automattic1111 WebUI
 
 - serived from 'save page as' on the live site
