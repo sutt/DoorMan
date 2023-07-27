@@ -5,8 +5,11 @@ import mockInfo from "../../data/mock-data/mock.info.json";
 import mockResponse402 from "../../data/mock-data/mock.response.402.json";
 import { payAndGenerate } from "../services/commands";
 import { writeImage } from "../services/download";
+import { Queue, parseTaskId, progressResponse } from "../services/queue";
 
 const router = express.Router()
+
+const queue = new Queue();
 
 // Mock responses to XHR calls made from UI onLoad
 
@@ -64,11 +67,13 @@ router.post("/run/predict", async (req: Request, res: Response) => {
             body: req.body
         }
         
-        // startQueue(parseTask(req))
+        const taskId = parseTaskId(req.body.data[0])
+        queue.add(taskId)
+        
         // TODO - we want to know if it's 500 or 402
-        // TODO - we want the r_hash to access the image
         const response = await payAndGenerate(state.workerAddr, 10, reqObj)
-        // endQueue(parseTask(req))
+        
+        queue.complete(taskId)
         
         if (!response) {
             errMsg = "payAndGenerate returned undefined";
@@ -85,17 +90,31 @@ router.post("/run/predict", async (req: Request, res: Response) => {
         }
             
         // Something went wrong along the chain of calls
-        // TODO - send back actual data that will show 402 / 500 message in gui
+        // TODO - 402 vs 500
         console.error("doorman: /run/predict", errMsg);
         res.json(mockResponse402)
-        // res.status(500).json({ error: errMsg });
+
         
     }
 })
 
 
 router.post("/internal/progress", (req, res) => {
-    res.json(mockInternalProgress)
+    try {
+        const taskId = parseTaskId(req.body)
+        const completed = queue.check(taskId)
+        const response = progressResponse(completed, 0.0)
+        res.json(response)
+        
+        // failed progress bar spoofing
+        // const progress = 0.0
+        // res.header("Access-Control-Allow-Credentials", "true");
+        // res.header("Content-Type"  ,"application/json");
+    
+    } catch (error) {
+        console.error("doorman: /internal/progress", error.message);
+        res.json(mockInternalProgress)
+    }
 })
 
 

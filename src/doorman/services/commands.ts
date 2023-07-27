@@ -45,6 +45,7 @@ export async function callGenerateImage(workerAddr: string, r_hash: string, reqO
         // TODO - this is where we handle L402
         return response.data;
     } catch (error) {
-        console.error(error.message , error.response.data);
+        console.error(error.message );
+        if (error?.response) console.error(error.response?.data);
     }
 }

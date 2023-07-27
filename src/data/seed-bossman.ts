@@ -18,7 +18,7 @@ async function seedDatabase() {
   const invoices = [
     { r_hash: exampleRHash, 
         is_paid: true, 
-        amount: 30, 
+        amount: 300, 
         credits_used: 10, 
         invoice_encoded: exampleInvoiceEncoded 
     },
