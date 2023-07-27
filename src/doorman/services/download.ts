@@ -12,7 +12,44 @@ const imageDirectory = path.resolve(__dirname, '..','..','data', 'images');
 //     fs.mkdirSync(imageDirectory);
 // }
 
-export async function downloadImage(imageUrl: string): Promise<{dataUri: string, fnLocal: string} | undefined> {
+export async function writeImage(base64Image: string): Promise<string | undefined> {
+    try {
+        let base64Data: string;
+        let fileExtension: string;
+
+        // Check the data URI prefix to determine the file format
+        if (base64Image.startsWith('data:image/png;base64,')) {
+            base64Data = base64Image.replace(/^data:image\/png;base64,/, "");
+            fileExtension = 'png';
+        } else if (base64Image.startsWith('data:image/jpeg;base64,')) {
+            base64Data = base64Image.replace(/^data:image\/jpeg;base64,/, "");
+            fileExtension = 'jpg';
+        } else {
+            throw new Error('Unsupported data URI format. Only PNG and JPEG are supported.');
+        }
+
+        // Convert the base64 string back to binary data
+        const data = Buffer.from(base64Data, 'base64');
+
+        // Generate a UUID for the filename
+        const id = uuidv4();
+
+        // Use the UUID and file extension to create a filename
+        const filename = `${id}.${fileExtension}`;
+
+        const imagePath = path.resolve(imageDirectory, filename);
+
+        // Write the data to a file
+        await fs.writeFile(imagePath, data);
+
+        return filename;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// deprecated, data-uri conversion now performed in bossman
+export async function downloadImage(imageUrl: string): Promise<string | undefined> {
     try {
         const response = await axios.get(imageUrl, { responseType: 'arraybuffer', timeout: 5000 });
         console.log("downloaded image!");
@@ -28,7 +65,7 @@ export async function downloadImage(imageUrl: string): Promise<{dataUri: string,
         // fs.writeFileSync(imagePath, response.data);
         fs.writeFile(imagePath, response.data).catch(error => console.error(error));
 
-        return {dataUri, fnLocal};
+        return fnLocal;
     } catch (error) {
         console.error(`error in downloadImage: ${error}`);
     }

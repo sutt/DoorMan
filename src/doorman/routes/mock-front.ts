@@ -3,7 +3,7 @@ import mockRunPredict from "../../data/mock-data/mock.run.predict.json";
 import mockInternalProgress from "../../data/mock-data/mock.internal.progress.json";
 import mockInfo from "../../data/mock-data/mock.info.json";
 import { payAndGenerate } from "../services/commands";
-import { downloadImage } from "../services/download";
+import { writeImage } from "../services/download";
 
 const router = express.Router()
 
@@ -25,30 +25,15 @@ function checkRequestIsImgGen(req: Request): boolean {
     }
 }
 
-function getImageUrlFromData(data: any): string | undefined {
+function getImageUriFromData(data: any): string | undefined {
     try {
-        return data.data[0][0].name;
+        return data.data[0][0].data;
     } catch (error) {
         return undefined;
     }
     return undefined;
 }
 
-function changeImgUrlOnData(data: any, imgUri: string, newUrl?: string): any {
-    try {
-        data.data[0][0].is_file = false
-        data.data[0][0].data = imgUri
-        if (newUrl) {
-            data.data[0][0].name = newUrl;
-        } else {
-            delete data.data[0][0].name   
-        }
-        return data;
-    } catch (error) {
-        return undefined;
-    }
-    return data;
-}
 
 
 router.post("/run/predict", async (req: Request, res: Response) => {
@@ -77,27 +62,21 @@ router.post("/run/predict", async (req: Request, res: Response) => {
         if (!response) {
             errMsg = "payAndGenerate returned undefined";
         } else {
-            const imgFnOriginal = getImageUrlFromData(response)
-            if (!imgFnOriginal) {
-                errMsg = "getImageUrlFromData returned undefined";
-            } else {
-                // TODO - need a way to proxy this server-side
-                const downloadUrl = `http://localhost:7861/file=${imgFnOriginal}`
-                const {dataUri, fnLocal} = await downloadImage(downloadUrl)
-                if (!dataUri) {
-                    errMsg = "downloadImage returned undefined";
-                } else {
-                    const responseNewFn  = changeImgUrlOnData(response, dataUri, fnLocal)
-                    res.json(responseNewFn)
-                    return;
-                }
-            } 
+            const imgUri = getImageUriFromData(response)
+            const fnLocal = await writeImage(imgUri) // TODO - this can be async
+            
+            if (!imgUri)  {errMsg += "no data uri found on response data";}
+            if (!fnLocal) {errMsg += "writeImage returned undefined";}
+            if (errMsg) {console.error(`doorman-server /run/predict: ${errMsg}`)}
+
+            res.json(response)
+            return;
         }
+            
         // Something went wrong along the chain of calls
         // TODO - send back actual data that will show 402 / 500 message in gui
         console.error("doorman: /run/predict", errMsg);
         res.status(500).json({ error: errMsg });
-        
     }
 })
 

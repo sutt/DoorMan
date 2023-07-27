@@ -1,28 +1,42 @@
 import express, { Request, Response } from 'express';
 import axios, { AxiosResponse } from 'axios';
-
+import { callGenerateImage } from '../services/commands';
 
 const router = express.Router();
 
 router.post('/generate/image', async (req: Request, res: Response) => {
 
-    // grab the header and check payment
+    let errMsg = "";
+    let statusCode = 500;
     
-    const { headers, body } = req.body;
-    console.log(headers);
-    console.log(body);
+    // Check payment before proceeding
+    // try {
+    //     1+1
+    // } catch (error) {
+    //     errMsg = error.message
+    //     statusCode = 402;
+    // }
     
-    const endpoint = "http://localhost:7861/run/predict";
-    
+    // Main Call
     try {
-        const response: AxiosResponse = await axios.post(endpoint, body, { headers: headers });
-        res.json(response.data);
+        const reqData = req.body;
+        
+        const jsonData = await callGenerateImage(reqData)
+        
+        if (jsonData){
+            res.json(jsonData);
+            return;
+        } else {
+            errMsg = "no json data from callGenerateImage";
+            statusCode = 404;
+        }
     } catch (error) {
-        console.error(`error calling sd: ${error.message}`);
-        res.status(500).json({ error: error.message });
+        errMsg = error.message
+        statusCode = 500;
     }
-    
-
+    console.error(`bossman /generate/image: ${errMsg}`);
+    res.status(statusCode).json({ error: errMsg });
+    return;
 });
 
 export default router;
