@@ -44,7 +44,7 @@ export async function writeImage(base64Image: string): Promise<string | undefine
 
         return filename;
     } catch (error) {
-        console.error(error);
+        console.error(`writeImage() err: ${error.message}`);
     }
 }
 

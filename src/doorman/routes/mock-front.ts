@@ -2,6 +2,7 @@ import express, { Request, Response } from "express"
 import mockRunPredict from "../../data/mock-data/mock.run.predict.json";
 import mockInternalProgress from "../../data/mock-data/mock.internal.progress.json";
 import mockInfo from "../../data/mock-data/mock.info.json";
+import mockResponse402 from "../../data/mock-data/mock.response.402.json";
 import { payAndGenerate } from "../services/commands";
 import { writeImage } from "../services/download";
 
@@ -15,7 +16,6 @@ router.get("/info", (req, res) => {
     // each call has an "fn" number associated with it
 })
 
-const workerAddr = "localhost:8090"
 
 function checkRequestIsImgGen(req: Request): boolean {
     try {
@@ -32,6 +32,17 @@ function getImageUriFromData(data: any): string | undefined {
         return undefined;
     }
     return undefined;
+}
+
+// TODO - add a callback here
+const state = {
+    workerAddr: "127.0.0.1:8090",
+    
+};
+  
+export function updateState (key : string, value : any) {
+    state[key] = value;    
+    console.log(`updateState: ${key} = ${value}`)
 }
 
 
@@ -56,7 +67,7 @@ router.post("/run/predict", async (req: Request, res: Response) => {
         // startQueue(parseTask(req))
         // TODO - we want to know if it's 500 or 402
         // TODO - we want the r_hash to access the image
-        const response = await payAndGenerate(workerAddr, 10, reqObj)
+        const response = await payAndGenerate(state.workerAddr, 10, reqObj)
         // endQueue(parseTask(req))
         
         if (!response) {
@@ -76,7 +87,9 @@ router.post("/run/predict", async (req: Request, res: Response) => {
         // Something went wrong along the chain of calls
         // TODO - send back actual data that will show 402 / 500 message in gui
         console.error("doorman: /run/predict", errMsg);
-        res.status(500).json({ error: errMsg });
+        res.json(mockResponse402)
+        // res.status(500).json({ error: errMsg });
+        
     }
 })
 

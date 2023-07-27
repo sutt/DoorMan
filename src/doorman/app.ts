@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
 import apiRouter from "./routes/api";
-import mockRouter from "./routes/mock-front";
+import mockRouter, { updateState } from "./routes/mock-front";
 
 import workerData from "../data/workers.json";
 
@@ -43,16 +43,14 @@ export function runDoormanServer({
         res.render("admin2", {workers: workerData.workers})
     })
 
-    // app.post("/worker/", (req, res) => {
-    //     const {host, comm_port, api_port} = req.body;
-    //     updateProxyServer("wsHost", host);
-    //     updateProxyServer("wsPort", comm_port);
-    //     updateProxyServer("remoteApiPort", api_port);
-    //     res.json({status: "ok"});
-    // })
+    app.post("/worker", (req, res) => {
+        const {host, port} = req.body;
+        updateState("workerAddr", `${host}:${port}`);
+        res.json({status: "ok"});
+    })
 
     app.listen(serverPort, serverHost, () => {
-        console.log(`File Server & Frontend-API is listening on ${serverHost}:${serverPort}`)
+        console.log(`Doorman File Server & Frontend-API is listening on ${serverHost}:${serverPort}`)
     });
 
     // proxyServer.listen(publicPort, publicHost, () => {

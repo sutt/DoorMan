@@ -8,6 +8,8 @@ import commandRouter from "./routes/commands";
 
 import { setupProxy } from "../shared/proxy/basic";
 import { checkHeaderCallback } from "./services/validate";
+import dummy from "../data/images/dummy.json";  //to get tsc to build with this directory
+
 
 
 export function runBossmanServer({
