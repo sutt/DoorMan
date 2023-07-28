@@ -1,49 +1,4 @@
-import { text } from "body-parser"
-
-
-const response1 = {
-    "active": false,
-    "queued": false,
-    "completed": false,
-    "progress": null,
-    "eta": null,
-    "live_preview": null,
-    "id_live_preview": -1,
-    "textinfo": "Waiting..."
-}
-
-const response2 = {
-    "active": true,
-    "queued": false,
-    "completed": false,
-    "progress": 0.0,
-    "eta": null,
-    "live_preview": null,
-    "id_live_preview": -1,
-    "textinfo": null
-}
-const response3 = {
-    "active": true,
-    "queued": false,
-    "completed": false,
-    "progress": 0.3,
-    "eta": 7.1451802253723145,
-    "live_preview": null,
-    "id_live_preview": -1,
-    "textinfo": null
-}
-
-const payload2 = {
-    "id_task": "task(t6aungz78xma3ua)",
-    "id_live_preview": -1
-}
-
-const queue = {
-    "activeTasks": [],
-    "unfoundTasks": [],
-}
-
-// let counter = 0 
+import { resetGeneration } from "../routes/hub";
 
 export function progressResponse(
     completed: boolean,
@@ -56,9 +11,10 @@ export function progressResponse(
         active = false
     } 
     
-    let textinfo = null
-    let eta = null
+    const textinfo = null
+    const eta = null
     
+    // failed progress bar spoofing
     // eta = 12.0 - counter
     
     // progress = progress + (counter * 0.1)
@@ -130,6 +86,9 @@ export class Queue {
     complete(task_id: string): void {
         if (this.queue[task_id]) {
             this.queue[task_id].status = "complete";
+            
+            // hack so start_generation can arrive on 402s
+            setTimeout( () => resetGeneration() , 1000)  
         }
     }
 }

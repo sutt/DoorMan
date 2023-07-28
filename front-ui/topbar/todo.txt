@@ -1,0 +1,11 @@
+
+## scaffolding
+
+
+
+## features
+- shows stats on fundings
+
+- flashes when no credits left
+
+- shows selection of current worker

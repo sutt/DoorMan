@@ -92,7 +92,9 @@ router.post("/run/predict", async (req: Request, res: Response) => {
         // Something went wrong along the chain of calls
         // TODO - 402 vs 500
         console.error("doorman: /run/predict", errMsg);
-        res.json(mockResponse402)
+        setTimeout(() => {
+            res.json(mockResponse402)
+        }, 500);
 
         
     }

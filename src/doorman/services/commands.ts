@@ -10,6 +10,7 @@ export async function payAndGenerate(workerAddr: string, amt: number, reqObj: {h
         return
     } 
     const bossmanGenImgResponse = callGenerateImage(workerAddr, r_hash, reqObj);
+    
     // TODO - parse the response
     return bossmanGenImgResponse;
 }
