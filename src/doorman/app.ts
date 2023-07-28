@@ -1,7 +1,9 @@
 import express from "express";
 import path from "path";
+import cors from "cors";
 import apiRouter from "./routes/api";
 import mockRouter, { updateState } from "./routes/mock-front";
+import hubRouter from "./routes/hub";
 
 import workerData from "../data/workers.json";
 
@@ -27,9 +29,12 @@ export function runDoormanServer({
 
     app.set("view engine", "ejs");
     app.set('views', path.join(__dirname, "..", "views"))
-    app.use(express.json());
+    app.use(express.json({ limit: '50mb' }));
+    app.use(express.urlencoded({ limit: '50mb', extended: true }));
+    app.use(cors());
 
     app.use('/api', apiRouter);
+    app.use('/hub', hubRouter);
     
     // TODO: change this url from root w/o it breaking the ui load
     app.use("/", express.static(path.join(__dirname, "./../../front-ui/v1")));

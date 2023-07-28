@@ -10,6 +10,7 @@ export async function payAndGenerate(workerAddr: string, amt: number, reqObj: {h
         return
     } 
     const bossmanGenImgResponse = callGenerateImage(workerAddr, r_hash, reqObj);
+    
     // TODO - parse the response
     return bossmanGenImgResponse;
 }
@@ -45,6 +46,7 @@ export async function callGenerateImage(workerAddr: string, r_hash: string, reqO
         // TODO - this is where we handle L402
         return response.data;
     } catch (error) {
-        console.error(error.message , error.response.data);
+        console.error(error.message );
+        if (error?.response) console.error(error.response?.data);
     }
 }

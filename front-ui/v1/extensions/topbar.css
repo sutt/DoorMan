@@ -1,0 +1,28 @@
+#topbar-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    min-height: 14em;
+}
+
+.divSection {
+    flex: 1 1 15%;
+    margin: 1em;
+    padding: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* .highlight {
+    background-color: yellow;
+} */
+
+.warning-402-flash {
+    animation: flash 1s ease-in-out infinite alternate;
+}
+
+@keyframes flash {
+    from { background-color: transparent; }
+    to { background-color: yellow; }
+}
