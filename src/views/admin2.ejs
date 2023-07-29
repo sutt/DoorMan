@@ -1,263 +1,326 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <style>
-    .highlighted {
-      background-color: yellow;
-    }
+  <head>
+    <style>
+      h1 {
+        font-size: 3rem;
+      }
 
-    #funding-response {
-      text-align: center;
-      margin-top: 2em;
-    }
+      a {
+        text-decoration: none;
+        color: white;
+      }
 
-    #qr-code {
-      margin-bottom: 1em;
-    }
+      a:hover {
+        color: #ffd233;
+        max-width: max-content;
+      }
 
-    #payment-response {
-      text-align: left;
-      border: 1px solid #ccc;
-      padding: 1em;
-      overflow-x: auto;
-    }
+      body {
+        background-color: black;
+        color: white;
+        font-family: "Courier New", Courier, monospace;
+      }
 
-    #payment-response p {
-      margin-bottom: 1em;
-    }
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 2rem;
+      }
 
-  </style>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script>
+      ul {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        list-style-type: none;
+        gap: 1rem;
+      }
 
-    function buildFundingSummary () {
-      fetch('/api/funding_summary')
-      .then(response => response.json())
-      .then(data => {
-          const fundingSummaryElement = document.getElementById('funding-summary');
-          fundingSummaryElement.innerHTML = '';
-          data.forEach(item => {
+      li {
+        font-size: 1.5rem;
+      }
+
+      .header-link {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      function buildFundingSummary() {
+        fetch("/api/funding_summary")
+          .then((response) => response.json())
+          .then((data) => {
+            const fundingSummaryElement =
+              document.getElementById("funding-summary");
+            fundingSummaryElement.innerHTML = "";
+            data.forEach((item) => {
               // const paragraph = document.createElement('p');
               // paragraph.textContent = `Worker Address: ${item.worker_addr}, Total Amount: ${item.total_amount}, Total Credits Used: ${item.total_credits_used}`;
               // fundingSummaryElement.appendChild(paragraph);
               // Get the table body element
-            const tbody = document.getElementById('funding-summary');
+              const tbody = document.getElementById("funding-summary");
 
-            // Clear existing rows
-            tbody.innerHTML = '';
+              // Clear existing rows
+              tbody.innerHTML = "";
 
-            // Create new rows
-            data.forEach(item => {
+              // Create new rows
+              data.forEach((item) => {
                 // Create a new table row
-                const row = document.createElement('tr');
+                const row = document.createElement("tr");
 
                 // Create cells for workerAddr, total_amount, and total_credits_used and append them to the row
-                ['worker_addr', 'total_amount', 'total_credits_used'].forEach(key => {
-                    const cell = document.createElement('td');
+                ["worker_addr", "total_amount", "total_credits_used"].forEach(
+                  (key) => {
+                    const cell = document.createElement("td");
                     cell.textContent = item[key];
                     row.appendChild(cell);
-                });
+                  },
+                );
 
                 // Append the row to the table body
                 tbody.appendChild(row);
               });
-          });
-      })
-      .catch(error => console.error('An error occurred:', error));
+            });
+          })
+          .catch((error) => console.error("An error occurred:", error));
+      }
 
+      function checkPayment(rHash, workerAddr) {
+        const url = `/api/check_payment`;
 
-    }
-
-    function checkPayment(rHash, workerAddr) {
-      
-      const url = `/api/check_payment`
-  
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          checkingId: rHash,
-          workerAddr: workerAddr,
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            checkingId: rHash,
+            workerAddr: workerAddr,
+          }),
         })
-      })
-      .then(res => res.json())
-      .then(data => {
-            
+          .then((res) => res.json())
+          .then((data) => {
             if (data.is_paid) {
-
-                document.getElementById('is-paid-value').innerText   = '✅'
-                document.getElementById('is-paid-key').style.color   = 'green'
-
+              document.getElementById("is-paid-value").innerText = "✅";
+              document.getElementById("is-paid-key").style.color = "green";
             }
 
             if (data.error) {
-                console.log(`server-side error: ${data.error}`)
+              console.log(`server-side error: ${data.error}`);
             }
-      })
-      .catch(error => {
-          console.error('client-side error:', error);
-      });
-    }
+          })
+          .catch((error) => {
+            console.error("client-side error:", error);
+          });
+      }
 
-    function fundingFormSubit(e) {
-      
-      e.preventDefault();
-      
-      var amount = $('#amount').val();
-      var workerAddr = $('#workerAddr').val();
-      
-      fetch('/api/funding_request', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          amount: amount,
-          workerAddr: workerAddr,
+      function fundingFormSubit(e) {
+        e.preventDefault();
+
+        var amount = $("#amount").val();
+        var workerAddr = $("#workerAddr").val();
+
+        fetch("/api/funding_request", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            amount: amount,
+            workerAddr: workerAddr,
+          }),
         })
-      })
-      .then(res => res.json())
-      .then(data => {
+          .then((res) => res.json())
+          .then((data) => {
+            document.getElementById("qr-code").src = data.qrDataURL;
 
-        document.getElementById('qr-code').src = data.qrDataURL;
-        
-        // document.getElementById('funding-response-info').textContent = JSON.stringify(data.data, null, 2);
-        document.getElementById('payment-hash').textContent = 'Payment Hash: ' + data.data.payment_hash;
-        document.getElementById('payment-request').textContent = 'Payment Request: ' + data.data.payment_request;
-        document.getElementById('checking-id').textContent = 'Checking ID: ' + data.data.checking_id;
-        document.getElementById('lnurl-response').textContent = 'LNURL Response: ' + data.data.lnurl_response;
+            // document.getElementById('funding-response-info').textContent = JSON.stringify(data.data, null, 2);
+            document.getElementById("payment-hash").textContent =
+              "Payment Hash: " + data.data.payment_hash;
+            document.getElementById("payment-request").textContent =
+              "Payment Request: " + data.data.payment_request;
+            document.getElementById("checking-id").textContent =
+              "Checking ID: " + data.data.checking_id;
+            document.getElementById("lnurl-response").textContent =
+              "LNURL Response: " + data.data.lnurl_response;
 
-        $('#funding-data').show();
-        
-        //  start polling for payment status
-        setInterval(() => checkPayment(data.data.payment_hash, workerAddr), 2000)
+            $("#funding-data").show();
 
-      })
-      .catch(error => {
-        console.error('An error occurred:', error);
-        document.getElementById('funding-response').textContent = `Error: ${error.message}`;
-      });  
-    }
-    
-  </script>
-</head>
-<body>
-  <div id="funding-wrapper">
-    <h2>Funding</h2>
-    
-    <h4>Add Credits</h4>
-    <form action="/" method="post" onsubmit="fundingFormSubit(event)">
-      <label for="workerAddr">Worker Address:</label>
-      <input type="text" id="workerAddr" name="workerAddr" value="127.0.0.1:8090">
-      <label for="amount">Amount</label>
-      <input type="text" id="amount" name="amount" value="10">
-      <input type="submit" value="Submit">
-    </form>
-    
-    <div id="funding-data" style="display:none">
-      <div id="funding-response">
-        <img id="qr-code" src="" alt="QR Code">
-        <div id="funding-response-info">
-          <p id="payment-hash"></p>
-          <p id="payment-request"></p>
-          <p id="checking-id"></p>
-          <p id="lnurl-response"></p>
-        </div>
-      </div>
-      <div id="funding-status">
-        <h3 id="payment-title">
-          <div id="left-section">
-              <!-- <span id="prepay-title">Prepay: </span>
-              <span id="prepay-amount">10 sats </span> -->
-          </div>
-          <div id="right-section">
-            <span id="is-paid-key">is paid: </span> 
-            <span id="is-paid-value">🔲</span>
-          </div>
-      </h3>
+            //  start polling for payment status
+            setInterval(
+              () => checkPayment(data.data.payment_hash, workerAddr),
+              2000,
+            );
+          })
+          .catch((error) => {
+            console.error("An error occurred:", error);
+            document.getElementById(
+              "funding-response",
+            ).textContent = `Error: ${error.message}`;
+          });
+      }
+    </script>
+  </head>
+  <body>
+    <section class="nav">
+      <a class="header-link" href="/admin">
+        <!-- Door svg -->
+        <svg
+          width="34"
+          height="47"
+          viewBox="0 0 34 47"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M2 2H25.375C27.0658 2 28.6873 2.67165 29.8828 3.86719C31.0784 5.06274 31.75 6.68424 31.75 8.375V38.125C31.75 38.6886 31.5261 39.2291 31.1276 39.6276C30.7291 40.0261 30.1886 40.25 29.625 40.25H23.25"
+            stroke="#FFD233"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M16.875 23.25V27.5M2 2L18.1245 5.22575C19.5695 5.51457 20.8698 6.29506 21.8043 7.43446C22.7387 8.57386 23.2496 10.0018 23.25 11.4754V41.9075C23.2498 42.2218 23.1799 42.5321 23.0454 42.8161C22.9108 43.1001 22.7149 43.3507 22.4718 43.5499C22.2287 43.7491 21.9445 43.8919 21.6396 43.968C21.3347 44.0441 21.0167 44.0516 20.7085 43.99L5.417 40.9343C4.45319 40.7416 3.58595 40.2209 2.96292 39.4607C2.3399 38.7005 1.99961 37.7479 2 36.765V2Z"
+            stroke="#FFD233"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <h1>Admin Panel</h1>
+      </a>
+      <ul>
+        <li>
+          <a href="/gallery">Gallery</a>
+        </li>
+        <li><a href="/discover">Discover</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+    </section>
+    <script>
+      $(document).ready(function () {
+        buildFundingSummary();
+        $(".switch-worker").click(function () {
+          // Remove highlighting from all rows
+          $("tr").removeClass("highlighted");
+
+          // Highlight the selected row
+          var rowId = "#row-" + $(this).data("row");
+          $(rowId).addClass("highlighted");
+
+          // get the host and port number
+          var host = $(rowId).children("td").eq(1).text();
+          var comm_port = parseInt($(rowId).children("td").eq(2).text());
+          var api_port = parseInt($(rowId).children("td").eq(3).text());
+
+          console.log(`fetching with ${host}:${comm_port}`);
+
+          // stub: check availability of particular worker
+          fetch("/worker", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              host: host,
+              port: api_port,
+            }),
+          }).then((res) => res.json());
+        });
+      });
+    </script>
+  </body>
+</html>
+
+<!-- <div id="funding-wrapper">
+  <h2>Funding</h2>
+
+  <h4>Add Credits</h4>
+  <form action="/" method="post" onsubmit="fundingFormSubit(event)">
+    <label for="workerAddr">Worker Address:</label>
+    <input
+      type="text"
+      id="workerAddr"
+      name="workerAddr"
+      value="127.0.0.1:8090"
+    />
+    <label for="amount">Amount</label>
+    <input type="text" id="amount" name="amount" value="10" />
+    <input type="submit" value="Submit" />
+  </form>
+
+  <div id="funding-data" style="display: none">
+    <div id="funding-response">
+      <img id="qr-code" src="" alt="QR Code" />
+      <div id="funding-response-info">
+        <p id="payment-hash"></p>
+        <p id="payment-request"></p>
+        <p id="checking-id"></p>
+        <p id="lnurl-response"></p>
       </div>
     </div>
-    <h4>Credits Available</h4>
-    <!-- <div id = "funding-summary"> -->
-      <table>
-        <thead>
-            <tr>
-                <th>Worker Address</th>
-                <th>Amount</th>
-                <th>Credits Used</th>
-            </tr>
-        </thead>
-        <tbody id="funding-summary">
-            <!-- The AJAX script will append rows here -->
-        </tbody>
-    </table>
+    <div id="funding-status">
+      <h3 id="payment-title">
+        <div id="left-section">
+        </div>
+        <div id="right-section">
+          <span id="is-paid-key">is paid: </span>
+          <span id="is-paid-value">🔲</span>
+        </div>
+      </h3>
+    </div>
   </div>
-  <br>
-  <br>
-  <h2>Peers</h2>
-  <table border="1">
+  <h4>Credits Available</h4>
+  <table>
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Host</th>
-        <th>Comm Port</th>
-        <th>API Port</th>
-        <th>Fee</th>
-        <th>Action</th>
+        <th>Worker Address</th>
+        <th>Amount</th>
+        <th>Credits Used</th>
       </tr>
     </thead>
-    <tbody>
-      <% workers.forEach(function(worker, index) { %>
-        <tr id="row-<%= index %>">
-          <td><%= worker.name %></td>
-          <td><%= worker.host %></td>
-          <td><%= worker.comm_port %></td>
-          <td><%= worker.api_port %></td>
-          <td><%= worker.fee %></td>
-          <td><button class="switch-worker" data-row="<%= index %>">Switch</button></td>
-        </tr>
-      <% }); %>
+    <tbody id="funding-summary">
     </tbody>
   </table>
-  <br>
-  <br>
-  <h3>Image Gallery</h3>
-  <p> This will run on local file server</p>
-  <h3>Logs</h3>
-  <p> TODO </p>
-  <script>
-    $(document).ready(function() {
-      buildFundingSummary();
-      $('.switch-worker').click(function() {
-        // Remove highlighting from all rows
-        $('tr').removeClass('highlighted');
-
-        // Highlight the selected row
-        var rowId = '#row-' + $(this).data('row');
-        $(rowId).addClass('highlighted');
-
-        // get the host and port number
-        var host = $(rowId).children('td').eq(1).text();
-        var comm_port = parseInt($(rowId).children('td').eq(2).text());
-        var api_port = parseInt($(rowId).children('td').eq(3).text());
-
-        console.log(`fetching with ${host}:${comm_port}`);
-
-        // stub: check availability of particular worker
-        fetch('/worker', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    host: host,
-                    port: api_port,
-                })
-            }).then(res => res.json())
-      });
-    });
-  </script>
-</body>
-</html>
+</div>
+<br />
+<br />
+<h2>Peers</h2>
+<table border="1">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Host</th>
+      <th>Comm Port</th>
+      <th>API Port</th>
+      <th>Fee</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% workers.forEach(function(worker, index) { %>
+    <tr id="row-<%= index %>">
+      <td><%= worker.name %></td>
+      <td><%= worker.host %></td>
+      <td><%= worker.comm_port %></td>
+      <td><%= worker.api_port %></td>
+      <td><%= worker.fee %></td>
+      <td>
+        <button class="switch-worker" data-row="<%= index %>">
+          Switch
+        </button>
+      </td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>
+<br />
+<br />
+<h3>Image Gallery</h3>
+<p>This will run on local file server</p>
+<h3>Logs</h3>
+<p>TODO</p> -->
