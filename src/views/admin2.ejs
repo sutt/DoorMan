@@ -47,6 +47,44 @@
         align-items: center;
         gap: 1rem;
       }
+
+      table {
+        border-collapse: collapse;
+        width: 75%;
+        background-color: #222222;
+        border-radius: 20px;
+      }
+
+      tr:not(:last-child) {
+        /* border applying to top and bottom but not left or right */
+        border: 1px solid #717171;
+        border-left: none;
+        border-right: none;
+      }
+
+      tr:hover:not(thead tr) {
+        background-color: #454545;
+        cursor: pointer;
+      }
+
+      thead {
+        text-align: left;
+      }
+
+      td,
+      th {
+        padding: 2rem;
+      }
+
+      .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .hidden {
+        display: none;
+      }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
@@ -57,6 +95,7 @@
             const fundingSummaryElement =
               document.getElementById("funding-summary");
             fundingSummaryElement.innerHTML = "";
+            console.log({ data });
             data.forEach((item) => {
               // const paragraph = document.createElement('p');
               // paragraph.textContent = `Worker Address: ${item.worker_addr}, Total Amount: ${item.total_amount}, Total Credits Used: ${item.total_credits_used}`;
@@ -69,6 +108,7 @@
 
               // Create new rows
               data.forEach((item) => {
+                console.log({ item });
                 // Create a new table row
                 const row = document.createElement("tr");
 
@@ -201,35 +241,105 @@
         <li><a href="/about">About</a></li>
       </ul>
     </section>
+    <section class="content">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Fee (Sats)</th>
+            <th>Credit (Sats)</th>
+            <th>Selected</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% workers.forEach(function(worker, index) { %>
+
+          <tr
+            id="row-<%= index %>"
+            class="switch-worker"
+            data-row="<%= index %>"
+          >
+            <td><%= worker.name %></td>
+            <td><%= worker.fee %></td>
+            <td>TODO: Credit</td>
+            <td>
+              <!-- Check mark svg -->
+              <svg
+                id="checkmark-<%= index %>"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="checkmark hidden"
+              >
+                <g clip-path="url(#clip0_5_40)">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M21.5464 5.11101C21.8276 5.3923 21.9856 5.77376 21.9856 6.17151C21.9856 6.56925 21.8276 6.95071 21.5464 7.23201L10.3034 18.475C10.1548 18.6236 9.97845 18.7415 9.78431 18.8219C9.59016 18.9024 9.38207 18.9438 9.17193 18.9438C8.96178 18.9438 8.75369 18.9024 8.55955 18.8219C8.3654 18.7415 8.18901 18.6236 8.04043 18.475L2.45443 12.89C2.31116 12.7516 2.19689 12.5861 2.11827 12.4031C2.03966 12.2201 1.99828 12.0233 1.99655 11.8241C1.99482 11.6249 2.03277 11.4274 2.10819 11.2431C2.18362 11.0587 2.295 10.8913 2.43583 10.7504C2.57667 10.6096 2.74415 10.4982 2.9285 10.4228C3.11284 10.3474 3.31036 10.3094 3.50953 10.3111C3.7087 10.3129 3.90553 10.3542 4.08853 10.4329C4.27154 10.5115 4.43706 10.6257 4.57543 10.769L9.17143 15.365L19.4244 5.11101C19.5637 4.97162 19.7291 4.86104 19.9112 4.7856C20.0932 4.71016 20.2884 4.67133 20.4854 4.67133C20.6825 4.67133 20.8776 4.71016 21.0597 4.7856C21.2417 4.86104 21.4071 4.97162 21.5464 5.11101Z"
+                    fill="#4ECB71"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_5_40">
+                    <rect
+                      width="24"
+                      height="24"
+                      fill="white"
+                      transform="translate(0.000427246)"
+                    />
+                  </clipPath>
+                </defs>
+              </svg>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+      <!-- <table id="funding-summary">
+        <thead>
+          <tr>
+            <th>Worker Address</th>
+            <th>Total Amount</th>
+            <th>Total Credits Used</th>
+          </tr>
+        </thead>
+        <tbody ></tbody>
+      </table> -->
+    </section>
     <script>
+      let selectedRow = null;
       $(document).ready(function () {
         buildFundingSummary();
-        $(".switch-worker").click(function () {
-          // Remove highlighting from all rows
-          $("tr").removeClass("highlighted");
+        $(".switch-worker").click(function (e) {
+          // Remove check from all rows
+          $("svg.checkmark").addClass("hidden");
 
-          // Highlight the selected row
-          var rowId = "#row-" + $(this).data("row");
-          $(rowId).addClass("highlighted");
+          // Show checkmark for the selected row
+          const rowNum = $(this).data("row");
+          var rowId = `#checkmark-${rowNum}`;
+          $(rowId).removeClass("hidden");
 
-          // get the host and port number
-          var host = $(rowId).children("td").eq(1).text();
-          var comm_port = parseInt($(rowId).children("td").eq(2).text());
-          var api_port = parseInt($(rowId).children("td").eq(3).text());
+          // TODO: need to get the host and port number a different way
+          // // get the host and port number
+          // var host = $(rowId).children("td").eq(1).text();
+          // var comm_port = parseInt($(rowId).children("td").eq(2).text());
+          // var api_port = parseInt($(rowId).children("td").eq(3).text());
 
-          console.log(`fetching with ${host}:${comm_port}`);
+          // console.log(`fetching with ${host}:${comm_port}`);
 
-          // stub: check availability of particular worker
-          fetch("/worker", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              host: host,
-              port: api_port,
-            }),
-          }).then((res) => res.json());
+          // // stub: check availability of particular worker
+          // fetch("/worker", {
+          //   method: "POST",
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //   },
+          //   body: JSON.stringify({
+          //     host: host,
+          //     port: api_port,
+          //   }),
+          // }).then((res) => res.json());
         });
       });
     </script>
