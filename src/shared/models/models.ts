@@ -14,7 +14,7 @@ export interface InvoiceInstance extends Model {
 
 export interface FundingInstance extends Model {
     id: number;
-    workerAddr: string;
+    worker_addr: string;
     r_hash: string;
     amount: number;
     is_paid: boolean;

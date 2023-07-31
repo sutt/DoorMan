@@ -73,4 +73,35 @@ router.get('/funding_summary', async (req: Request, res: Response) => {
 });
 
 
+
+export interface FundingSummaryInstance {
+    worker_addr: string;
+    total_amount: number;
+    total_credits_used : number;
+  }
+
+export async function funding_summary_data(): Promise<FundingSummaryInstance[]> {
+    try {
+        const data = await Funding.findAll({
+            group: ['worker_addr'],
+            attributes: [
+                'worker_addr', 
+                [Sequelize.fn('SUM', Sequelize.col('amount')), 'total_amount'],
+                [Sequelize.fn('SUM', Sequelize.col('credits_used')), 'total_credits_used'],
+            ],
+        });
+        const summaryData: FundingSummaryInstance[] = data.map(funding => ({
+            worker_addr: funding.worker_addr,
+            total_amount: Number(funding.getDataValue('total_amount')),
+            total_credits_used: Number(funding.getDataValue('total_credits_used'))
+        }));
+
+        return summaryData;
+        
+    } catch (err) {
+        console.error(err.message);
+    }
+}
+
+
 export default router;
