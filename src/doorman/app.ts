@@ -11,8 +11,6 @@ import { workers_summary_data } from "./routes/api";
 // import { addHeaderCallback } from "./services/attach";
 
 export function runDoormanServer({
-    publicPort = 8080,
-    publicHost = "localhost",
     serverPort = 3001,
     serverHost = "localhost",
 }) {

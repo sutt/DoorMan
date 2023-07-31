@@ -21,17 +21,15 @@ const serverType = (argv.bossman || process.env.BOSSMAN === "1")
 
 if (serverType === "doorman") {
         
-    runDoormanServer({publicPort: 8080});
+    runDoormanServer({serverPort: 3001});
 
 } else if (serverType === "bossman") {
 
-    // const publicPort = parseInt(process.env.BOSSMAN_PUBLIC_PORT || "7800");
     const serverPort = parseInt(argv.port || process.env.BOSSMAN_SERVER_PORT || "8090");
-    const publicHost = process.env.BOSSMAN_PUBLIC_HOST || "127.0.0.1";
+    const serverHost = process.env.BOSSMAN_SERVER_HOST || "127.0.0.1";
     
     runBossmanServer({
-        // publicPort: publicPort, 
-        // publicHost: publicHost,
+        serverHost: serverHost,
         serverPort: serverPort,
     });
 
