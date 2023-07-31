@@ -235,6 +235,9 @@
       </a>
       <ul>
         <li>
+          <a href="/">AI-Workbench</a>
+        </li>
+        <li>
           <a href="/gallery">Gallery</a>
         </li>
         <li><a href="/discover">Discover</a></li>
@@ -248,7 +251,7 @@
             <th>Name</th>
             <th>Fee (Sats)</th>
             <th>Credit (Sats)</th>
-            <th>Selected</th>
+            <th>Preferred</th>
           </tr>
         </thead>
         <tbody>
@@ -258,10 +261,11 @@
             id="row-<%= index %>"
             class="switch-worker"
             data-row="<%= index %>"
+            data-worker-addr="<%= worker.worker_addr %>"
           >
             <td><%= worker.name %></td>
             <td><%= worker.fee %></td>
-            <td>TODO: Credit</td>
+            <td><%= worker.credits %></td>
             <td>
               <!-- Check mark svg -->
               <svg
@@ -320,6 +324,7 @@
           const rowNum = $(this).data("row");
           var rowId = `#checkmark-${rowNum}`;
           $(rowId).removeClass("hidden");
+          console.log(`worker addr: ${$(this).data("worker-addr")}`);
 
           // TODO: need to get the host and port number a different way
           // // get the host and port number
