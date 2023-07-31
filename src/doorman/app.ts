@@ -5,15 +5,8 @@ import apiRouter from "./routes/api";
 import mockRouter, { updateState } from "./routes/mock-front";
 import hubRouter from "./routes/hub";
 
-import workerData from "../data/workers.json";
+import { workers_summary_data } from "./routes/api";
 
-import { funding_summary_data, FundingSummaryInstance } from "./routes/api";
-interface WorkerObject {
-    "name": string,
-    "worker_addr": string,
-    "fee": number,
-    "credits": number,
-  }
 // import { setupProxy } from "../shared/proxy/basic";
 // import { addHeaderCallback } from "./services/attach";
 
@@ -53,26 +46,7 @@ export function runDoormanServer({
     
     app.get("/admin", async (req, res) => {
         
-        // join workers from json file...
-        const workers = workerData.workers
-        
-        // ...to funding data from Funding table
-        const fundingSummary: FundingSummaryInstance[] = await funding_summary_data()
-        
-        const workersData = workers.map(workerObj => {
-                
-            const newWorkerObj: WorkerObject = {...workerObj, credits: 0}
-            let workerCredits = 0
-                
-            fundingSummary.forEach(fundingObj  => {
-                if (fundingObj.worker_addr === workerObj.worker_addr) {
-                    workerCredits = fundingObj.total_amount - fundingObj.total_credits_used
-                }
-            })
-                
-            newWorkerObj.credits = workerCredits// fundingSummary[workerObj.addr]
-            return newWorkerObj
-        })
+        const workersData = await workers_summary_data();
         
         res.render("admin2", {workers: workersData})
     })

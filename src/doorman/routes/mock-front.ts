@@ -6,6 +6,7 @@ import mockResponse402 from "../../data/mock-data/mock.response.402.json";
 import { payAndGenerate } from "../services/commands";
 import { writeImage } from "../services/download";
 import { Queue, parseTaskId, progressResponse } from "../services/queue";
+import { updateCurrentGeneration } from "./hub";
 
 const router = express.Router()
 
@@ -71,12 +72,21 @@ router.post("/run/predict", async (req: Request, res: Response) => {
         }
         
         const taskId = parseTaskId(req.body.data[0])
+        const startTime = new Date().getTime()
+        
         queue.add(taskId)
+        
+        updateCurrentGeneration("workerAddr", state.workerAddr)
+        updateCurrentGeneration("fee", 10)
+        updateCurrentGeneration("success", null)
+        updateCurrentGeneration("responseTime", null)
         
         // TODO - we want to know if it's 500 or 402
         const response = await payAndGenerate(state.workerAddr, 10, reqObj)
         
         queue.complete(taskId)
+
+        updateCurrentGeneration("responseTime", new Date().getTime() - startTime)
         
         if (!response) {
             errMsg = "payAndGenerate returned undefined";
@@ -87,13 +97,16 @@ router.post("/run/predict", async (req: Request, res: Response) => {
             if (!imgUri)  {errMsg += "no data uri found on response data";}
             if (!fnLocal) {errMsg += "writeImage returned undefined";}
             if (errMsg) {console.error(`doorman-server /run/predict: ${errMsg}`)}
-
+            
+            updateCurrentGeneration("success", true)
+            
             res.json(response)
             return;
         }
-            
+        
         // Something went wrong along the chain of calls
         // TODO - 402 vs 500
+        updateCurrentGeneration("success", false)
         console.error("doorman: /run/predict", errMsg);
         setTimeout(() => {
             res.json(mockResponse402)

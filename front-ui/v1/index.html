@@ -121,21 +121,71 @@
 				  <h1>DoorMan</h1>
 				</a>
 				<ul>
-				  <li>
-					<a href="/admin">Admin-Panel</a>
-				  </li>
-				  <li>
-					<a href="/gallery">Gallery</a>
-				  </li>
+					<li>
+						<a href="/admin">Admin-Panel</a>
+					</li>
+					<li>
+						<a href="/gallery">Gallery</a>
+					</li>
 				</ul>
-			  </section>
-			  <section class="content">
+			</section>
+			<section class="content">
+
+				<!-- InfoBox 1 -->
 				<div class="content-item">
-				  <p>Refresh Dashboard</p>
-				  <p>Number of peers: 2</p>
-				  <p>Add Funding Through the Admin Panel</p>
+				  <p >Funded Workers: <span id="num-funded-workers">-</span></p>
+				  <p >Credits: <span id="num-available-credits">-</span></p>
+				  <p id="funding-message">Add Funding Through the Admin Panel</p>
 				</div>
-				<table class=""content-item">
+
+
+				<!-- template for client-side rendering -->
+				<template id="workers-row-template">
+					<tr
+							id="row-TEMPLATE"
+							class="switch-worker"
+							data-row="TEMPLATE"
+							data-worker-addr="TEMPLATE"
+						>
+							<td id="worker-name">TEMPLATE</td>
+							<td id="worker-fee">TEMPLATE</td>
+							<td id="worker-credits">TEMPLATE</td>
+							<td>
+							<!-- Check mark svg -->
+							<svg
+								id="chemark-TEMPLATE"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+								class="checkmark hidden"
+							>
+								<g clip-path="url(#clip0_5_40)">
+								<path
+									fill-rule="evenodd"
+									clip-rule="evenodd"
+									d="M21.5464 5.11101C21.8276 5.3923 21.9856 5.77376 21.9856 6.17151C21.9856 6.56925 21.8276 6.95071 21.5464 7.23201L10.3034 18.475C10.1548 18.6236 9.97845 18.7415 9.78431 18.8219C9.59016 18.9024 9.38207 18.9438 9.17193 18.9438C8.96178 18.9438 8.75369 18.9024 8.55955 18.8219C8.3654 18.7415 8.18901 18.6236 8.04043 18.475L2.45443 12.89C2.31116 12.7516 2.19689 12.5861 2.11827 12.4031C2.03966 12.2201 1.99828 12.0233 1.99655 11.8241C1.99482 11.6249 2.03277 11.4274 2.10819 11.2431C2.18362 11.0587 2.295 10.8913 2.43583 10.7504C2.57667 10.6096 2.74415 10.4982 2.9285 10.4228C3.11284 10.3474 3.31036 10.3094 3.50953 10.3111C3.7087 10.3129 3.90553 10.3542 4.08853 10.4329C4.27154 10.5115 4.43706 10.6257 4.57543 10.769L9.17143 15.365L19.4244 5.11101C19.5637 4.97162 19.7291 4.86104 19.9112 4.7856C20.0932 4.71016 20.2884 4.67133 20.4854 4.67133C20.6825 4.67133 20.8776 4.71016 21.0597 4.7856C21.2417 4.86104 21.4071 4.97162 21.5464 5.11101Z"
+									fill="#4ECB71"
+								/>
+								</g>
+								<defs>
+								<clipPath id="clip0_5_40">
+									<rect
+									width="24"
+									height="24"
+									fill="white"
+									transform="translate(0.000427246)"
+									/>
+								</clipPath>
+								</defs>
+							</svg>
+							</td>
+					</tr>
+				</template>
+
+				<!-- InfoBox 2 -->
+				<table class=""content-item"  id="workers-table">
 				  <thead>
 					<tr>
 					  <th>Name</th>
@@ -146,138 +196,226 @@
 				  </thead>
 				  <tbody>
 				  
-				  <!-- <tr
-					id="row-0"
-					class="switch-worker"
-					data-row="0"
-					data-worker-addr="35.208.27.122:7862"
-				  >
-				  <td>None found</td>
-				  </tr> -->
+					<!-- insert rows with fetchRows() here -->
+					<!-- <tr><td>None found</td></tr> -->
 		  
-					<tr
-					  id="row-0"
-					  class="switch-worker"
-					  data-row="0"
-					  data-worker-addr="35.208.27.122:7862"
-					>
-					  <td>Romulus-GPU</td>
-					  <td>15</td>
-					  <td>0</td>
-					  <td>
-						<!-- Check mark svg -->
-						<svg
-						  id="checkmark-0"
-						  width="24"
-						  height="24"
-						  viewBox="0 0 24 24"
-						  fill="none"
-						  xmlns="http://www.w3.org/2000/svg"
-						  class="checkmark hidden"
-						>
-						  <g clip-path="url(#clip0_5_40)">
-							<path
-							  fill-rule="evenodd"
-							  clip-rule="evenodd"
-							  d="M21.5464 5.11101C21.8276 5.3923 21.9856 5.77376 21.9856 6.17151C21.9856 6.56925 21.8276 6.95071 21.5464 7.23201L10.3034 18.475C10.1548 18.6236 9.97845 18.7415 9.78431 18.8219C9.59016 18.9024 9.38207 18.9438 9.17193 18.9438C8.96178 18.9438 8.75369 18.9024 8.55955 18.8219C8.3654 18.7415 8.18901 18.6236 8.04043 18.475L2.45443 12.89C2.31116 12.7516 2.19689 12.5861 2.11827 12.4031C2.03966 12.2201 1.99828 12.0233 1.99655 11.8241C1.99482 11.6249 2.03277 11.4274 2.10819 11.2431C2.18362 11.0587 2.295 10.8913 2.43583 10.7504C2.57667 10.6096 2.74415 10.4982 2.9285 10.4228C3.11284 10.3474 3.31036 10.3094 3.50953 10.3111C3.7087 10.3129 3.90553 10.3542 4.08853 10.4329C4.27154 10.5115 4.43706 10.6257 4.57543 10.769L9.17143 15.365L19.4244 5.11101C19.5637 4.97162 19.7291 4.86104 19.9112 4.7856C20.0932 4.71016 20.2884 4.67133 20.4854 4.67133C20.6825 4.67133 20.8776 4.71016 21.0597 4.7856C21.2417 4.86104 21.4071 4.97162 21.5464 5.11101Z"
-							  fill="#4ECB71"
-							/>
-						  </g>
-						  <defs>
-							<clipPath id="clip0_5_40">
-							  <rect
-								width="24"
-								height="24"
-								fill="white"
-								transform="translate(0.000427246)"
-							  />
-							</clipPath>
-						  </defs>
-						</svg>
-					  </td>
-					</tr>
-					
-		  
-					<tr
-					  id="row-2"
-					  class="switch-worker"
-					  data-row="2"
-					  data-worker-addr="127.0.0.1:8090"
-					>
-					  <td>Bob-Worker</td>
-					  <td>1</td>
-					  <td>50</td>
-					  <td>
-						<!-- Check mark svg -->
-						<svg
-						  id="checkmark-2"
-						  width="24"
-						  height="24"
-						  viewBox="0 0 24 24"
-						  fill="none"
-						  xmlns="http://www.w3.org/2000/svg"
-						  class="checkmark hidden"
-						>
-						  <g clip-path="url(#clip0_5_40)">
-							<path
-							  fill-rule="evenodd"
-							  clip-rule="evenodd"
-							  d="M21.5464 5.11101C21.8276 5.3923 21.9856 5.77376 21.9856 6.17151C21.9856 6.56925 21.8276 6.95071 21.5464 7.23201L10.3034 18.475C10.1548 18.6236 9.97845 18.7415 9.78431 18.8219C9.59016 18.9024 9.38207 18.9438 9.17193 18.9438C8.96178 18.9438 8.75369 18.9024 8.55955 18.8219C8.3654 18.7415 8.18901 18.6236 8.04043 18.475L2.45443 12.89C2.31116 12.7516 2.19689 12.5861 2.11827 12.4031C2.03966 12.2201 1.99828 12.0233 1.99655 11.8241C1.99482 11.6249 2.03277 11.4274 2.10819 11.2431C2.18362 11.0587 2.295 10.8913 2.43583 10.7504C2.57667 10.6096 2.74415 10.4982 2.9285 10.4228C3.11284 10.3474 3.31036 10.3094 3.50953 10.3111C3.7087 10.3129 3.90553 10.3542 4.08853 10.4329C4.27154 10.5115 4.43706 10.6257 4.57543 10.769L9.17143 15.365L19.4244 5.11101C19.5637 4.97162 19.7291 4.86104 19.9112 4.7856C20.0932 4.71016 20.2884 4.67133 20.4854 4.67133C20.6825 4.67133 20.8776 4.71016 21.0597 4.7856C21.2417 4.86104 21.4071 4.97162 21.5464 5.11101Z"
-							  fill="#4ECB71"
-							/>
-						  </g>
-						  <defs>
-							<clipPath id="clip0_5_40">
-							  <rect
-								width="24"
-								height="24"
-								fill="white"
-								transform="translate(0.000427246)"
-							  />
-							</clipPath>
-						  </defs>
-						</svg>
-					  </td>
-					</tr>
-				  
-					
 				  </tbody>
 				</table>
-				<div class="content-item">
-				  <p>Currently Generating...</p>
-				  <p>Last Generation: Romulus-GPU (12.4 secs)</p>
-				</div>
-				<!-- <table id="funding-summary">
-				  <thead>
-					<tr>
-					  <th>Worker Address</th>
-					  <th>Total Amount</th>
-					  <th>Total Credits Used</th>
-					</tr>
-				  </thead>
-				  <tbody ></tbody>
-				</table> -->
-			  </section>
-			  <br>
-			<script>
-				let selectedRow = null;
-				// $(document).ready(
-				function tmp () {
-				  
-				  $(".switch-worker").click(function (e) {
-					// Remove check from all rows
-					$("svg.checkmark").addClass("hidden");
-		  
-					// Show checkmark for the selected row
-					const rowNum = $(this).data("row");
-					var rowId = `#checkmark-${rowNum}`;
-					$(rowId).removeClass("hidden");
-					console.log(`worker addr: ${$(this).data("worker-addr")}`);
-				  });
-				}
-				tmp()
 
-				// });
+				<!-- InfoBox 3 -->
+				<div class="content-item">
+				  <p id="current-ui-state">Loading UI ...</p>
+				  <p id="latest-generation-info">no recent generations</p>
+				</div>
+
+			  </section>
+			  
+			  <br>
+			
+			<script>
+
+				let selectedRow = null;
+				let preferredWorkerAddr = null;
+				let recentGenerationStartTime = null;
+				let warning402 = false;
+
+				function fetchRows(){
+					fetch("/api/workers_funding_summary", {
+						method: "GET",
+						headers: {
+						"Content-Type": "application/json",
+						},
+					})
+					.then((res) => res.json())
+					.then((data) => {
+						
+						addRows(data);
+						
+						warning402 = (data.length < 1)
+
+						numWorkers = data.length
+						numCredits = data.reduce((a, b) => a + b.credits, 0)
+						
+						updateTotalsBox(numWorkers, numCredits)
+
+						addChemarkSelector();
+						if (preferredWorkerAddr) {
+							setCheckmarkPosition(preferredWorkerAddr)
+						};
+					});
+				}
+
+				function addRows(data) {
+
+					var template = document.getElementById('workers-row-template').content;
+
+					var target = document.getElementById('workers-table')
+			        target.querySelectorAll('.switch-worker').forEach(e => e.remove());
+
+
+					data.forEach(function(item, index) {
+						
+						var clone = document.importNode(template, true);
+						
+						clone.querySelector('.switch-worker').setAttribute('id', `row-${index}`);
+						clone.querySelector('.switch-worker').setAttribute('data-row', index);
+						clone.querySelector('.checkmark').setAttribute('id', `checkmark-${index}`);
+						
+						clone.querySelector('.switch-worker').setAttribute('data-worker-addr', item.worker_addr);
+						
+						clone.querySelector('#worker-name').innerText = item.name;
+						clone.querySelector('#worker-fee').innerText = item.fee;
+						clone.querySelector('#worker-credits').innerText = item.credits;
+						
+						target.appendChild(clone);
+					});
+				
+				}
+
+				function addChemarkSelector () {  
+					
+					$(".switch-worker").click(function (e) {
+						
+						$("svg.checkmark").addClass("hidden");
+
+						const rowNum = $(this).data("row");
+						var rowId = `#checkmark-${rowNum}`;
+						$(rowId).removeClass("hidden");
+
+						console.log(`worker addr: ${$(this).data("worker-addr")}`);    
+					});
+				}
+
+				function checkIsGenerating() {
+					try {
+						const interruptButton = document.getElementById("txt2img_interrupt")
+						return interruptButton.style.display.includes("block")
+					} catch (error) {
+						console.error(`checkIsGenerating err: ${error.message}`)
+						return null
+					}
+				}
+
+				function monitorGenerationState(callback) {
+					let intervalId = setInterval(() => {
+						if (!checkIsGenerating()) {
+							callback();
+							clearInterval(intervalId);
+						}
+					}, 500);
+				}
+				
+				
+				function updateCurrentUiState(text) {
+					document.getElementById("current-ui-state").innerHTML = text;
+				}
+
+				function updateTotalsBox(numWorkers, numCredits) {
+					document.getElementById("num-funded-workers").innerText = numWorkers;
+					document.getElementById("num-available-credits").innerText = numCredits;
+				}
+				
+				function updateLatestGeneration() {
+				
+					let infoHtml = ""
+
+					const elapsedSecs = Math.round((new Date() - recentGenerationStartTime) / 1000 * 10) / 10
+
+					infoHtml += `last gen: ${elapsedSecs} secs`
+
+					fetch('/hub/current_generation_info', {
+						method: 'GET',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+					})
+					.then((res) => res.json())
+					.then((data) => {
+						
+						infoHtml += `<br>${data.success ? "success" : "failure"}`
+
+						if (data.responseTime) {
+							infoHtml += ` in ${data.responseTime} ms`
+						}
+						if (data.workerAddr) {
+							infoHtml += `<br>on: ${data.workerAddr}`
+						}	
+						
+					})
+					.catch((error) => {
+						infoHtml += `<br>error getting info fromk server`
+					})
+					.finally(() => {
+						document.getElementById("latest-generation-info").innerHTML = infoHtml
+					});
+
+					
+				}
+				
+
+				function onGenerationStop() {
+					updateCurrentUiState("Ready")
+					updateLatestGeneration()
+
+				}
+
+				function onGenerationStart() {
+					
+					recentGenerationStartTime = new Date();
+					
+					if (warning402) {
+						updateCurrentUiState("Insufficient Funds ...");
+						
+						$("#funding-message").addClass('warning-402-flash');
+						setTimeout(function() {
+							$("#funding-message").removeClass('warning-402-flash');
+						}, 2000);  
+
+					} else {
+						updateCurrentUiState("Generating ...")
+					}
+				}
+
+				function listenToGenerateButton() {
+
+					const targetElem = document.getElementById("txt2img_generate_box");
+
+					if (targetElem == null) {
+
+						console.error("couldnt listen to GenerateButton")
+
+					} else {
+
+						updateCurrentUiState("Ready");
+
+						targetElem.addEventListener("click", async function(e) {
+							
+							onGenerationStart();
+
+							setTimeout( () => {
+								monitorGenerationState(onGenerationStop);
+								fetchRows();
+							}, 500)
+							
+							$.ajax({
+								url: '/hub/start_generation', 
+								type: 'GET',
+								success: function(response) { 
+									
+								}
+							});
+				  
+						})
+					}
+					
+				}
+				
+				fetchRows();
+
+				setTimeout(function() {
+					listenToGenerateButton();
+				}, 3000);
+				
 			</script>
 		  
 
@@ -298,7 +436,7 @@
 	<link rel="stylesheet" property="stylesheet" href="./Stable Diffusion_files/file=style.css"><link rel="stylesheet" property="stylesheet" href="./Stable Diffusion_files/style.css">
 <div id="lightboxModal" tabindex="0"><div class="modalControls gradio-container"><span class="modalZoom cursor" title="Toggle zoomed view">⤡</span><span class="modalTileImage cursor" title="Preview tiling">⊞</span><span class="modalSave cursor" id="modal_save" title="Save Image(s)">🖫</span><span class="modalClose cursor" title="Close image viewer">×</span></div><img id="modalImage" tabindex="0"><a class="modalPrev" tabindex="0">❮</a><a class="modalNext" tabindex="0">❯</a></div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="extensions/topbar.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+<!-- <script src="extensions/topbar.js"></script> -->
 
 </body></html>

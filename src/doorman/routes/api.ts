@@ -5,6 +5,8 @@ import { PaymentResponse } from '../services/funding';
 import { Funding, FundingInstance } from '../../shared/models/models';
 import { Sequelize}  from "sequelize";
 
+import workerData from "../../data/workers.json";
+
 const router = express.Router();
 
 // These respond to XHR calls from the admin webpage scripts
@@ -73,6 +75,29 @@ router.get('/funding_summary', async (req: Request, res: Response) => {
 });
 
 
+router.get('/workers_funding_summary', async (req: Request, res: Response) => {
+    
+    // return TOP 2 workers, sorted by available credits
+
+    let data = await workers_summary_data();
+    
+    data.sort((a, b) =>  b.credits - a.credits)
+
+    data = data.filter(worker => worker.credits > 0)
+
+    data = data.slice(0,2)
+
+    res.json(data);
+
+});
+
+
+interface WorkerObject {
+    "name": string,
+    "worker_addr": string,
+    "fee": number,
+    "credits": number,
+  }
 
 export interface FundingSummaryInstance {
     worker_addr: string;
@@ -80,7 +105,7 @@ export interface FundingSummaryInstance {
     total_credits_used : number;
   }
 
-export async function funding_summary_data(): Promise<FundingSummaryInstance[]> {
+async function funding_summary_data(): Promise<FundingSummaryInstance[]> {
     try {
         const data = await Funding.findAll({
             group: ['worker_addr'],
@@ -101,6 +126,34 @@ export async function funding_summary_data(): Promise<FundingSummaryInstance[]> 
     } catch (err) {
         console.error(err.message);
     }
+}
+
+export async function workers_summary_data(): Promise<WorkerObject[]> {
+    
+    // join workers from json file...
+    // ...to funding data from Funding table
+
+    const workers = workerData.workers
+        
+    const fundingSummary: FundingSummaryInstance[] = await funding_summary_data()
+    
+    const workersData = workers.map(workerObj => {
+            
+        const newWorkerObj: WorkerObject = {...workerObj, credits: 0}
+        let workerCredits = 0
+            
+        fundingSummary.forEach(fundingObj  => {
+            if (fundingObj.worker_addr === workerObj.worker_addr) {
+                workerCredits = fundingObj.total_amount - fundingObj.total_credits_used
+            }
+        })
+            
+        newWorkerObj.credits = workerCredits
+        return newWorkerObj
+
+    })
+    
+    return workersData
 }
 
 

@@ -97,125 +97,57 @@
       }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-      function buildFundingSummary() {
-        fetch("/api/funding_summary")
-          .then((response) => response.json())
-          .then((data) => {
-            const fundingSummaryElement =
-              document.getElementById("funding-summary");
-            fundingSummaryElement.innerHTML = "";
-            console.log({ data });
-            data.forEach((item) => {
-              // const paragraph = document.createElement('p');
-              // paragraph.textContent = `Worker Address: ${item.worker_addr}, Total Amount: ${item.total_amount}, Total Credits Used: ${item.total_credits_used}`;
-              // fundingSummaryElement.appendChild(paragraph);
-              // Get the table body element
-              const tbody = document.getElementById("funding-summary");
-
-              // Clear existing rows
-              tbody.innerHTML = "";
-
-              // Create new rows
-              data.forEach((item) => {
-                console.log({ item });
-                // Create a new table row
-                const row = document.createElement("tr");
-
-                // Create cells for workerAddr, total_amount, and total_credits_used and append them to the row
-                ["worker_addr", "total_amount", "total_credits_used"].forEach(
-                  (key) => {
-                    const cell = document.createElement("td");
-                    cell.textContent = item[key];
-                    row.appendChild(cell);
-                  },
-                );
-
-                // Append the row to the table body
-                tbody.appendChild(row);
-              });
-            });
-          })
-          .catch((error) => console.error("An error occurred:", error));
-      }
-
-      function checkPayment(rHash, workerAddr) {
-        const url = `/api/check_payment`;
-
-        fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            checkingId: rHash,
-            workerAddr: workerAddr,
-          }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.is_paid) {
-              document.getElementById("is-paid-value").innerText = "✅";
-              document.getElementById("is-paid-key").style.color = "green";
-            }
-
-            if (data.error) {
-              console.log(`server-side error: ${data.error}`);
-            }
-          })
-          .catch((error) => {
-            console.error("client-side error:", error);
-          });
-      }
-
-      function fundingFormSubit(e) {
-        e.preventDefault();
-
-        var amount = $("#amount").val();
-        var workerAddr = $("#workerAddr").val();
-
-        fetch("/api/funding_request", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            amount: amount,
-            workerAddr: workerAddr,
-          }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            document.getElementById("qr-code").src = data.qrDataURL;
-
-            // document.getElementById('funding-response-info').textContent = JSON.stringify(data.data, null, 2);
-            document.getElementById("payment-hash").textContent =
-              "Payment Hash: " + data.data.payment_hash;
-            document.getElementById("payment-request").textContent =
-              "Payment Request: " + data.data.payment_request;
-            document.getElementById("checking-id").textContent =
-              "Checking ID: " + data.data.checking_id;
-            document.getElementById("lnurl-response").textContent =
-              "LNURL Response: " + data.data.lnurl_response;
-
-            $("#funding-data").show();
-
-            //  start polling for payment status
-            setInterval(
-              () => checkPayment(data.data.payment_hash, workerAddr),
-              2000,
-            );
-          })
-          .catch((error) => {
-            console.error("An error occurred:", error);
-            document.getElementById(
-              "funding-response",
-            ).textContent = `Error: ${error.message}`;
-          });
-      }
-    </script>
+    
   </head>
   <body>
+    
+    <!-- template for client-side rendering -->
+    <template id="workers-row-template">
+      <tr
+            id="row-TEMPLATE"
+            class="switch-worker"
+            data-row="TEMPLATE"
+            data-worker-addr="TEMPLATE"
+          >
+            <td id="worker-name">TEMPLATE</td>
+            <td id="worker-fee">TEMPLATE</td>
+            <td id="worker-credits">TEMPLATE</td>
+            <td>
+              <!-- Check mark svg -->
+              <svg
+                id="chemark-TEMPLATE"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="checkmark hidden"
+              >
+                <g clip-path="url(#clip0_5_40)">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M21.5464 5.11101C21.8276 5.3923 21.9856 5.77376 21.9856 6.17151C21.9856 6.56925 21.8276 6.95071 21.5464 7.23201L10.3034 18.475C10.1548 18.6236 9.97845 18.7415 9.78431 18.8219C9.59016 18.9024 9.38207 18.9438 9.17193 18.9438C8.96178 18.9438 8.75369 18.9024 8.55955 18.8219C8.3654 18.7415 8.18901 18.6236 8.04043 18.475L2.45443 12.89C2.31116 12.7516 2.19689 12.5861 2.11827 12.4031C2.03966 12.2201 1.99828 12.0233 1.99655 11.8241C1.99482 11.6249 2.03277 11.4274 2.10819 11.2431C2.18362 11.0587 2.295 10.8913 2.43583 10.7504C2.57667 10.6096 2.74415 10.4982 2.9285 10.4228C3.11284 10.3474 3.31036 10.3094 3.50953 10.3111C3.7087 10.3129 3.90553 10.3542 4.08853 10.4329C4.27154 10.5115 4.43706 10.6257 4.57543 10.769L9.17143 15.365L19.4244 5.11101C19.5637 4.97162 19.7291 4.86104 19.9112 4.7856C20.0932 4.71016 20.2884 4.67133 20.4854 4.67133C20.6825 4.67133 20.8776 4.71016 21.0597 4.7856C21.2417 4.86104 21.4071 4.97162 21.5464 5.11101Z"
+                    fill="#4ECB71"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_5_40">
+                    <rect
+                      width="24"
+                      height="24"
+                      fill="white"
+                      transform="translate(0.000427246)"
+                    />
+                  </clipPath>
+                </defs>
+              </svg>
+            </td>
+      </tr>
+  </template>
+  
+  <div id="item-container"></div>
+  
     <section class="nav">
       <a class="header-link" href="/admin">
         <!-- Door svg -->
@@ -252,13 +184,18 @@
         </li>
       </ul>
     </section>
+
+
     <section class="content">
+    
       <div class="content-item">
         <p>Refresh Dashboard</p>
         <p>Number of peers: 2</p>
         <p>Add Funding Through the Admin Panel</p>
       </div>
-      <table class=""content-item">
+    
+    
+      <table class="content-item" id="workers-table">
         <thead>
           <tr>
             <th>Name</th>
@@ -269,153 +206,90 @@
         </thead>
         <tbody>
         
-        <!-- <tr
-          id="row-0"
-          class="switch-worker"
-          data-row="0"
-          data-worker-addr="35.208.27.122:7862"
-        >
-        <td>None found</td>
-        </tr> -->
-
-          <tr
-            id="row-0"
-            class="switch-worker"
-            data-row="0"
-            data-worker-addr="35.208.27.122:7862"
-          >
-            <td>Romulus-GPU</td>
-            <td>15</td>
-            <td>0</td>
-            <td>
-              <!-- Check mark svg -->
-              <svg
-                id="checkmark-0"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                class="checkmark hidden"
-              >
-                <g clip-path="url(#clip0_5_40)">
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M21.5464 5.11101C21.8276 5.3923 21.9856 5.77376 21.9856 6.17151C21.9856 6.56925 21.8276 6.95071 21.5464 7.23201L10.3034 18.475C10.1548 18.6236 9.97845 18.7415 9.78431 18.8219C9.59016 18.9024 9.38207 18.9438 9.17193 18.9438C8.96178 18.9438 8.75369 18.9024 8.55955 18.8219C8.3654 18.7415 8.18901 18.6236 8.04043 18.475L2.45443 12.89C2.31116 12.7516 2.19689 12.5861 2.11827 12.4031C2.03966 12.2201 1.99828 12.0233 1.99655 11.8241C1.99482 11.6249 2.03277 11.4274 2.10819 11.2431C2.18362 11.0587 2.295 10.8913 2.43583 10.7504C2.57667 10.6096 2.74415 10.4982 2.9285 10.4228C3.11284 10.3474 3.31036 10.3094 3.50953 10.3111C3.7087 10.3129 3.90553 10.3542 4.08853 10.4329C4.27154 10.5115 4.43706 10.6257 4.57543 10.769L9.17143 15.365L19.4244 5.11101C19.5637 4.97162 19.7291 4.86104 19.9112 4.7856C20.0932 4.71016 20.2884 4.67133 20.4854 4.67133C20.6825 4.67133 20.8776 4.71016 21.0597 4.7856C21.2417 4.86104 21.4071 4.97162 21.5464 5.11101Z"
-                    fill="#4ECB71"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_5_40">
-                    <rect
-                      width="24"
-                      height="24"
-                      fill="white"
-                      transform="translate(0.000427246)"
-                    />
-                  </clipPath>
-                </defs>
-              </svg>
-            </td>
-          </tr>
-          
-
-          <tr
-            id="row-2"
-            class="switch-worker"
-            data-row="2"
-            data-worker-addr="127.0.0.1:8090"
-          >
-            <td>Bob-Worker</td>
-            <td>1</td>
-            <td>50</td>
-            <td>
-              <!-- Check mark svg -->
-              <svg
-                id="checkmark-2"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                class="checkmark hidden"
-              >
-                <g clip-path="url(#clip0_5_40)">
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M21.5464 5.11101C21.8276 5.3923 21.9856 5.77376 21.9856 6.17151C21.9856 6.56925 21.8276 6.95071 21.5464 7.23201L10.3034 18.475C10.1548 18.6236 9.97845 18.7415 9.78431 18.8219C9.59016 18.9024 9.38207 18.9438 9.17193 18.9438C8.96178 18.9438 8.75369 18.9024 8.55955 18.8219C8.3654 18.7415 8.18901 18.6236 8.04043 18.475L2.45443 12.89C2.31116 12.7516 2.19689 12.5861 2.11827 12.4031C2.03966 12.2201 1.99828 12.0233 1.99655 11.8241C1.99482 11.6249 2.03277 11.4274 2.10819 11.2431C2.18362 11.0587 2.295 10.8913 2.43583 10.7504C2.57667 10.6096 2.74415 10.4982 2.9285 10.4228C3.11284 10.3474 3.31036 10.3094 3.50953 10.3111C3.7087 10.3129 3.90553 10.3542 4.08853 10.4329C4.27154 10.5115 4.43706 10.6257 4.57543 10.769L9.17143 15.365L19.4244 5.11101C19.5637 4.97162 19.7291 4.86104 19.9112 4.7856C20.0932 4.71016 20.2884 4.67133 20.4854 4.67133C20.6825 4.67133 20.8776 4.71016 21.0597 4.7856C21.2417 4.86104 21.4071 4.97162 21.5464 5.11101Z"
-                    fill="#4ECB71"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_5_40">
-                    <rect
-                      width="24"
-                      height="24"
-                      fill="white"
-                      transform="translate(0.000427246)"
-                    />
-                  </clipPath>
-                </defs>
-              </svg>
-            </td>
-          </tr>
+        <!-- <tr><td>None found</td></tr> -->
         
-          
         </tbody>
       </table>
+
       <div class="content-item">
         <p>Currently Generating...</p>
         <p>Last Generation: Romulus-GPU (12.4 secs)</p>
       </div>
-      <!-- <table id="funding-summary">
-        <thead>
-          <tr>
-            <th>Worker Address</th>
-            <th>Total Amount</th>
-            <th>Total Credits Used</th>
-          </tr>
-        </thead>
-        <tbody ></tbody>
-      </table> -->
+
     </section>
+
     <script>
+      
       let selectedRow = null;
-      $(document).ready(function () {
-        buildFundingSummary();
+      let preferredWorkerAddr = null;
+      let isGenerating = false;
+
+      function fetchRows(){
+        fetch("http://localhost:3001/api/workers_funding_summary", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          addRows(data);
+          addCheckmarkListner();
+          // if (preferredWorkerAddr) {
+          //   setCheckmarkPosition(preferredWorkerAddr)
+          // };
+        });
+      }
+
+      function addRows(data) {
+
+        var template = document.getElementById('workers-row-template').content;
+
+        var target = document.getElementById('workers-table')
+        target.querySelectorAll('.switch-worker').forEach(e => e.remove());
+
+        data.forEach(function(item, index) {
+          console.log(item, index)
+            
+          var clone = document.importNode(template, true);
+            
+            clone.querySelector('.switch-worker').setAttribute('id', `row-${index}`);
+            clone.querySelector('.switch-worker').setAttribute('data-row', index);
+            clone.querySelector('.checkmark').setAttribute('id', `checkmark-${index}`);
+            
+            clone.querySelector('.switch-worker').setAttribute('data-worker-addr', item.worker_addr);
+          
+            clone.querySelector('#worker-name').innerText = item.name;
+            clone.querySelector('#worker-fee').innerText = item.fee;
+            clone.querySelector('#worker-credits').innerText = item.credits;
+            
+            target.appendChild(clone);
+        });
+        
+      }
+
+      function addCheckmarkListner () {  
+        console.log($(".switch-worker"))
         $(".switch-worker").click(function (e) {
-          // Remove check from all rows
+          
           $("svg.checkmark").addClass("hidden");
 
-          // Show checkmark for the selected row
           const rowNum = $(this).data("row");
           var rowId = `#checkmark-${rowNum}`;
           $(rowId).removeClass("hidden");
-          console.log(`worker addr: ${$(this).data("worker-addr")}`);
 
-          // TODO: need to get the host and port number a different way
-          // // get the host and port number
-          // var host = $(rowId).children("td").eq(1).text();
-          // var comm_port = parseInt($(rowId).children("td").eq(2).text());
-          // var api_port = parseInt($(rowId).children("td").eq(3).text());
-
-          // console.log(`fetching with ${host}:${comm_port}`);
-
-          // // stub: check availability of particular worker
-          // fetch("/worker", {
-          //   method: "POST",
-          //   headers: {
-          //     "Content-Type": "application/json",
-          //   },
-          //   body: JSON.stringify({
-          //     host: host,
-          //     port: api_port,
-          //   }),
-          // }).then((res) => res.json());
+          console.log(`worker addr: ${$(this).data("worker-addr")}`);    
         });
-      });
+      }
+
+
+      fetchRows();
+
+      
+
+    
+      
     </script>
   </body>
 </html>

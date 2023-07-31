@@ -24,6 +24,10 @@ how to put that websocket connection behind an LNPay?
 
 ## New UI notes:
 
+enable dark mode on webui: in `theme.css` replace `.dark {` selector with `body {` selector.
+
+use the interrupt button to check the state of the webui clientside.
+
 new startup command allows us to drop websockets and only use http
 
 > webui.bat --skip-torch-cuda-test --no-half --port 7861 --no-gradio-queue

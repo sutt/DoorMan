@@ -91,3 +91,12 @@ margin-right: 2rem;
 .hidden {
 display: none;
 }
+
+.warning-402-flash {
+    animation: flash 1s ease-in-out infinite alternate;
+}
+
+@keyframes flash {
+    from { background-color: transparent; }
+    to { background-color: yellow; }
+}

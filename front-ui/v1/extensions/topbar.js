@@ -71,6 +71,8 @@ setTimeout(function() {
         targetElem.addEventListener("click", async function(e) {
             
             console.log("custom hook on generate button");
+            isGenerating = true;
+            setTimeout( () => {fetchRows()}, 500)
             
             $.ajax({
                 url: 'http://localhost:3001/hub/start_generation', // Replace with your API URL

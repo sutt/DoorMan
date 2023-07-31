@@ -5,6 +5,13 @@ import { Sequelize, Op, DataType}  from "sequelize";
 
 const router = express.Router()
 
+const currentGeneration = {
+    workerAddr: null,
+    success: null,
+    responseTime: null,
+    fee: null,
+}
+
 const latestGeneration = {
     workerAddr: "Romulus-GPU",
     responseTime: 6.7,
@@ -27,15 +34,19 @@ export function updateLatestGeneration(key: string, value: any) {
     latestGeneration[key] = value;
 }
 
+export function updateCurrentGeneration(key: string, value: any) {
+    currentGeneration[key] = value;
+}
+
 export function startGeneration() {
-    console.log("start_generation")
+    // console.log("start_generation")
     updateUiState("isGenerating", true);
     updateUiState("generationStartedAt", new Date());
     updateUiState("workerAddr", "stubbing it...");
 }
 
 export function resetGeneration() {
-    console.log("reset_generation", uiState)
+    // console.log("reset_generation", uiState)
     let elapsed = null
     try {
         elapsed = new Date().getTime() - uiState.generationStartedAt.getTime();
@@ -59,6 +70,9 @@ router.get("/start_generation", async (req, res) => {
     res.json({status: "ok"})
 })
 
+router.get("/current_generation_info", async (req, res) => {
+    res.json(currentGeneration)
+})
 
 router.get("/info", async (req, res) => {    
 
