@@ -1,0 +1,33 @@
+{
+    "workers":[
+        {
+            "name":"Romulus-GPU",
+            "host":"35.208.27.122",
+            "comm_port": 7862,
+            "api_port": 7862,
+            "fee":10
+        },
+        {
+            "name":"Remus-CPU",
+            "host":"35.209.52.116",
+            "comm_port": 7862,
+            "api_port": 7862,
+            "fee":10
+        },
+        {
+            "name":"Local-Bob",
+            "host":"127.0.0.1",
+            "comm_port": 8090,
+            "api_port": 8090,
+            "fee":10
+        },
+        {
+            "name":"Local-Bob",
+            "host":"127.0.0.1",
+            "comm_port": 8091,
+            "api_port": 8091,
+            "fee":10
+        }
+        
+    ]
+}

@@ -7,6 +7,7 @@ import hubRouter from "./routes/hub";
 
 import { workers_summary_data } from "./routes/api";
 
+import oldWorkersData from "../data/oldworkers.json";
 // import { setupProxy } from "../shared/proxy/basic";
 // import { addHeaderCallback } from "./services/attach";
 
@@ -47,6 +48,11 @@ export function runDoormanServer({
         const workersData = await workers_summary_data();
         
         res.render("admin2", {workers: workersData})
+    })
+
+    app.get("/oldadmin", async (req, res) => {
+        
+        res.render("admin1", {workers: oldWorkersData.workers})
     })
 
     app.post("/set_preferred_worker", (req, res) => {
