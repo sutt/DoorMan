@@ -18,13 +18,13 @@ async function seedDatabase() {
   const invoices = [
     { r_hash: exampleRHash, 
         is_paid: true, 
-        amount: 30, 
+        amount: 50, 
         credits_used: 10, 
         invoice_encoded: exampleInvoiceEncoded 
     },
     { r_hash: exampleRHash2, 
       is_paid: true, 
-      amount: 20, 
+      amount: 30, 
       credits_used: 10, 
       invoice_encoded: exampleInvoiceEncoded 
     },
@@ -34,9 +34,9 @@ async function seedDatabase() {
     //   credits_used: 10, 
     //   invoice_encoded: exampleInvoiceEncoded 
     // },
-    { r_hash: genRandomHash(), is_paid: false, amount: 50, invoice_encoded: exampleInvoiceEncoded },
-    { r_hash: genRandomHash(), is_paid: true, amount: 10, credits_used: 0, invoice_encoded: exampleInvoiceEncoded },
-    { r_hash: genRandomHash(), is_paid: true, amount: 10, credits_used: 10, invoice_encoded: exampleInvoiceEncoded },
+    // { r_hash: genRandomHash(), is_paid: false, amount: 50, invoice_encoded: exampleInvoiceEncoded },
+    // { r_hash: genRandomHash(), is_paid: true, amount: 10, credits_used: 0, invoice_encoded: exampleInvoiceEncoded },
+    // { r_hash: genRandomHash(), is_paid: true, amount: 10, credits_used: 10, invoice_encoded: exampleInvoiceEncoded },
     
   ];
 

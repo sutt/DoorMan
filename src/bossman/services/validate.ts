@@ -5,6 +5,7 @@ import axios from "axios";
 import dotenv from "dotenv";
 dotenv.config();
 const serverPort = process.env.BOSSMAN_SERVER_PORT || 8090;
+const serverHost = process.env.BOSSMAN_SERVER_HOST || "127.0.0.1";
 
 export async function checkHeaderCallback(req: http.IncomingMessage): Promise<boolean> {
     try {
@@ -27,7 +28,7 @@ export async function checkHeaderCallback(req: http.IncomingMessage): Promise<bo
 export async function validateAndPay(r_hash : string, credits_requested: number) : Promise<boolean> {
     try {
         // TODO - send this to serverPort
-        const response = await axios.post(`http://localhost:${serverPort}/validate/validate_and_pay`, {
+        const response = await axios.post(`http://${serverHost}:${serverPort}/validate/validate_and_pay`, {
             r_hash,
             credits_requested
         });
