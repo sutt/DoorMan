@@ -50,4 +50,4 @@ function update() {
 }
 
 update();
-setInterval(update, 2000);
+// setInterval(update, 2000);

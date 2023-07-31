@@ -5,6 +5,13 @@ import { Sequelize, Op, DataType}  from "sequelize";
 
 const router = express.Router()
 
+const currentGeneration = {
+    workerAddr: null,
+    success: null,
+    responseTime: null,
+    fee: null,
+}
+
 const latestGeneration = {
     workerAddr: "Romulus-GPU",
     responseTime: 6.7,
@@ -21,23 +28,25 @@ const uiState = {
 
 function updateUiState(key: string, value: any) {
     uiState[key] = value;
-    // console.log("UI State updated:", key, value)
 }
 
-function updateLatestGeneration(key: string, value: any) {
+export function updateLatestGeneration(key: string, value: any) {
     latestGeneration[key] = value;
-    // console.log("Latest Generation updated:", key, value)
+}
+
+export function updateCurrentGeneration(key: string, value: any) {
+    currentGeneration[key] = value;
 }
 
 export function startGeneration() {
-    console.log("start_generation")
+    // console.log("start_generation")
     updateUiState("isGenerating", true);
     updateUiState("generationStartedAt", new Date());
     updateUiState("workerAddr", "stubbing it...");
 }
 
 export function resetGeneration() {
-    console.log("reset_generation", uiState)
+    // console.log("reset_generation", uiState)
     let elapsed = null
     try {
         elapsed = new Date().getTime() - uiState.generationStartedAt.getTime();
@@ -53,12 +62,17 @@ export function resetGeneration() {
 
 router.get("/start_generation", async (req, res) => {
     
-    // this gets called after resetGeneration() is called when it's a 402
+    // resetGeneration() is fired after payAndGenerate() is called, 
+    // specificially in queue.complete(task) with a 500ms timeout
+    // sometimes this route hasn't been called yet
     startGeneration();
 
     res.json({status: "ok"})
 })
 
+router.get("/current_generation_info", async (req, res) => {
+    res.json(currentGeneration)
+})
 
 router.get("/info", async (req, res) => {    
 

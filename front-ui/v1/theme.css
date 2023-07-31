@@ -200,7 +200,8 @@
   --button-small-text-weight: 400;
   --button-transition: none;
 }
-.dark {
+/* .dark { */
+body {
   --body-background-fill: var(--background-fill-primary);
   --body-text-color: var(--neutral-100);
   --color-accent-soft: var(--neutral-700);

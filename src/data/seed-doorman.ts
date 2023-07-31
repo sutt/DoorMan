@@ -17,7 +17,7 @@ async function seedDatabase() {
   const fundings = [
     { r_hash: exampleRHash, 
         is_paid: true, 
-        amount: 30, 
+        amount: 50, 
         credits_used: 10, 
         worker_addr: "127.0.0.1:8090",
     },

@@ -2,7 +2,7 @@
     color: blue;
 } */
 
-#topbar-content {
+#content {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;

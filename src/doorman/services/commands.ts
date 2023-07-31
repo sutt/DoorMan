@@ -1,6 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
 import { Sequelize, Op, literal } from "sequelize";
 import { Funding, FundingInstance } from '../../shared/models/models';
+import { updateLatestGeneration } from '../routes/hub';
+
+const allowPaymentToAnyWorker = true;
 
 
 export async function payAndGenerate(workerAddr: string, amt: number, reqObj: {headers: object, body: object}): Promise<any> {
@@ -15,15 +18,32 @@ export async function payAndGenerate(workerAddr: string, amt: number, reqObj: {h
     return bossmanGenImgResponse;
 }
 
-async function findPaymentAndPay(workerAddr: string, amt: number): Promise<string | undefined> {
+async function findPaymentAndPay(workerAddrPreferred: string, amt: number): Promise<string | undefined> {
+    
+    // Step1: try to pay with preferred workerAddr
     const funding = await Funding.findOne({
         where: Sequelize.literal('worker_addr = :worker_addr AND amount - credits_used >= 10'),
-            replacements: { worker_addr: workerAddr }
+            replacements: { worker_addr: workerAddrPreferred }
     });
     if (funding) {
         funding.credits_used += 10;
         await funding.save();
+        updateLatestGeneration("workerAddr", funding.worker_addr);
         return funding.r_hash;
+    }
+
+    // Step2: find any workerAddr with enough credits
+    if (allowPaymentToAnyWorker) {
+        const funding : FundingInstance = await Funding.findOne({
+            where: Sequelize.literal('amount - credits_used >= 10'),
+        });
+        if (funding) {
+            funding.credits_used += 10;
+            await funding.save();
+            updateLatestGeneration("workerAddr", funding.worker_addr);
+            console.log("Prefered Worker not available, using worker:", funding.worker_addr)
+            return funding.r_hash;
+        }
     }
     return;
 }

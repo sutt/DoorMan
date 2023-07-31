@@ -16,7 +16,7 @@ export function runBossmanServer({
     // publicPort = 7862,
     // publicHost = "127.0.0.1",
     serverPort = 8090,
-    serverHost = "127.0.0.1",
+    serverHost = "0.0.0.0",
 }) {
     
     // const {server: proxyServer } = setupProxy(
