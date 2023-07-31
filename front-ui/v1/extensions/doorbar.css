@@ -1,0 +1,93 @@
+h1 {
+font-size: 3rem;
+}
+
+a {
+text-decoration: none;
+color: white;
+}
+
+a:hover {
+color: #ffd233;
+max-width: max-content;
+}
+
+body {
+background-color: black;
+color: white;
+font-family: "Courier New", Courier, monospace;
+}
+
+.nav {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin: 0 2rem;
+}
+
+ul {
+display: flex;
+justify-content: space-between;
+align-items: center;
+list-style-type: none;
+gap: 1rem;
+}
+
+li {
+font-size: 1.5rem;
+}
+
+.header-link {
+display: flex;
+flex-direction: row;
+align-items: center;
+gap: 1rem;
+}
+
+table {
+border-collapse: collapse;
+width: 75%;
+background-color: #222222;
+border-radius: 20px;
+max-width: 20rem;
+}
+
+tr:not(:last-child) {
+/* border applying to top and bottom but not left or right */
+border: 1px solid #717171;
+border-left: none;
+border-right: none;
+}
+
+tr:hover:not(thead tr) {
+background-color: #454545;
+cursor: pointer;
+}
+
+thead {
+text-align: left;
+}
+
+td,
+th {
+padding: 0.2rem;
+}
+
+.content {
+display: flex;
+/* flex-direction: column; */
+/* flex-wrap: wrap; */
+/* align-items: center; */
+flex-wrap: wrap;
+justify-content: space-around;
+}
+.content-item {
+flex: 1 1 20%;
+margin-left: 2rem;
+margin-right: 2rem;
+/* padding: 5rem; */
+}
+
+.hidden {
+display: none;
+}
