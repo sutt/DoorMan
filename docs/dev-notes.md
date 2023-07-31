@@ -25,8 +25,8 @@ how to put that websocket connection behind an LNPay?
 ## New UI notes:
 
 Changing the Default settings after the page has already been saved (`ui-config.json` no longer works)
-- sample steps search for `"id":58`
-- `"id":89` and 88 for height and width respectively.
+- sample steps search for `"id":58,`
+- `"id":89,` and 88 for height and width respectively.
 
 enable dark mode on webui: in `theme.css` replace `.dark {` selector with `body {` selector.
 

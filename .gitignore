@@ -1,7 +1,7 @@
 node_modules
 yarn-error.log
 dist
-tsconfig.json
+# tsconfig.json
 package-lock.json
 nodemon.json
 .env
