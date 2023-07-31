@@ -18,7 +18,7 @@ export async function payAndGenerate(workerAddrPref: string, amt: number, reqObj
     return bossmanGenImgResponse;
 }
 
-async function findPaymentAndPay(workerAddrPref: string, amt: number): Promise<{rHash: string, workerAddr: string} | undefined> {
+async function findPaymentAndPay(workerAddrPref: string, amt: number): Promise<{rHash: string | null, workerAddr: string | null}> {
     
     // Step1: try to pay with preferred workerAddr
     const funding = await Funding.findOne({
@@ -45,7 +45,7 @@ async function findPaymentAndPay(workerAddrPref: string, amt: number): Promise<{
             return  {rHash: funding.r_hash, workerAddr: funding.worker_addr};
         }
     }
-    return;
+    return {rHash: null, workerAddr: null};
 }
 
 export async function callGenerateImage(workerAddr: string, r_hash: string, reqObj: {headers: object, body: object} ): Promise<any> {
