@@ -19,10 +19,14 @@ how to put that websocket connection behind an LNPay?
 - more complex fee schedule
 - log of payment/generations
 - web version with trial sats
-
+64
 --------
 
 ## New UI notes:
+
+Changing the Default settings after the page has already been saved (`ui-config.json` no longer works)
+- sample steps search for `"id":58`
+- `"id":89` and 88 for height and width respectively.
 
 enable dark mode on webui: in `theme.css` replace `.dark {` selector with `body {` selector.
 
