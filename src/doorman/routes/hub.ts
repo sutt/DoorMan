@@ -21,12 +21,10 @@ const uiState = {
 
 function updateUiState(key: string, value: any) {
     uiState[key] = value;
-    // console.log("UI State updated:", key, value)
 }
 
-function updateLatestGeneration(key: string, value: any) {
+export function updateLatestGeneration(key: string, value: any) {
     latestGeneration[key] = value;
-    // console.log("Latest Generation updated:", key, value)
 }
 
 export function startGeneration() {
@@ -53,7 +51,9 @@ export function resetGeneration() {
 
 router.get("/start_generation", async (req, res) => {
     
-    // this gets called after resetGeneration() is called when it's a 402
+    // resetGeneration() is fired after payAndGenerate() is called, 
+    // specificially in queue.complete(task) with a 500ms timeout
+    // sometimes this route hasn't been called yet
     startGeneration();
 
     res.json({status: "ok"})

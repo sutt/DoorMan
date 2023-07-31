@@ -37,9 +37,12 @@ function getImageUriFromData(data: any): string | undefined {
     return undefined;
 }
 
-// TODO - add a callback here
 const state = {
-    workerAddr: "127.0.0.1:8090",
+    //this is actually preferred worker
+    // if allowPaymentToAnyWorker is true, 
+    // this is who payment/generation should 
+    // go to if others available
+    workerAddr: "127.0.0.1:8090",  
     
 };
   
