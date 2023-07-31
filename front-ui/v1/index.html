@@ -282,7 +282,16 @@
 						var rowId = `#checkmark-${rowNum}`;
 						$(rowId).removeClass("hidden");
 
-						console.log(`worker addr: ${$(this).data("worker-addr")}`);    
+						console.log(`worker addr: ${$(this).data("worker-addr")}`); 
+						fetch("/set_preferred_worker", {
+							method: "POST",
+							headers: {
+							"Content-Type": "application/json",
+							},
+							body: JSON.stringify({
+								worker_addr: $(this).data("worker-addr"),
+							}),
+						})   
 					});
 				}
 
