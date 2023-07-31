@@ -1,48 +1,48 @@
 import axios, { AxiosResponse } from 'axios';
 import { Sequelize, Op, literal } from "sequelize";
 import { Funding, FundingInstance } from '../../shared/models/models';
-import { updateLatestGeneration } from '../routes/hub';
+import { updateCurrentGeneration } from '../routes/hub';
 
 const allowPaymentToAnyWorker = true;
 
 
-export async function payAndGenerate(workerAddr: string, amt: number, reqObj: {headers: object, body: object}): Promise<any> {
-    const r_hash = await findPaymentAndPay(workerAddr, amt);
-    if (!r_hash) {
+export async function payAndGenerate(workerAddrPref: string, amt: number, reqObj: {headers: object, body: object}): Promise<any> {
+    const {rHash, workerAddr} = await findPaymentAndPay(workerAddrPref, amt);
+    if (!rHash || !workerAddr) {
         console.error("No payment found");
         return
     } 
-    const bossmanGenImgResponse = callGenerateImage(workerAddr, r_hash, reqObj);
+    const bossmanGenImgResponse = callGenerateImage(workerAddr, rHash, reqObj);
     
     // TODO - parse the response
     return bossmanGenImgResponse;
 }
 
-async function findPaymentAndPay(workerAddrPreferred: string, amt: number): Promise<string | undefined> {
+async function findPaymentAndPay(workerAddrPref: string, amt: number): Promise<{rHash: string, workerAddr: string} | undefined> {
     
     // Step1: try to pay with preferred workerAddr
     const funding = await Funding.findOne({
-        where: Sequelize.literal('worker_addr = :worker_addr AND amount - credits_used >= 10'),
-            replacements: { worker_addr: workerAddrPreferred }
+        where: Sequelize.literal('worker_addr = :worker_addr AND amount - credits_used >= 10 AND is_paid = true'),
+            replacements: { worker_addr: workerAddrPref }
     });
     if (funding) {
         funding.credits_used += 10;
         await funding.save();
-        updateLatestGeneration("workerAddr", funding.worker_addr);
-        return funding.r_hash;
+        updateCurrentGeneration("workerAddr", funding.worker_addr);
+        return {rHash: funding.r_hash, workerAddr: funding.worker_addr};
     }
 
     // Step2: find any workerAddr with enough credits
     if (allowPaymentToAnyWorker) {
         const funding : FundingInstance = await Funding.findOne({
-            where: Sequelize.literal('amount - credits_used >= 10'),
+            where: Sequelize.literal('amount - credits_used >= 10 AND is_paid = true'),
         });
         if (funding) {
             funding.credits_used += 10;
             await funding.save();
-            updateLatestGeneration("workerAddr", funding.worker_addr);
+            updateCurrentGeneration("workerAddr", funding.worker_addr);
             console.log("Prefered Worker not available, using worker:", funding.worker_addr)
-            return funding.r_hash;
+            return  {rHash: funding.r_hash, workerAddr: funding.worker_addr};
         }
     }
     return;

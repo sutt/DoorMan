@@ -1,10 +1,8 @@
-import { resetGeneration } from "../routes/hub";
 
 export function progressResponse(
     completed: boolean,
     progress : number | null,
 ) {
-    // if (progress === undefined) progress = null
     
     let active = true
     if (completed) {
@@ -13,27 +11,6 @@ export function progressResponse(
     
     const textinfo = null
     const eta = null
-    
-    // failed progress bar spoofing
-    // eta = 12.0 - counter
-    
-    // progress = progress + (counter * 0.1)
-
-    // if (counter == 0 ) {
-    //     textinfo = "Waiting..."
-    //     active = false;
-    //     completed = false;
-    //     progress = null;
-    //     eta = null;
-    // }
-
-    // if (counter == 1 ) {
-    //     progress = 0.00
-    //     eta = null
-    // }
-    // counter ++
-    // 1+1
-    // console.log(counter, textinfo, progress )
     
     const response = {
         "active": active,
@@ -86,9 +63,7 @@ export class Queue {
     complete(task_id: string): void {
         if (this.queue[task_id]) {
             this.queue[task_id].status = "complete";
-            
-            // hack so start_generation can arrive on 402s
-            setTimeout( () => resetGeneration() , 1000)  
+
         }
     }
 }

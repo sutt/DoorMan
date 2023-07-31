@@ -43,7 +43,7 @@ const state = {
     // if allowPaymentToAnyWorker is true, 
     // this is who payment/generation should 
     // go to if others available
-    workerAddr: "127.0.0.1:8090",  
+    workerAddrPref: "",  
     
 };
   
@@ -76,13 +76,15 @@ router.post("/run/predict", async (req: Request, res: Response) => {
         
         queue.add(taskId)
         
-        updateCurrentGeneration("workerAddr", state.workerAddr)
         updateCurrentGeneration("fee", 10)
         updateCurrentGeneration("success", null)
         updateCurrentGeneration("responseTime", null)
+        // cant update "workerAddr" since 
+        // next function might not use workerAddrPref
+        updateCurrentGeneration("workerAddr", null)
         
         // TODO - we want to know if it's 500 or 402
-        const response = await payAndGenerate(state.workerAddr, 10, reqObj)
+        const response = await payAndGenerate(state.workerAddrPref, 10, reqObj)
         
         queue.complete(taskId)
 

@@ -51,9 +51,8 @@ export function runDoormanServer({
         res.render("admin2", {workers: workersData})
     })
 
-    app.post("/worker", (req, res) => {
-        const {host, port} = req.body;
-        updateState("workerAddr", `${host}:${port}`);
+    app.post("/set_preferred_worker", (req, res) => {
+        updateState("workerAddrPref",  req.body.worker_addr);
         res.json({status: "ok"});
     })
 

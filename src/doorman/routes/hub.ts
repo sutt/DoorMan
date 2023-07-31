@@ -12,68 +12,25 @@ const currentGeneration = {
     fee: null,
 }
 
-const latestGeneration = {
-    workerAddr: "Romulus-GPU",
-    responseTime: 6.7,
-    fee: 15,
-}
-
-const uiState = {
-    isGenerating: false,
-    generationStartedAt: null,
-    workerAddr: null,
-    //TODO - better way to track with the queue
-    taskId: null,               
-}
-
-function updateUiState(key: string, value: any) {
-    uiState[key] = value;
-}
-
-export function updateLatestGeneration(key: string, value: any) {
-    latestGeneration[key] = value;
-}
-
 export function updateCurrentGeneration(key: string, value: any) {
     currentGeneration[key] = value;
 }
 
-export function startGeneration() {
-    // console.log("start_generation")
-    updateUiState("isGenerating", true);
-    updateUiState("generationStartedAt", new Date());
-    updateUiState("workerAddr", "stubbing it...");
-}
-
-export function resetGeneration() {
-    // console.log("reset_generation", uiState)
-    let elapsed = null
-    try {
-        elapsed = new Date().getTime() - uiState.generationStartedAt.getTime();
-    } catch (error) {}
-    updateLatestGeneration("responseTime", elapsed);
-    updateLatestGeneration("fee", 15);
-    updateLatestGeneration("workerAddr", uiState.workerAddr);
-    
-    updateUiState("isGenerating", false);
-    updateUiState("generationStartedAt", null);
-    updateUiState("workerAddr", null);
-}
-
-router.get("/start_generation", async (req, res) => {
-    
-    // resetGeneration() is fired after payAndGenerate() is called, 
-    // specificially in queue.complete(task) with a 500ms timeout
-    // sometimes this route hasn't been called yet
-    startGeneration();
-
-    res.json({status: "ok"})
-})
 
 router.get("/current_generation_info", async (req, res) => {
     res.json(currentGeneration)
 })
 
+
+router.get("/start_generation", async (req, res) => {
+    
+    // DEPRECATED
+    // console.log("start_generation");
+    res.json({status: "ok"})
+})
+
+
+// We don't use this currently
 router.get("/info", async (req, res) => {    
 
     const totalFundingEvents = await Funding.count({where: {is_paid: true}});
@@ -125,8 +82,8 @@ router.get("/info", async (req, res) => {
 
     const data = {
         funding: fundingData,
-        latest_generation: latestGeneration,
-        ui_state: uiState,
+        // latest_generation: latestGeneration,
+        // ui_state: uiState,
     }
 
     res.json(data)
