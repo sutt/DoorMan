@@ -102,12 +102,63 @@
         display: flex;
         flex-direction: column;
         gap: 1rem;
+        font-size: larger;
+        font-weight: bold;
+        flex: 1;
       }
 
       .info > .title {
         display: flex;
         align-items: center;
         gap: 2rem;
+      }
+
+      .credit {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .fund {
+        display: flex;
+        justify-content: center;
+        flex: 1;
+      }
+
+      .fund-btn {
+        background-color: #ffd233;
+        border-radius: 5px;
+        padding: 0.75rem;
+        color: black;
+        font-size: 1rem;
+        transition: all 0.2s ease-in-out;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .fund-btn:hover {
+        background-color: #ffe56b;
+        transition: all 0.2s ease-in-out;
+      }
+
+      .compatible-frontend {
+        display: flex;
+        align-items: baseline;
+        gap: 1rem;
+      }
+
+      .link {
+        color: #73e7ee;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .link:hover {
+        color: #a9e8ec;
       }
 
       .pill {
@@ -137,6 +188,18 @@
 
       .purple:hover {
         background-color: #b4a1de;
+      }
+
+      .text-red {
+        color: #b34646;
+      }
+
+      .text-yellow {
+        color: #ffd233;
+      }
+
+      .text-green {
+        color: #4ecb71;
       }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -300,20 +363,72 @@
       <aside class="info">
         <div class="title">
           <h2>bob-local</h2>
-          <a class="pill purple" href="#">Stable Diffusion</a>
-          <a class="pill teal" href="#">Deliberate v1.1</a>
+          <a
+            class="pill purple"
+            target="_blank"
+            rel="noreferrer noopener"
+            href="https://en.wikipedia.org/wiki/Stable_Diffusion"
+            >Stable Diffusion
+          </a>
+          <a
+            class="pill teal"
+            target="_blank"
+            rel="noreferrer noopener"
+            href="https://civitai.com/models/4823?modelVersionId=5616"
+            >Deliberate v1.1
+          </a>
         </div>
         <div class="credit">
           <p>Host: 127.0.0.1:5000</p>
           <div>
-            <p>Credit: <span>100 sats</span></p>
-            <p>Used: <span>20 sats</span></p>
-            <p>Fee: <span>10 sats</span></p>
+            <p>Credit: <span class="text-green">100 sats</span></p>
+            <p>Used: <span class="text-yellow">20 sats</span></p>
+            <p>Fee: <span class="text-red">10 sats</span></p>
           </div>
         </div>
-        <div>Compatible Frontend: <a href="#">Automatic 1111. TODO SVG</a></div>
+        <div class="compatible-frontend">
+          Compatible Frontend:
+          <a
+            class="link"
+            href="https://github.com/AUTOMATIC1111/stable-diffusion-webui"
+            target="_blank"
+            rel="noreferrer noopener"
+            >Automatic 1111
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              viewBox="0 0 28 28"
+              fill="none"
+            >
+              <path
+                d="M12 2C10.6868 2 9.38642 2.25866 8.17317 2.7612C6.95991 3.26375 5.85752 4.00035 4.92893 4.92893C3.05357 6.8043 2 9.34784 2 12C2 16.42 4.87 20.17 8.84 21.5C9.34 21.58 9.5 21.27 9.5 21V19.31C6.73 19.91 6.14 17.97 6.14 17.97C5.68 16.81 5.03 16.5 5.03 16.5C4.12 15.88 5.1 15.9 5.1 15.9C6.1 15.97 6.63 16.93 6.63 16.93C7.5 18.45 8.97 18 9.54 17.76C9.63 17.11 9.89 16.67 10.17 16.42C7.95 16.17 5.62 15.31 5.62 11.5C5.62 10.39 6 9.5 6.65 8.79C6.55 8.54 6.2 7.5 6.75 6.15C6.75 6.15 7.59 5.88 9.5 7.17C10.29 6.95 11.15 6.84 12 6.84C12.85 6.84 13.71 6.95 14.5 7.17C16.41 5.88 17.25 6.15 17.25 6.15C17.8 7.5 17.45 8.54 17.35 8.79C18 9.5 18.38 10.39 18.38 11.5C18.38 15.32 16.04 16.16 13.81 16.41C14.17 16.72 14.5 17.33 14.5 18.26V21C14.5 21.27 14.66 21.59 15.17 21.5C19.14 20.16 22 16.42 22 12C22 10.6868 21.7413 9.38642 21.2388 8.17317C20.7362 6.95991 19.9997 5.85752 19.0711 4.92893C18.1425 4.00035 17.0401 3.26375 15.8268 2.7612C14.6136 2.25866 13.3132 2 12 2Z"
+                fill="#A7A7A7"
+              />
+            </svg>
+          </a>
+        </div>
       </aside>
-      <button>Fund Worker</button>
+      <div class="fund">
+        <!-- TODO: wire up button to show QR code and whatnot -->
+        <button class="fund-btn">
+          Fund Worker
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="22"
+            viewBox="0 0 14 22"
+            fill="none"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M9.0003 1.00051C9.00041 0.780676 8.92808 0.566933 8.7945 0.392343C8.66091 0.217752 8.47352 0.0920443 8.26131 0.0346652C8.0491 -0.022714 7.82389 -0.00856686 7.62053 0.0749182C7.41717 0.158403 7.24698 0.306574 7.1363 0.496509L0.136296 12.4965C0.0476155 12.6485 0.000603071 12.8212 5.76363e-06 12.9971C-0.000591544 13.1731 0.0452471 13.3461 0.132894 13.4986C0.220541 13.6512 0.346893 13.7779 0.499191 13.8661C0.65149 13.9542 0.824342 14.0006 1.0003 14.0005H5.0003V21.0005C5.00018 21.2203 5.07251 21.4341 5.2061 21.6087C5.33968 21.7833 5.52707 21.909 5.73928 21.9664C5.95149 22.0237 6.1767 22.0096 6.38006 21.9261C6.58343 21.8426 6.75361 21.6944 6.8643 21.5045L13.8643 9.50451C13.953 9.35254 14 9.17986 14.0006 9.0039C14.0012 8.82795 13.9553 8.65495 13.8677 8.50238C13.7801 8.34981 13.6537 8.22307 13.5014 8.13495C13.3491 8.04683 13.1763 8.00046 13.0003 8.00051H9.0003V1.00051Z"
+              fill="black"
+            />
+          </svg>
+        </button>
+      </div>
     </section>
     <section class="workers-list">
       <h2>My Workers</h2>
