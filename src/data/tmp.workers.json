@@ -1,0 +1,25 @@
+{
+    "workers":[
+        {
+            "name":"Romulus-GPU",
+            "worker_addr": "35.208.27.122:7862",
+            "fee":10
+        },
+        {
+            "name":"Remus-CPU",
+            "worker_addr": "35.209.52.116:7862",
+            "fee":5
+        },
+        {
+            "name":"Local-Bob",
+            "worker_addr": "127.0.0.1:8090",
+            "fee":1
+        },
+        {
+            "name":"Local-Carol",
+            "worker_addr": "127.0.0.1:8091",
+            "fee":2
+        }
+        
+    ]
+}
