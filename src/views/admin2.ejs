@@ -60,7 +60,6 @@
       }
 
       tr:not(:last-child) {
-        /* border applying to top and bottom but not left or right */
         border: 1px solid #717171;
         border-left: none;
         border-right: none;
@@ -120,7 +119,9 @@
 
       .fund {
         display: flex;
+        flex-direction: column;
         justify-content: center;
+        align-items: center;
         flex: 1;
       }
 
@@ -141,6 +142,26 @@
       .fund-btn:hover {
         background-color: #ffe56b;
         transition: all 0.2s ease-in-out;
+      }
+
+      .fund-input {
+        border: 1px solid #717171;
+        border-radius: 5px;
+        padding: 0.75rem;
+        color: white;
+        font-size: 1rem;
+        transition: all 0.2s ease-in-out;
+        background-color: #222222;
+        margin-top: 1rem;
+      }
+
+      #funding-data {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1rem;
+        flex: 1;
       }
 
       .compatible-frontend {
@@ -204,6 +225,7 @@
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+      let selectedWorker = "<%= workers[0].worker_addr %>";
       function buildFundingSummary() {
         fetch("/api/funding_summary")
           .then((response) => response.json())
@@ -274,11 +296,12 @@
           });
       }
 
-      function fundingFormSubit(e) {
+      function fundingFormSubmit(e) {
         e.preventDefault();
 
-        var amount = $("#amount").val();
-        var workerAddr = $("#workerAddr").val();
+        var amount = $(e.target.querySelector("#amount")).val();
+        var trElem = $(e.target.parentElement.parentElement.parentElement);
+        var workerAddr = selectedWorker;
 
         fetch("/api/funding_request", {
           method: "POST",
@@ -293,8 +316,10 @@
           .then((res) => res.json())
           .then((data) => {
             document.getElementById("qr-code").src = data.qrDataURL;
-
-            // document.getElementById('funding-response-info').textContent = JSON.stringify(data.data, null, 2);
+            document.getElementById("worker-name").textContent =
+              "WorkerName: " + workerName;
+            document.getElementById("invoice-amount").textContent =
+              "Invoice Amount: " + amount;
             document.getElementById("payment-hash").textContent =
               "Payment Hash: " + data.data.payment_hash;
             document.getElementById("payment-request").textContent =
@@ -304,6 +329,7 @@
             document.getElementById("lnurl-response").textContent =
               "LNURL Response: " + data.data.lnurl_response;
 
+            $(".form").hide();
             $("#funding-data").show();
 
             //  start polling for payment status
@@ -368,7 +394,8 @@
             target="_blank"
             rel="noreferrer noopener"
             href="https://en.wikipedia.org/wiki/Stable_Diffusion"
-            >Stable Diffusion
+          >
+            Stable Diffusion
           </a>
           <a
             class="pill teal"
@@ -409,9 +436,8 @@
           </a>
         </div>
       </aside>
-      <div class="fund">
-        <!-- TODO: wire up button to show QR code and whatnot -->
-        <button class="fund-btn">
+      <form class="fund" onsubmit="fundingFormSubmit(event)">
+        <button class="fund-btn" type="submit">
           Fund Worker
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -428,6 +454,42 @@
             />
           </svg>
         </button>
+        <input
+          class="fund-input"
+          type="number"
+          name="amount"
+          id="amount"
+          placeholder="Fund amount (sats)"
+          value="20"
+          min="1"
+          required
+        />
+      </form>
+
+      <div id="funding-data" style="display: none">
+        <div id="funding-response">
+          <img id="qr-code" src="" alt="QR Code" />
+          <div id="funding-response-info">
+            <p id="worker-name"></p>
+            <p id="invoice-amount"></p>
+            <p id="payment-hash"></p>
+            <p id="payment-request"></p>
+            <p id="checking-id"></p>
+            <p id="lnurl-response"></p>
+          </div>
+        </div>
+        <div id="funding-status">
+          <h3 id="payment-title">
+            <div id="left-section">
+              <!-- <span id="prepay-title">Prepay: </span>
+              <span id="prepay-amount">10 sats </span> -->
+            </div>
+            <div id="right-section">
+              <span id="is-paid-key">is paid: </span>
+              <span id="is-paid-value">🔲</span>
+            </div>
+          </h3>
+        </div>
       </div>
     </section>
     <section class="workers-list">
@@ -488,19 +550,9 @@
           <% }); %>
         </tbody>
       </table>
-      <!-- <table id="funding-summary">
-        <thead>
-          <tr>
-            <th>Worker Address</th>
-            <th>Total Amount</th>
-            <th>Total Credits Used</th>
-          </tr>
-        </thead>
-        <tbody ></tbody>
-      </table> -->
     </section>
+
     <script>
-      let selectedRow = null;
       $(document).ready(function () {
         buildFundingSummary();
         $(".switch-worker").click(function (e) {
@@ -509,120 +561,11 @@
 
           // Show checkmark for the selected row
           const rowNum = $(this).data("row");
+          selectedWorker = $(this).data("worker-addr");
           var rowId = `#checkmark-${rowNum}`;
           $(rowId).removeClass("hidden");
-          console.log(`worker addr: ${$(this).data("worker-addr")}`);
-
-          // TODO: need to get the host and port number a different way
-          // // get the host and port number
-          // var host = $(rowId).children("td").eq(1).text();
-          // var comm_port = parseInt($(rowId).children("td").eq(2).text());
-          // var api_port = parseInt($(rowId).children("td").eq(3).text());
-
-          // console.log(`fetching with ${host}:${comm_port}`);
-
-          // // stub: check availability of particular worker
-          // fetch("/worker", {
-          //   method: "POST",
-          //   headers: {
-          //     "Content-Type": "application/json",
-          //   },
-          //   body: JSON.stringify({
-          //     host: host,
-          //     port: api_port,
-          //   }),
-          // }).then((res) => res.json());
         });
       });
     </script>
   </body>
 </html>
-
-<!-- <div id="funding-wrapper">
-  <h2>Funding</h2>
-
-  <h4>Add Credits</h4>
-  <form action="/" method="post" onsubmit="fundingFormSubit(event)">
-    <label for="workerAddr">Worker Address:</label>
-    <input
-      type="text"
-      id="workerAddr"
-      name="workerAddr"
-      value="127.0.0.1:8090"
-    />
-    <label for="amount">Amount</label>
-    <input type="text" id="amount" name="amount" value="10" />
-    <input type="submit" value="Submit" />
-  </form>
-
-  <div id="funding-data" style="display: none">
-    <div id="funding-response">
-      <img id="qr-code" src="" alt="QR Code" />
-      <div id="funding-response-info">
-        <p id="payment-hash"></p>
-        <p id="payment-request"></p>
-        <p id="checking-id"></p>
-        <p id="lnurl-response"></p>
-      </div>
-    </div>
-    <div id="funding-status">
-      <h3 id="payment-title">
-        <div id="left-section">
-        </div>
-        <div id="right-section">
-          <span id="is-paid-key">is paid: </span>
-          <span id="is-paid-value">🔲</span>
-        </div>
-      </h3>
-    </div>
-  </div>
-  <h4>Credits Available</h4>
-  <table>
-    <thead>
-      <tr>
-        <th>Worker Address</th>
-        <th>Amount</th>
-        <th>Credits Used</th>
-      </tr>
-    </thead>
-    <tbody id="funding-summary">
-    </tbody>
-  </table>
-</div>
-<br />
-<br />
-<h2>Peers</h2>
-<table border="1">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Host</th>
-      <th>Comm Port</th>
-      <th>API Port</th>
-      <th>Fee</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% workers.forEach(function(worker, index) { %>
-    <tr id="row-<%= index %>">
-      <td><%= worker.name %></td>
-      <td><%= worker.host %></td>
-      <td><%= worker.comm_port %></td>
-      <td><%= worker.api_port %></td>
-      <td><%= worker.fee %></td>
-      <td>
-        <button class="switch-worker" data-row="<%= index %>">
-          Switch
-        </button>
-      </td>
-    </tr>
-    <% }); %>
-  </tbody>
-</table>
-<br />
-<br />
-<h3>Image Gallery</h3>
-<p>This will run on local file server</p>
-<h3>Logs</h3>
-<p>TODO</p> -->
