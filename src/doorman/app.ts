@@ -55,6 +55,15 @@ export function runDoormanServer({
         res.render("admin1", {workers: oldWorkersData.workers})
     })
 
+    app.get("/admin3", async (req, res) => {
+        
+        const workersData = await workers_summary_data();
+        
+        res.render("admin3", {workers: workersData})
+    })
+
+    
+
     app.post("/set_preferred_worker", (req, res) => {
         updateState("workerAddrPref",  req.body.worker_addr);
         res.json({status: "ok"});
