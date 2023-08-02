@@ -21,7 +21,9 @@ const serverType = (argv.bossman || process.env.BOSSMAN === "1")
 
 if (serverType === "doorman") {
         
-    runDoormanServer({serverPort: 3001});
+    const serverHost = process.env.DOORMAN_SERVER_HOST || "localhost";
+    
+    runDoormanServer({serverPort: 3001, serverHost: serverHost});
 
 } else if (serverType === "bossman") {
 

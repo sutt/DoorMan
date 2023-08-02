@@ -13,13 +13,19 @@ async function seedDatabase() {
   
   const genRandomHash = () => crypto.randomBytes(32).toString('hex')
 
-  // Create some sample payments
+  // Romulus Rhash, Remus Rhash2
   const fundings = [
-    { r_hash: exampleRHash2, 
+    { r_hash: exampleRHash, 
         is_paid: true, 
         amount: 50, 
         credits_used: 10, 
-        worker_addr: "127.0.0.1:8090",
+        worker_addr: "35.208.27.122:7862",
+    },
+    { r_hash: exampleRHash2, 
+      is_paid: true, 
+      amount: 50, 
+      credits_used: 10, 
+      worker_addr: "35.209.52.116:7862",
     },
   //   { r_hash: exampleRHash, 
   //     is_paid: true, 
@@ -33,12 +39,6 @@ async function seedDatabase() {
     //   credits_used: 10, 
     //   worker_addr: "127.0.0.1:8090",
     // },
-    { r_hash: exampleRHash, 
-      is_paid: true, 
-      amount: 50, 
-      credits_used: 10, 
-      worker_addr: "35.208.27.122:7862",
-    },
     // { r_hash: exampleRHash2, 
     //   is_paid: true, 
     //   amount: 1000, 
