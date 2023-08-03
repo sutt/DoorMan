@@ -66,6 +66,9 @@ router.get('/funding_summary', async (req: Request, res: Response) => {
                 [Sequelize.fn('SUM', Sequelize.col('amount')), 'total_amount'],
                 [Sequelize.fn('SUM', Sequelize.col('credits_used')), 'total_credits_used'],
             ],
+            where: {
+                is_paid: true,
+            }
         });
         res.json(data);
     } catch (err) {
@@ -114,6 +117,9 @@ async function funding_summary_data(): Promise<FundingSummaryInstance[]> {
                 [Sequelize.fn('SUM', Sequelize.col('amount')), 'total_amount'],
                 [Sequelize.fn('SUM', Sequelize.col('credits_used')), 'total_credits_used'],
             ],
+            where: {
+                is_paid: true,
+            }
         });
         const summaryData: FundingSummaryInstance[] = data.map(funding => ({
             worker_addr: funding.worker_addr,
