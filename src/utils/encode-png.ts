@@ -17,4 +17,4 @@ async function readAndEncodeImage(filename: string): Promise<void> {
     }
 }
 
-readAndEncodeImage('src/data/images/402.png');
+readAndEncodeImage('./src/data/mock-images/napolean-128.jpg');

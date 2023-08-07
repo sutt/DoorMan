@@ -2,3 +2,4 @@
 dbs/*.sqlite
 images/*.png
 images/*.jpg
+mock-images
