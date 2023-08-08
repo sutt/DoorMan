@@ -5,8 +5,7 @@ async function seedDatabase() {
   
   await sequelizeBoss.sync();
 
-    await Invoice.destroy({where: {}});
-  
+  await Invoice.destroy({where: {}});  
 
   const exampleRHash = "7ff822e3058b66fa3db5fa19936bf6c512eaa433c83ea3aba2bdfab6ebf7f95a";
   const exampleRHash2 = "7ff822e3058b66fa3db5fa19936bf6c512eaa433c83ea3aba2bdfab6ebf7f95b";
@@ -18,16 +17,16 @@ async function seedDatabase() {
   const invoices = [
     { r_hash: exampleRHash, 
         is_paid: true, 
-        amount: 1000, 
+        amount: 50, 
         credits_used: 10, 
         invoice_encoded: exampleInvoiceEncoded 
     },
-    // { r_hash: exampleRHash2, 
-    //   is_paid: true, 
-    //   amount: 30, 
-    //   credits_used: 10, 
-    //   invoice_encoded: exampleInvoiceEncoded 
-    // },
+    { r_hash: exampleRHash2, 
+      is_paid: true, 
+      amount: 50, 
+      credits_used: 10, 
+      invoice_encoded: exampleInvoiceEncoded 
+    },
     // { r_hash: exampleRHash2, 
     //   is_paid: true, 
     //   amount: 1000, 
