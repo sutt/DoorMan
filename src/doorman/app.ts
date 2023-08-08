@@ -50,19 +50,11 @@ export function runDoormanServer({
         res.render("admin2", {workers: workersData})
     })
 
-    app.get("/oldadmin", async (req, res) => {
-        
-        res.render("admin1", {workers: oldWorkersData.workers})
-    })
+    app.use("/admin/assets", express.static(path.join(__dirname, "../views/assets")));
 
-    app.get("/admin3", async (req, res) => {
-        
-        const workersData = await workers_summary_data();
-        
-        res.render("admin3", {workers: workersData})
+    app.get("/admin/mock_payment", (req, res) => {
+        res.json({is_paid: true})
     })
-
-    
 
     app.post("/set_preferred_worker", (req, res) => {
         updateState("workerAddrPref",  req.body.worker_addr);

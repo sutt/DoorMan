@@ -1,0 +1,289 @@
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+  color: #ffd233;
+  max-width: max-content;
+}
+
+body {
+  background-color: black;
+  color: white;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 2rem;
+}
+
+ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style-type: none;
+  gap: 1rem;
+}
+
+li {
+  font-size: 1.5rem;
+}
+
+.header-link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+
+table {
+  border-collapse: collapse;
+  width: 75%;
+  background-color: #222222;
+  border-radius: 20px;
+}
+
+tr:not(:last-child) {
+  /* border applying to top and bottom but not left or right */
+  border: 1px solid #717171;
+  border-left: none;
+  border-right: none;
+}
+
+tr:hover:not(thead tr) {
+  background-color: #454545;
+  cursor: pointer;
+}
+
+thead {
+  text-align: left;
+}
+
+td,
+th {
+  padding: 2rem;
+}
+
+.workers-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.overview {
+  display: flex;
+  justify-content: space-between;
+  width: 75%;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: larger;
+  font-weight: bold;
+  flex: 1;
+}
+
+.info > .title {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.credit {
+  display: flex;
+  justify-content: space-between;
+}
+
+.fund {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  gap: 2rem;
+}
+
+.fund-btn {
+  background-color: #ffd233;
+  border-radius: 5px;
+  padding: 0.75rem;
+  color: black;
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.fund-btn:hover {
+  background-color: #ffe56b;
+  transition: all 0.2s ease-in-out;
+}
+
+.compatible-frontend {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.link {
+  color: #73e7ee;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.link:hover {
+  color: #a9e8ec;
+}
+
+.pill {
+  padding: 0.5rem;
+  border-radius: 5px;
+  color: black;
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.pill:hover {
+  color: black;
+  transition: all 0.2s ease-in-out;
+}
+
+.teal {
+  background-color: #73e7ee;
+}
+
+.purple {
+  background-color: #9a73ee;
+}
+
+.teal:hover {
+  background-color: #a9e8ec;
+}
+
+.purple:hover {
+  background-color: #b4a1de;
+}
+
+.text-red {
+  color: #b34646;
+}
+
+.text-yellow {
+  color: #ffd233;
+}
+
+.text-green {
+  color: #4ecb71;
+}
+
+img#qr-code {
+  width: 15rem;
+  height: 15rem;
+}
+
+.qr-code {
+  flex:3;
+}
+.pay-info {
+  flex: 2;
+}
+
+.holder {
+  flex: 0.4;
+}
+
+/* payment section */
+.funding-wrapper {
+  display: none;
+}
+#qr-loading-wrapper {
+  display: none;
+}
+#qr-actual-wrapper {
+  display: none;
+}
+#qr-failure-wrapper {
+  display: none;
+}
+#qr-failure-img {
+  width: 220px;
+  height: 220px;
+}
+#payment-message {
+  display:none;
+}
+#payment-error-message {
+  display:none;
+  color: #b34646;
+}
+#invoice-info {
+  display:none;
+}
+.qr-img {
+  margin:auto
+}
+
+/* copy widget */
+.copy-widget {
+      display: flex;
+      align-items: center;
+      /* border: 1px solid #ccc; */
+      /* padding: 10px; */
+  }
+.copy-widget input {
+    flex: 1;
+    border: none;
+    outline: none;
+    overflow: hidden;
+}
+.copy-widget i {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+/* modal popup for invoice num*/
+#modal-popup {
+    display: none;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #000;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+#modal-popup .close {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    cursor: pointer;
+}
+.fas {
+    cursor: pointer;
+    margin-left: 1rem;
+}
