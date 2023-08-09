@@ -14,7 +14,8 @@
     "_build": "tsc",
     "unixstart": "nodemon --watch 'src/**/*.ts' --exec 'npx ts-node' src/index.ts",
     "start": "nodemon --watch \"src\\**\\*.ts\" --exec \"ts-node\" src\\index.ts",
-    "build": "tsc",
+    "build": "tsc && npx copyfiles -u 2 'src/views/**/*' dist/views/",
+    "winbuild": "tsc && npx copyfiles -u 2 src/views/**/* dist/views/",
     "serve": "node dist/index.js"
   },
   "keywords": [],
@@ -42,6 +43,7 @@
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
     "concurrently": "^8.2.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^8.45.0",
     "eslint-config-prettier": "^8.8.0",
     "husky": "^8.0.3",
