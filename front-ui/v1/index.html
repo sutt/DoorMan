@@ -206,6 +206,7 @@
 				<div class="content-item">
 				  <p id="current-ui-state">Loading UI ...</p>
 				  <p id="latest-generation-info">no recent generations</p>
+					<p id="ui-params">Loading params...</p>
 				</div>
 
 			  </section>
@@ -213,6 +214,44 @@
 			  <br>
 			
 			<script>
+
+				function getParams(){
+					var instance_map = window.myInstanceMap
+					var inputs = window.myInputs87
+					var params = inputs.map((id) => instance_map[id].props.value)
+					return params
+				}
+				function calcCost(params) {
+					const costfulParams = {
+						// param_name : index in params array
+						sampling_steps: 4,
+						batch_count: 8,
+						batch_size: 9,
+						height: 17,
+						width: 18,
+					}
+					// all these are multiplicative
+					let cost = 1
+					for (const key in costfulParams) {
+						if (params[costfulParams[key]]) {
+							cost *= params[costfulParams[key]]
+						}
+					}
+					cost = cost / (512*512*20);   //1 mileflop = 5,242,880
+					return cost
+				}
+
+				function pollParams() {
+					setInterval( () => {
+						var params = getParams();
+						var cost = calcCost(params);
+						updateTopBarParams(cost);
+					}, 1000)
+				}
+
+				function updateTopBarParams(cost) {
+					$("#ui-params").html("Cost: " + cost + " mileflops");
+				}
 
 				let selectedRow = null;
 				let preferredWorkerAddr = null;
@@ -424,6 +463,8 @@
 				setTimeout(function() {
 					listenToGenerateButton();
 				}, 3000);
+
+				setTimeout(pollParams, 3000); // startup time to get ui to load
 				
 			</script>
 		  
