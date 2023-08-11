@@ -14,8 +14,10 @@
     "_build": "tsc",
     "unixstart": "nodemon --watch 'src/**/*.ts' --exec 'npx ts-node' src/index.ts",
     "start": "nodemon --watch \"src\\**\\*.ts\" --exec \"ts-node\" src\\index.ts",
-    "build": "tsc && npx copyfiles -u 2 'src/views/**/*' dist/views/",
-    "winbuild": "tsc && npx copyfiles -u 2 src/views/**/* dist/views/",
+    "build": "tsc && npx copyfiles -u 2 'src/views/**/*' dist/views/ && npm run prodhtml",
+    "winbuild": "tsc && npx copyfiles -u 2 src/views/**/* dist/views/ && npm run devhtml",
+    "prodhtml":"./src/utils/write-defaults.sh prod",
+    "devhtml":"\"\"C:/Program Files/Git/usr/bin/bash.exe\"\" -c 'src/utils/write-defaults.sh dev'",
     "serve": "node dist/index.js"
   },
   "keywords": [],
