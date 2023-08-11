@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const SD_API_BASEURL = process.env.SD_API_BASEURL || "localhost:7861";
+const SD_API_VERSION = process.env.SD_API_VERSION || "1.4.1";
 
 
 export async function callGenerateImage(reqData: {headers: object, body: object}, sdApiEndpoint?: string) {
@@ -10,9 +11,19 @@ export async function callGenerateImage(reqData: {headers: object, body: object}
     const endpoint = `http://${domain}/run/predict`;
     
     const { headers, body } = reqData;
+
+    const liteHeaders = {"content-type": "application/json"}
+    
+    if (SD_API_VERSION == "1.5.1") {
+        // different version of the ui use different 
+        // fn_index for the txt2img functionality:
+        // 1.4.1: 87
+        // 1.5.1: 110
+        body["fn_index"] = 109
+    }
     
     try {
-        const response: AxiosResponse = await axios.post(endpoint, body, { headers: headers });
+        const response: AxiosResponse = await axios.post(endpoint, body, { headers: liteHeaders });
         const responseData = response.data;
         if (responseData) {
             const responseDataModified : any = await processData(responseData)

@@ -11,6 +11,11 @@
             "fee":10
         },
         {
+            "name":"Wilbur-GPU",
+            "worker_addr": "34.172.214.221:7862",
+            "fee":10
+        },
+        {
             "name":"Romulus-GPU",
             "worker_addr": "35.208.27.122:7862",
             "fee":10

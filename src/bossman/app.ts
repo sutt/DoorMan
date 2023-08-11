@@ -1,5 +1,7 @@
 import express from "express";
 import http from "http";
+import dotenv from "dotenv";
+dotenv.config();
 
 import invoiceRestRouter from "./routes/invoice-rest";
 import fundingRouter from "./routes/funding";
@@ -10,7 +12,9 @@ import { setupProxy } from "../shared/proxy/basic";
 import { checkHeaderCallback } from "./services/validate";
 import dummy from "../data/images/dummy.json";  //to get tsc to build with this directory
 
-
+// TODO - move these to config
+const SD_API_BASEURL = process.env.SD_API_BASEURL || "localhost:7861";
+const SD_API_VERSION = process.env.SD_API_VERSION || "1.4.1";
 
 export function runBossmanServer({
     // publicPort = 7862,
@@ -42,9 +46,15 @@ export function runBossmanServer({
     // proxyServer.listen(publicPort, publicHost, () => {
     //     console.log(`Bossman Proxy server running on ${publicHost}:${publicPort}`)
     // });
-
+    
+    // TODO - log where the SD_API is pointing
+    
     app.listen(serverPort, serverHost, () => {
+        console.log(`=============================================`)
         console.log(`BossMan server running on ${serverHost}:${serverPort}`)
+        console.log(`\nSD app expected to:`)
+        console.log(`  run on:${SD_API_BASEURL}\n  with v:${SD_API_VERSION}\n`)
+        console.log(`=============================================`)
     });
 }
 
