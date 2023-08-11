@@ -19,8 +19,22 @@ how to put that websocket connection behind an LNPay?
 - more complex fee schedule
 - log of payment/generations
 - web version with trial sats
-64
+
 --------
+
+## New UI editing flow:
+
+Use these commands to build index.html:
+  - `>npm run devhtml`  (for local windows development)
+  - `>npm run build`    (for remote debian prod server, calls the prodhtml script) 
+
+Make all changes changes to home page in `index.template.html` and then use the bash script (in `src/utils/write-defaults.sh`) to write the default values into `index.html`. This replaces the old way of maintaining separate dev.html and prod.html and cp'ing them to index.html.
+
+Default Config Params:
+ - `PARAM_NAME` : dev | prod
+ - `%%DEFAULT_SAMPLING_STEPS%%` : 2 | 20
+ - `%%DEFAULT_HEIGHT%%` : 64 | 512
+ - `%%DEFAULT_WIDTH%%` : 64 | 512
 
 ## New UI notes:
 
