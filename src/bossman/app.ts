@@ -7,6 +7,7 @@ import invoiceRestRouter from "./routes/invoice-rest";
 import fundingRouter from "./routes/funding";
 import validateRouter from "./routes/validate";
 import commandRouter from "./routes/commands";
+import inquiriesRouter from "./routes/inquiries";
 
 import { setupProxy } from "../shared/proxy/basic";
 import { checkHeaderCallback } from "./services/validate";
@@ -41,6 +42,7 @@ export function runBossmanServer({
     app.use('/funding', fundingRouter);
     app.use('/validate', validateRouter);
     app.use('/command', commandRouter);
+    app.use('/inquiries', inquiriesRouter);
 
 
     // proxyServer.listen(publicPort, publicHost, () => {

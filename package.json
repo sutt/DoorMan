@@ -16,7 +16,7 @@
     "start": "nodemon --watch \"src\\**\\*.ts\" --exec \"ts-node\" src\\index.ts",
     "build": "tsc && npx copyfiles -u 2 'src/views/**/*' dist/views/ && npm run prodhtml",
     "winbuild": "tsc && npx copyfiles -u 2 src/views/**/* dist/views/ && npm run devhtml",
-    "prodhtml":"./src/utils/write-defaults.sh prod",
+    "prodhtml":"bash src/utils/write-defaults.sh prod",
     "devhtml":"\"\"C:/Program Files/Git/usr/bin/bash.exe\"\" -c 'src/utils/write-defaults.sh dev'",
     "serve": "node dist/index.js"
   },
