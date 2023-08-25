@@ -39,15 +39,19 @@ export async function callGenerateImage(reqData: {headers: object, body: object}
 
 export async function checkAppRunning(sdApiEndpoint?: string): Promise<boolean> {
     const domain = sdApiEndpoint || SD_API_BASEURL
-    const endpoint = `http://${domain}/run/predict`;
-    const data = {
-        "data": [],
-        "event_data": null,
-        "fn_index": 153,
-        "session_hash": "4zpw794zxhx"
-    }
     try {
-        const response: AxiosResponse = await axios.post(endpoint, data);
+        // old way: this could get us more info but fn_index is not always the same
+        // between versions of the ui...
+        // const endpoint = `http://${domain}/run/predict`;
+        // const data = {
+        //     "data": [],
+        //     "event_data": null,
+        //     "fn_index": 153,
+        //     "session_hash": "4zpw794zxhx"
+        // }
+        // const response: AxiosResponse = await axios.post(endpoint, data);
+        const endpoint = `http://${domain}/info`;
+        const response: AxiosResponse = await axios.get(endpoint);
         if (response.status == 200) {
             // console.log(`bossman checkAppRunning(): ${response.status} ${JSON.stringify(response.data)}` );
             return true;
